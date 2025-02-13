@@ -9,14 +9,26 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    main.cpp \
-    mainwindow.cpp
+    DataSet.cpp \
+    SampleData.cpp \
+    SludgeAnalyzer.cpp \
+    main.cpp
 
 HEADERS += \
-    mainwindow.h
+    DataSet.h \
+    SampleData.h \
+    SludgeAnalyzer.h
 
 FORMS += \
-    mainwindow.ui
+    SludgeAnalyzer.ui
+
+INCLUDEPATH += /Users/arash/Projects/QXlsx/QXlsx/header
+
+macx {
+    #sudo apt-get install libblas-dev liblapack-dev
+    QMAKE_APPLE_DEVICE_ARCHS = arm64
+    greaterThan(QT_MAJOR_VERSION, 5): LIBS += /Users/arash/Projects/QXlsx/install/debug/libQXlsx.a
+}
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
