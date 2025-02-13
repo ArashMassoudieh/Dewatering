@@ -12,12 +12,14 @@ SOURCES += \
     DataSet.cpp \
     SampleData.cpp \
     SludgeAnalyzer.cpp \
+    datasetcollection.cpp \
     main.cpp
 
 HEADERS += \
     DataSet.h \
     SampleData.h \
-    SludgeAnalyzer.h
+    SludgeAnalyzer.h \
+    datasetcollection.h
 
 FORMS += \
     SludgeAnalyzer.ui

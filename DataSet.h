@@ -3,6 +3,7 @@
 #include <qmap.h>
 #include <QDate>
 #include "SampleData.h"
+#include "xlsxdocument.h"
 
 class DataSet: public QVector<SampleData>
 {
@@ -54,6 +55,8 @@ public:
 
     // Destructor (optional, relies on QMap's default behavior)
     ~DataSet() {}
+    bool ReadSheet(QXlsx::Document *xlsdoc, const QString &sheetname);
+
 
 };
 
