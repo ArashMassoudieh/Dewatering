@@ -31,6 +31,10 @@ SludgeAnalyzer::SludgeAnalyzer(QWidget *parent)
 
     QXlsx::Document xlsx(filePath);
 
+    QStringList sheets = xlsx.sheetNames();
+    qDebug() << "Available Sheets:" << sheets;
+
+    xlsx.selectSheet("01_23_2025");
     if (xlsx.load()) {
         qDebug() << "File loaded successfully.";
 
@@ -43,6 +47,8 @@ SludgeAnalyzer::SludgeAnalyzer(QWidget *parent)
             qDebug() << "Cell A1 is empty.";
         }
         
+        QVariant valueB1 = xlsx.read("B1");
+        qDebug() << "Value in B1" << valueB1; 
         //Reading data related to the day of the experiment
         dummydataset.Belt_No = xlsx.read("B8").toString();
         dummydataset.Sludge_Flow = xlsx.read("B10").toDouble(); 
@@ -52,7 +58,13 @@ SludgeAnalyzer::SludgeAnalyzer(QWidget *parent)
         {
             SampleData datapoint;
             int j = xlsx.read(33+i, 1).toInt();
-            datapoint.Polymer_Dose = xlsx.read(33 + i, 2).toDouble();
+            datapoint.Polymer_Dose = xlsx.read(33 + i, 4).toDouble();
+            datapoint.Sludge_Weight = xlsx.read(33 + i, 4).toDouble();
+            datapoint.Polymer_Before = xlsx.read(33 + i, 4).toDouble();
+            datapoint.Polymer_After = xlsx.read(33 + i, 4).toDouble();
+            datapoint.Sieve_Weight = xlsx.read(33 + i, 4).toDouble();
+            datapoint.Bucket_Weight = xlsx.read(33 + i, 4).toDouble();
+
             // continue with all data
 
             dummydataset.append(datapoint);
