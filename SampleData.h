@@ -3,9 +3,23 @@
 
 #include <QVector>
 
+class DataSet;
+
 class SampleData {
 public:
+    // Constants
+    const double GramtoLb = 0.002204623;
+    const double GramtoTon = 1.10231E-06;
+    const double Cup_Diameter_to_in = 3.95;
+    const double Cup_Area = 7.91E-03;
+    const double Cup_Loading = 6.32;
+    const double TSAssumed = 3.50;
+    const double Polymer_Solution = 0.25;
+        
+
+    
     // Variables
+    DataSet* parent; 
     double Polymer_Dose;
     double Sludge_Weight;
     double Polymer_Before;
@@ -39,6 +53,10 @@ public:
 
     // Destructor
     ~SampleData();
+
+    double Calculated_Polymer_Added();
+    double Actual_Belt_Filter_Press_before_PD_TS();
+    double TS_percent();
 };
 
 #endif // SAMPLEDATA_H

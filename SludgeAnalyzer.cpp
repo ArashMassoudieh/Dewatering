@@ -67,7 +67,7 @@ SludgeAnalyzer::SludgeAnalyzer(QWidget *parent)
 
             // continue with all data
 
-            dummydataset.append(datapoint);
+            dummydataset.Append(datapoint);
 
             
         }

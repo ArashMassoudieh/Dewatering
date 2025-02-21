@@ -1,4 +1,5 @@
 #include "SampleData.h"
+#include "DataSet.h"
 
 SampleData::SampleData() : Polymer_Dose(0.0), Sludge_Weight(0.0), Polymer_Before(0.0), Polymer_After(0.0),
 Sieve_Weight(0.0), Bucket_Weight(0.0), Sieve_plus_Wet_Solids_Weight(0.0),
@@ -62,3 +63,19 @@ SampleData::~SampleData()
 {
 
 };
+
+double SampleData::Calculated_Polymer_Added()
+{
+    return Polymer_Dose * Sludge_Weight * GramtoTon * Actual_Belt_Filter_Press_before_PD_TS() / (GramtoLb * Polymer_Solution);
+}
+
+double SampleData::Actual_Belt_Filter_Press_before_PD_TS()
+{
+    return parent->last().TS_percent(); 
+}
+
+double SampleData::TS_percent()
+{
+    return 0; //needs to be completed; 
+}
+

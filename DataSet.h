@@ -52,7 +52,15 @@ public:
         }
         return *this;
     }
+    void Append(const SampleData& data)
+    {
+        append(data);
+        last().parent = this; 
+    }
 
+    SampleData* getLast() {
+        return &last();
+    }
     // Destructor (optional, relies on QMap's default behavior)
     ~DataSet() {}
     bool ReadSheet(QXlsx::Document *xlsdoc, const QString &sheetname);
