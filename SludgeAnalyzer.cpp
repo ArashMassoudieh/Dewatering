@@ -5,11 +5,18 @@
 #include <QDir>
 #include "DataSet.h"
 #include "datasetcollection.h"
-
+#include "ExpressionCalculator.h"
 
 SludgeAnalyzer::SludgeAnalyzer(QWidget *parent)
     : QMainWindow(parent)
 {
+    QMap<QString, double> parameters; 
+    parameters["weight"] = 1000;
+    parameters["volume"] = 2000;
+    parameters["x"] = 5;
+    ExpressionCalculator exprcalc("weight/volume+log(x)");
+    double output = exprcalc.calc(&parameters);
+    
     ui.setupUi(this);
 
     QString filePath = QFileDialog::getOpenFileName(
