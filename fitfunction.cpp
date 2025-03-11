@@ -7,14 +7,11 @@ CVector_arma FitFunction::OneStepLevenbergMarquardt(const CVector_arma &paramete
 
     CVector_arma V = ResidualVector(parameters);
     CMatrix_arma M = ResidualJacobian(parameters);
-    M.writetofile("M.txt");
-    V.writetofile("V.txt");
     CMatrix_arma JTJ = Transpose(M)*M;
-    JTJ.writetofile("JTJ_before.txt");
+
     JTJ.ScaleDiagonal(1+lambda);
-    JTJ.writetofile("JTJ_after.txt");
     CVector_arma J_epsilon = Transpose(M)*V;
-    J_epsilon.writetofile("J_epsilon");
+
     if (JTJ.det()<=1e-6)
     {
         JTJ += lambda*CMatrix::Diag(JTJ.getnumcols());
@@ -69,7 +66,7 @@ CVector_arma FitFunction::SolveLevenBerg_Marquardt(const CVector_arma &parameter
         CVector_arma X0 = X;
         err_p = err;
         CVector_arma dx = OneStepLevenbergMarquardt(X,lambda);
-        dx.writetofile("dx.txt");
+
         if (dx.size() == 0)
             lambda *= 5;
         else
@@ -77,7 +74,7 @@ CVector_arma FitFunction::SolveLevenBerg_Marquardt(const CVector_arma &parameter
             err_x = dx.norm2();
             if (counter == 0) err_x0 = err_x;
             X = X0 - dx;
-            X.writetofile("X.txt");
+
             CVector_arma V = ResidualVector(X);
             err = V.norm2();
             if (err < err_p*0.9)
@@ -100,9 +97,11 @@ CVector_arma FitFunction::SolveLevenBerg_Marquardt(const CVector_arma &parameter
 
 double FitFunction::Function(const double &x, const CVector_arma &parameters) const
 {
-    //std::cout<<parameters[0]<<":"<<parameters[1]<<":"<<parameters[2]<<std::endl;
-    //std::cout<<parameters[0]*(1-exp(-parameters[1]*(x-parameters[2])))<<std::endl;
     return parameters[0]*(1-exp(-parameters[1]*(x-parameters[2])));
-
-
 }
+
+double FitFunction::InverseDerivatve(const double &x, const std::vector<double> &parameters)
+{
+    return parameters[2] - 1.0/parameters[1]*log(x/(parameters[0]*parameters[1]));
+}
+

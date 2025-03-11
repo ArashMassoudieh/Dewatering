@@ -4,14 +4,14 @@
 #include "DataSet.h"
 
 
-class DataSetCollection : public QMap<QDate,SampleData>
+class DataSetCollection : public QMap<QDate,DataSet>
 {
 public:
-    DataSetCollection():QMap<QDate,SampleData>(){}
-    DataSetCollection(const DataSetCollection &RHS):QMap<QDate,SampleData>(RHS){}
+    DataSetCollection():QMap<QDate,DataSet>(){}
+    DataSetCollection(const DataSetCollection &RHS):QMap<QDate,DataSet>(RHS){}
     DataSetCollection& operator=(const DataSetCollection &RHS)
     {
-        QMap<QDate,SampleData>::operator=(RHS);
+        QMap<QDate,DataSet>::operator=(RHS);
         return *this;
     }
     bool OpenExcel(const QString &filename);
@@ -20,6 +20,8 @@ public:
         OpenExcel(filename);
     }
 
+    QJsonObject toJson() const;
+    bool SavetoJsonDocument(const QString &fileName) const;
 
 
 };

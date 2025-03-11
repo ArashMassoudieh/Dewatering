@@ -2,6 +2,8 @@
 #define SAMPLEDATA_H
 
 #include <QVector>
+#include <QJsonArray>
+#include <QJsonObject>
 
 class DataSet;
 
@@ -57,6 +59,14 @@ public:
     double Calculated_Polymer_Added();
     double Actual_Belt_Filter_Press_before_PD_TS();
     double TS_percent();
+
+
+    //Utility functions
+    QJsonArray vectorToJsonArray(const QVector<double>& vec) const;
+    QJsonObject toJson() const;
+
 };
+
+
 
 #endif // SAMPLEDATA_H

@@ -64,7 +64,10 @@ public:
     }
     // Destructor (optional, relies on QMap's default behavior)
     ~DataSet() {}
+
+    //Utility functions
     bool ReadSheet(QXlsx::Document *xlsdoc, const QString &sheetname);
+    QJsonObject toJson() const;
 
 
 };

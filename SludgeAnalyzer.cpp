@@ -6,6 +6,7 @@
 #include "DataSet.h"
 #include "ExpressionCalculator.h"
 #include "fitfunction.h"
+#include "datasetcollection.h"
 
 SludgeAnalyzer::SludgeAnalyzer(QWidget *parent)
     : QMainWindow(parent)
@@ -57,6 +58,10 @@ SludgeAnalyzer::SludgeAnalyzer(QWidget *parent)
         qDebug() << "No file selected.";
     }
 
+    DataSetCollection* data = new (DataSetCollection);
+
+    data->OpenExcel(filePath);
+    data->SavetoJsonDocument("AllData.json");
     QXlsx::Document xlsx(filePath);
 
     QStringList sheets = xlsx.sheetNames();
