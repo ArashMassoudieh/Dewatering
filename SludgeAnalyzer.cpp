@@ -4,8 +4,8 @@
 #include <QFileDialog>
 #include <QDir>
 #include "DataSet.h"
-#include "datasetcollection.h"
 #include "ExpressionCalculator.h"
+#include "fitfunction.h"
 
 SludgeAnalyzer::SludgeAnalyzer(QWidget *parent)
     : QMainWindow(parent)
@@ -17,6 +17,27 @@ SludgeAnalyzer::SludgeAnalyzer(QWidget *parent)
     ExpressionCalculator exprcalc("weight/volume+log(x)");
     double output = exprcalc.calc(&parameters);
     
+    FitFunction fitfunc;
+    CTimeSeries<double> observed_data;
+    observed_data.append(10,1.9);
+    observed_data.append(20,3.8);
+    observed_data.append(30,4.5);
+    observed_data.append(40,4.8);
+    observed_data.append(50,4.9);
+    observed_data.append(60,4.9);
+    observed_data.append(70,4.9);
+
+    fitfunc.SetObservedData(observed_data);
+
+    CVector_arma params(3);
+    params[0] = 8;
+    params[1] = 0.3;
+    params[2] = 2;
+
+    CVector_arma optimized_params = fitfunc.SolveLevenBerg_Marquardt(params);
+    optimized_params.writetofile("params.txt");
+
+
     ui.setupUi(this);
 
     QString filePath = QFileDialog::getOpenFileName(
