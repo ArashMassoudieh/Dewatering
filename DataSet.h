@@ -5,6 +5,7 @@
 #include "SampleData.h"
 #include "xlsxdocument.h"
 
+
 class DataSet: public QVector<SampleData>
 {
 public:
