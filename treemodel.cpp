@@ -2,7 +2,7 @@
 #include "datasetcollection.h"
 #include <QStringList>
 
-using namespace Qt::StringLiterals;
+//using namespace Qt::StringLiterals;
 
 
 
@@ -27,11 +27,17 @@ int TreeModel::columnCount(const QModelIndex &parent) const
 QVariant TreeModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid() || role != Qt::DisplayRole)
-        return QVariant();
-    else
-    {
-        return Data->keys().at(index.row());
-    }
+            return QVariant();
+
+        if (!index.parent().isValid()) // Root level
+        {
+            return Data->keys().at(index.row());  // Top-level keys
+        }
+        else // Child level
+        {
+            QString parentKey = Data->keys().at(index.parent().row()).toString();
+            return Data->value(QDate::fromString(parentKey,"MM_dd_yyyy"))[index.row()].Sample_Number;  // Return child value
+        }
 
 }
 
@@ -39,8 +45,9 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const
 
 Qt::ItemFlags TreeModel::flags(const QModelIndex &index) const
 {
-    return index.isValid()
-    ? QAbstractItemModel::flags(index) : Qt::ItemFlags(Qt::NoItemFlags);
+    if (!index.isValid())
+        return Qt::NoItemFlags;
+    return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }
 
 
@@ -55,9 +62,17 @@ QVariant TreeModel::headerData(int section, Qt::Orientation orientation,
 
 QModelIndex TreeModel::index(int row, int column, const QModelIndex &parent) const
 {
-    if (parent.isValid() || column != 0 || row >= Data->size())
+    if (!hasIndex(row, column, parent))
         return QModelIndex();
-    return createIndex(row, column);
+
+    if (!parent.isValid())  // Root level
+    {
+        return createIndex(row, column, nullptr);  // Root level item
+    }
+    else  // Child level
+    {
+        return createIndex(row, column, parent.row());  // Pass parent's row as internal id
+    }
 
 }
 
@@ -65,13 +80,29 @@ QModelIndex TreeModel::index(int row, int column, const QModelIndex &parent) con
 
 QModelIndex TreeModel::parent(const QModelIndex &index) const
 {
-    return QModelIndex();
+    if (!index.isValid())
+        return QModelIndex();
+
+    int parentRow = static_cast<int>(index.internalId());
+
+    if (parentRow == -1)  // Root level
+        return QModelIndex();
+
+    return createIndex(parentRow, 0, nullptr);
 }
 
 
 int TreeModel::rowCount(const QModelIndex &parent) const
 {
-    return Data->count();
+    if (!parent.isValid()) // Root level
+    {
+        return Data->keys().size();
+    }
+    else  // Child level
+    {
+        QDate parentKey = Data->keys().at(parent.row());
+        return Data->values(parentKey).size();
+    }
 }
 
 

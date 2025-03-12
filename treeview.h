@@ -3,6 +3,7 @@
 
 #include <QTreeView>
 #include <treemodel.h>
+#include <QDebug>
 
 class TreeView : public QTreeView {
     Q_OBJECT

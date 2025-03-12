@@ -11,6 +11,7 @@ bool DataSet::ReadSheet(QXlsx::Document *xlsdoc, const QString &sheetname)
     {
         SampleData datapoint;
         int j = xlsdoc->read(33+i, 1).toInt();
+        datapoint.Sample_Number = QString::number(xlsdoc->read(33+i,1).toInt());
         datapoint.Polymer_Dose = xlsdoc->read(33 + i, 2).toDouble();
         datapoint.Sludge_Weight = xlsdoc->read(33 + i, 4).toDouble();
         datapoint.Polymer_Before = xlsdoc->read(33 + i, 6).toDouble();

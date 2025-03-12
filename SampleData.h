@@ -22,6 +22,7 @@ public:
     
     // Variables
     DataSet* parent; 
+    QString Sample_Number;
     double Polymer_Dose;
     double Sludge_Weight;
     double Polymer_Before;

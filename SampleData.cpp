@@ -4,7 +4,7 @@
 SampleData::SampleData() : Polymer_Dose(0.0), Sludge_Weight(0.0), Polymer_Before(0.0), Polymer_After(0.0),
 Sieve_Weight(0.0), Bucket_Weight(0.0), Sieve_plus_Wet_Solids_Weight(0.0),
 Bucket_Filtrate(0.0), Capture_Efficiency(0.0), Dilution_Factor(0.0),
-Tolerance(0.0), Tolerance2(0.0)
+Tolerance(0.0), Tolerance2(0.0), Sample_Number("1")
 {
 
 }
@@ -28,10 +28,12 @@ SampleData::SampleData(const SampleData& other)
     Dilution_Factor(other.Dilution_Factor),
     Foil_Tray(other.Foil_Tray),
     Tolerance(other.Tolerance),
-    Tolerance2(other.Tolerance2) {
+    Tolerance2(other.Tolerance2),
+    Sample_Number(other.Sample_Number)
+    {
 
 
-}
+    }
 
 SampleData& SampleData::operator=(const SampleData& other) {
     if (this != &other) {
@@ -55,6 +57,7 @@ SampleData& SampleData::operator=(const SampleData& other) {
         Foil_Tray = other.Foil_Tray;
         Tolerance = other.Tolerance;
         Tolerance2 = other.Tolerance2;
+        Sample_Number = other.Sample_Number;
     }
     return *this;
 }
@@ -84,6 +87,7 @@ QJsonObject SampleData::toJson() const {
     QJsonObject json;
 
     // Convert primitive data types
+    json["Sample_Number"] = Sample_Number;
     json["Polymer_Dose"] = Polymer_Dose;
     json["Sludge_Weight"] = Sludge_Weight;
     json["Polymer_Before"] = Polymer_Before;
