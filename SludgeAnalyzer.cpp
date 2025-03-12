@@ -7,38 +7,14 @@
 #include "ExpressionCalculator.h"
 #include "fitfunction.h"
 #include "datasetcollection.h"
+#include <QTreeView>
+#include "treemodel.h"
+#include <QScreen>
+#include "treeview.h"
 
 SludgeAnalyzer::SludgeAnalyzer(QWidget *parent)
     : QMainWindow(parent)
 {
-    QMap<QString, double> parameters; 
-    parameters["weight"] = 1000;
-    parameters["volume"] = 2000;
-    parameters["x"] = 5;
-    ExpressionCalculator exprcalc("weight/volume+log(x)");
-    double output = exprcalc.calc(&parameters);
-    
-    FitFunction fitfunc;
-    CTimeSeries<double> observed_data;
-    observed_data.append(10,1.9);
-    observed_data.append(20,3.8);
-    observed_data.append(30,4.5);
-    observed_data.append(40,4.8);
-    observed_data.append(50,4.9);
-    observed_data.append(60,4.9);
-    observed_data.append(70,4.9);
-
-    fitfunc.SetObservedData(observed_data);
-
-    CVector_arma params(3);
-    params[0] = 8;
-    params[1] = 0.3;
-    params[2] = 2;
-
-    CVector_arma optimized_params = fitfunc.SolveLevenBerg_Marquardt(params);
-    optimized_params.writetofile("params.txt");
-
-
     ui.setupUi(this);
 
     QString filePath = QFileDialog::getOpenFileName(
@@ -62,6 +38,19 @@ SludgeAnalyzer::SludgeAnalyzer(QWidget *parent)
 
     data->OpenExcel(filePath);
     data->SavetoJsonDocument("AllData.json");
+
+    TreeModel *model = new TreeModel(data);
+    TreeView *treeview = new TreeView(this);
+    treeview->setModel(model);
+    treeview->expandAll();
+
+    ui.horizontalLayout->addWidget(treeview);
+
+
+
+
+
+
     QXlsx::Document xlsx(filePath);
 
     QStringList sheets = xlsx.sheetNames();

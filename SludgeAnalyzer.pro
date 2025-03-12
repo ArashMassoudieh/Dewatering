@@ -20,7 +20,9 @@ SOURCES += \
     SludgeAnalyzer.cpp \
     datasetcollection.cpp \
     fitfunction.cpp \
-    main.cpp
+    main.cpp \
+    treemodel.cpp \
+    treeview.cpp
 
 HEADERS += \
     ../Utilities/BTC.h \
@@ -37,7 +39,9 @@ HEADERS += \
     SampleData.h \
     SludgeAnalyzer.h \
     datasetcollection.h \
-    fitfunction.h
+    fitfunction.h \
+    treemodel.h \
+    treeview.h
 
 FORMS += \
     SludgeAnalyzer.ui

@@ -24,6 +24,7 @@ public:
     bool SavetoJsonDocument(const QString &fileName) const;
 
 
+
 };
 
 #endif // DATASETCOLLECTION_H
