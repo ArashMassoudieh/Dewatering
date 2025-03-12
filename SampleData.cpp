@@ -121,4 +121,33 @@ QJsonArray SampleData::vectorToJsonArray(const QVector<double>& vec) const {
     return array;
 }
 
+QMap<QString, QVector<double>> SampleData::VariablesToMap()
+{
+    QMap<QString, QVector<double>> out;
+
+    // Convert primitive data types
+    out["Sample_Number"].append(Sample_Number.toDouble());
+    out["Polymer_Dose"].append(Polymer_Dose);
+    out["Sludge_Weight"].append(Sludge_Weight);
+    out["Polymer_Before"].append(Polymer_Before);
+    out["Polymer_After"].append(Polymer_After);
+    out["Sieve_Weight"].append(Sieve_Weight);
+    out["Bucket_Weight"].append(Bucket_Weight);
+    out["Sieve_plus_Wet_Solids_Weight"].append(Sieve_plus_Wet_Solids_Weight);
+    out["Bucket_Filtrate"].append(Bucket_Filtrate);
+    out["Capture_Efficiency"].append(Capture_Efficiency);
+    out["Dilution_Factor"].append(Dilution_Factor);
+    out["Tolerance"].append(Tolerance);
+    out["Tolerance2"].append(Tolerance2);
+
+    // Convert QVector<double> to QJsonArray using the helper function
+    out["FoilTray_plus_Filter_Weight"] = FoilTray_plus_Filter_Weight;
+    out["CST_Sludge"] = CST_Sludge;
+    out["CST_Supernatant"] = CST_Supernatant;
+    out["Sample_Volume"] = Sample_Volume;
+    out["After_103"] = After_103;
+    out["Foil_Tray"] = Foil_Tray;
+
+    return out;
+}
 

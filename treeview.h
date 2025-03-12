@@ -2,7 +2,7 @@
 #define TREEVIEW_H
 
 #include <QTreeView>
-#include <treemodel.h>
+#include "treemodel.h"
 #include <QDebug>
 
 class TreeView : public QTreeView {
@@ -10,14 +10,15 @@ class TreeView : public QTreeView {
 
 public:
     explicit TreeView(QWidget *parent = nullptr) : QTreeView(parent) {
-        connect(this, &QTreeView::clicked, this, &TreeView::onItemClicked);
+        //connect(this, &QTreeView::clicked, this, &TreeView::onItemClicked);
     }
 
 private slots:
     void onItemClicked(const QModelIndex &index) {
-        auto model = static_cast<TreeModel *>(this->model());
+        TreeModel *model = static_cast<TreeModel *>(this->model());
         if (model) {
             QString key = model->data(index,Qt::DisplayRole).toString();
+            qDebug() << "Parent: " << model->parent(index).data();
             qDebug() << "Clicked Key:" << key;
         }
     }

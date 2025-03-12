@@ -49,3 +49,14 @@ QJsonObject DataSet::toJson() const {
 
     return json;
 }
+
+int DataSet::LookupSampleNumber(const QString& sample_number)
+{
+    for (int i = 0; i < size(); i++)
+    {
+        if (at(i).Sample_Number == sample_number)
+            return i;
+
+    }
+    return -1; 
+}

@@ -43,7 +43,9 @@ public:
     QVector<double> Foil_Tray; 
     double Tolerance; 
     double Tolerance2; 
-
+    
+    
+    QMap<QString, QVector<double>> VariablesToMap(); 
 
     // Default Constructor
     SampleData();
@@ -65,6 +67,7 @@ public:
     //Utility functions
     QJsonArray vectorToJsonArray(const QVector<double>& vec) const;
     QJsonObject toJson() const;
+    
 
 };
 

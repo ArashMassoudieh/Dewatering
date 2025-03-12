@@ -69,6 +69,8 @@ public:
     bool ReadSheet(QXlsx::Document *xlsdoc, const QString &sheetname);
     QJsonObject toJson() const;
 
+    int LookupSampleNumber(const QString& sample_number);
+
 
 };
 

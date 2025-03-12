@@ -7,10 +7,13 @@
 #include "ExpressionCalculator.h"
 #include "fitfunction.h"
 #include "datasetcollection.h"
-#include <QTreeView>
+#include <QTableView>
 #include "treemodel.h"
 #include <QScreen>
 #include "treeview.h"
+#include "TableModel.h"
+#include <QDate>
+
 
 SludgeAnalyzer::SludgeAnalyzer(QWidget *parent)
     : QMainWindow(parent)
@@ -34,23 +37,24 @@ SludgeAnalyzer::SludgeAnalyzer(QWidget *parent)
         qDebug() << "No file selected.";
     }
 
-    DataSetCollection* data = new (DataSetCollection);
+    data = new DataSetCollection();
 
     data->OpenExcel(filePath);
     data->SavetoJsonDocument("AllData.json");
 
-    TreeModel *model = new TreeModel(data);
-    TreeView *treeview = new TreeView(this);
+    model = new TreeModel(data);
+    treeview = new TreeView(this);
     treeview->setModel(model);
-    treeview->expandAll();
+    //treeview->expandAll();
 
     ui.horizontalLayout->addWidget(treeview);
 
+    tableview = new QTableView(this);
+    
+    ui.horizontalLayout->addWidget(tableview);
 
-
-
-
-
+    connect(treeview, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(onItemDoubleClicked(QModelIndex)));
+    
     QXlsx::Document xlsx(filePath);
 
     QStringList sheets = xlsx.sheetNames();
@@ -103,3 +107,18 @@ SludgeAnalyzer::SludgeAnalyzer(QWidget *parent)
 
 SludgeAnalyzer::~SludgeAnalyzer()
 {}
+
+void SludgeAnalyzer::onItemDoubleClicked(QModelIndex index)
+{
+    QString key = model->data(index, Qt::DisplayRole).toString();
+    qDebug() << "Parent: " << model->parent(index).data();
+    qDebug() << "Clicked Key:" << key;
+    QDate date = model->parent(index).data().toDate();
+    qDebug() << date;
+    if (data->value(date).LookupSampleNumber(key) == -1)
+        return; 
+    QMap<QString, QVector<double>> sampledata = data->value(date)[data->value(date).LookupSampleNumber(key)].VariablesToMap();
+    TableModel* tableModel = new TableModel(sampledata);
+    tableview->setModel(tableModel);
+    
+}

@@ -36,12 +36,12 @@
     <Import Project="$(QtMsBuild)\qt_defaults.props" />
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
-    <QtInstall>Qt 6.8</QtInstall>
+    <QtInstall>6.7</QtInstall>
     <QtModules>core;gui;widgets</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
-    <QtInstall>Qt 6.8</QtInstall>
+    <QtInstall>6.7</QtInstall>
     <QtModules>core;gui;widgets</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
@@ -65,21 +65,29 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Qt\6.8.1\msvc2022_64\include\QtCore\6.8.1;C:\Qt\6.8.1\msvc2022_64\include\QtCore\6.8.1\QtCore\;C:\Projects\QXlsx\QXlsx\header;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\Utilities;C:\Qt\6.8.1\msvc2022_64\include\QtCore\6.8.1;C:\Qt\6.8.1\msvc2022_64\include\QtCore\6.8.1\QtCore\;C:\Projects\armadillo\armadillo-header;..\QXlsx\QXlsx\header;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>C:\Projects\QXlsx\build6\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>QXlsxQt6d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\armadillo\lapack-blas_lib_win64;C:\Projects\QXlsx\build6\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>QXlsxQt6d.lib;%(AdditionalDependencies);blas_win64_MT.lib;lapack_win64_MT.lib</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Y /D "..\armadillo\lapack-blas_lib_win64\*.dll" "$(TargetDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Qt\6.8.1\msvc2022_64\include\QtCore\6.8.1;C:\Qt\6.8.1\msvc2022_64\include\QtCore\6.8.1\QtCore\;C:\Projects\QXlsx\QXlsx\header;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\Utilities;C:\Qt\6.8.1\msvc2022_64\include\QtCore\6.8.1;C:\Qt\6.8.1\msvc2022_64\include\QtCore\6.8.1\QtCore\;C:\Projects\armadillo\armadillo-header;..\QXlsx\QXlsx\header;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>C:\Projects\QXlsx\build6\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>QXlsxQt6.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\armadillo\lapack-blas_lib_win64;C:\Projects\QXlsx\build6\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>QXlsxQt6.lib;%(AdditionalDependencies);blas_win64_MT.lib;lapack_win64_MT.lib</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Y /D "..\armadillo\lapack-blas_lib_win64\*.dll" "$(TargetDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
     <ClCompile>
@@ -110,19 +118,47 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="datasetcollection.cpp" />
+    <ClCompile Include="TableModel.cpp" />
+    <ClCompile Include="treeitem.cpp" />
+    <ClCompile Include="treemodel.cpp" />
+    <ClCompile Include="treeview.cpp" />
     <QtRcc Include="SludgeAnalyzer.qrc" />
     <QtUic Include="SludgeAnalyzer.ui" />
     <QtMoc Include="SludgeAnalyzer.h" />
+    <ClCompile Include="..\Utilities\Matrix.cpp" />
+    <ClCompile Include="..\Utilities\Matrix_arma.cpp" />
+    <ClCompile Include="..\Utilities\QuickSort.cpp" />
+    <ClCompile Include="..\Utilities\Utilities.cpp" />
+    <ClCompile Include="..\Utilities\Vector.cpp" />
+    <ClCompile Include="..\Utilities\Vector_arma.cpp" />
     <ClCompile Include="DataSet.cpp" />
     <ClCompile Include="ExpressionCalculator.cpp" />
+    <ClCompile Include="fitfunction.cpp" />
     <ClCompile Include="SampleData.cpp" />
     <ClCompile Include="SludgeAnalyzer.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Utilities\BTC.h" />
+    <ClInclude Include="..\Utilities\BTC.hpp" />
+    <ClInclude Include="..\Utilities\BTCSet.h" />
+    <ClInclude Include="..\Utilities\BTCSet.hpp" />
+    <ClInclude Include="..\Utilities\Matrix.h" />
+    <ClInclude Include="..\Utilities\Matrix_arma.h" />
+    <ClInclude Include="..\Utilities\QuickSort.h" />
+    <ClInclude Include="..\Utilities\Utilities.h" />
+    <ClInclude Include="..\Utilities\Vector.h" />
+    <ClInclude Include="..\Utilities\Vector_arma.h" />
     <ClInclude Include="DataSet.h" />
+    <ClInclude Include="datasetcollection.h" />
     <ClInclude Include="ExpressionCalculator.h" />
+    <ClInclude Include="fitfunction.h" />
     <ClInclude Include="SampleData.h" />
+    <QtMoc Include="TableModel.h" />
+    <ClInclude Include="treeitem.h" />
+    <QtMoc Include="treemodel.h" />
+    <QtMoc Include="treeview.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

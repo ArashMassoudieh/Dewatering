@@ -2,6 +2,12 @@
 
 #include <QtWidgets/QMainWindow>
 #include "ui_SludgeAnalyzer.h"
+#include <QModelIndex>
+
+class TreeModel;
+class TreeView; 
+class DataSetCollection; 
+class QTableView; 
 
 class SludgeAnalyzer : public QMainWindow
 {
@@ -13,4 +19,10 @@ public:
 
 private:
     Ui::SludgeAnalyzerClass ui;
+    TreeModel* model;
+    TreeView*  treeview;
+    QTableView* tableview;
+    DataSetCollection* data;
+public slots:
+    void onItemDoubleClicked(QModelIndex index);
 };
