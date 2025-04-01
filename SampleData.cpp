@@ -69,17 +69,18 @@ SampleData::~SampleData()
 
 double SampleData::Calculated_Polymer_Added()
 {
-    return Polymer_Dose * Sludge_Weight * GramtoTon * Actual_Belt_Filter_Press_before_PD_TS() / (GramtoLb * Polymer_Solution);
+    return Polymer_Dose * Sludge_Weight * GramtoTon * Actual_Belt_Filter_Press_before_PD_TS / (GramtoLb * Polymer_Solution);
 }
 
-double SampleData::Actual_Belt_Filter_Press_before_PD_TS()
-{
-    return parent->last().TS_percent(); 
-}
 
 double SampleData::TS_percent()
 {
     return 0; //needs to be completed; 
+}
+
+double SampleData::Actual_Polymer_Added()
+{
+    return Polymer_After - Polymer_Before;
 }
 
 // Function to convert to QJsonObject

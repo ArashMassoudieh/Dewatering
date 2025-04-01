@@ -21,7 +21,14 @@ bool DataSetCollection::OpenExcel(const QString &filename)
     {
         DataSet dataset;
         dataset.ReadSheet(&xlsx,sheets[i]);
-        operator[](QDate::fromString(sheets[i], "MM_dd_yyyy")) = dataset;
+        qDebug() << sheets[i];
+        QStringList MDY = sheets[i].split("_");
+        int month = MDY[0].toInt();
+        int day = MDY[1].toInt();
+        int year = MDY[2].toInt(); 
+        QDate date = QDate(year, month, day);
+        
+        operator[](date) = dataset;
 
     }
 
