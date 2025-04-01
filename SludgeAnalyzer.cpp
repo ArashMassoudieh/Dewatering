@@ -60,8 +60,9 @@ SludgeAnalyzer::SludgeAnalyzer(QWidget *parent)
     QStringList sheets = xlsx.sheetNames();
     qDebug() << "Available Sheets:" << sheets;
 
-    xlsx.selectSheet("01_23_2025");
+    
     if (xlsx.load()) {
+        xlsx.selectSheet("01_23_2025");
         qDebug() << "File loaded successfully.";
 
         // Read a cell value
@@ -84,13 +85,158 @@ SludgeAnalyzer::SludgeAnalyzer(QWidget *parent)
         {
             SampleData datapoint;
             int j = xlsx.read(33+i, 1).toInt();
-            datapoint.Polymer_Dose = xlsx.read(33 + i, 4).toDouble();
+            datapoint.Polymer_Dose = xlsx.read(33 + i, 2).toDouble();
             datapoint.Sludge_Weight = xlsx.read(33 + i, 4).toDouble();
-            datapoint.Polymer_Before = xlsx.read(33 + i, 4).toDouble();
-            datapoint.Polymer_After = xlsx.read(33 + i, 4).toDouble();
-            datapoint.Sieve_Weight = xlsx.read(33 + i, 4).toDouble();
-            datapoint.Bucket_Weight = xlsx.read(33 + i, 4).toDouble();
+            datapoint.Polymer_Before = xlsx.read(33 + i, 6).toDouble();
+            datapoint.Polymer_After = xlsx.read(33 + i, 7).toDouble();
+            datapoint.Sieve_Weight = xlsx.read(33 + i, 10).toDouble();
+            datapoint.Bucket_Weight = xlsx.read(33 + i, 11).toDouble();
+            datapoint.Sieve_plus_Wet_Solids_Weight = xlsx.read(33 + i, 12).toDouble();
+            datapoint.Bucket_Filtrate = xlsx.read(33 + i, 13).toDouble();
+            for (int j = 0; j < 5; j++)
+            {
+                if (xlsx.read(41 + i, 4 + j).isValid())
+                {
+                    datapoint.CST_Sludge.append(xlsx.read(41 + i, 4 + j).toDouble());
+                }
+            }
+            for (int j = 0; j < 5; j++)
+            {
+                if (xlsx.read(41 + i, 9 + j).isValid())
+                {
+                    datapoint.CST_Supernatant.append(xlsx.read(41 + i, 9 + j).toDouble());
+                }
+            }
+            
+            //Foil Tray + Filter Weight
+            for (int j = 0; j < 2; j++)
+            {
+                if (xlsx.read(51 + i, 2 + j).isValid())
+                {
+                    datapoint.FoilTray_plus_Filter_Weight.append(xlsx.read(51 + i, 2 + j).toDouble());
+                }
+            }
+            for (int j = 0; j < 2; j++)
+            {    if (xlsx.read(76 + i, 2 + j).isValid())
+                {
+                    datapoint.FoilTray_plus_Filter_Weight.append(xlsx.read(76 + i, 2 + j).toDouble());
+                }
+            }
 
+
+           // for (int j = 0; j < 2; j++)
+            {
+                if (xlsx.read(51 + i, 4 + j).isValid())
+                {
+                    datapoint.Tray_plus_Sample.append(xlsx.read(51 + i, 4 + j).toDouble());
+                }
+            }
+            for (int j = 0; j < 2; j++)
+            {
+                if (xlsx.read(76 + i, 4 + j).isValid())
+                {
+                    datapoint.Tray_plus_Sample.append(xlsx.read(76 + i, 4 + j).toDouble());
+                }
+            }
+            for (int j = 0; j < 2; j++)
+            {
+                if (xlsx.read(51 + i, 4 + j).isValid())
+                {
+                    datapoint.Sample_Volume.append(xlsx.read(51 + i, 4 + j).toDouble());
+                }
+            }
+            for (int j = 0; j < 2; j++)
+            {
+                if (xlsx.read(76 + i, 4 + j).isValid())
+                {
+                    datapoint.Sample_Volume.append(xlsx.read(76 + i, 4 + j).toDouble());
+                }
+            }
+            for (int j = 0; j < 2; j++)
+            {
+                if (xlsx.read(51 + i, 6 + j).isValid())
+                {
+                    datapoint.After_103.append(xlsx.read(51 + i, 6 + j).toDouble());
+                }
+            }
+            for (int j = 0; j < 2; j++)
+            {
+                if (xlsx.read(76 + i, 6 + j).isValid())
+                {
+                    datapoint.After_103.append(xlsx.read(76 + i, 6 + j).toDouble());
+                }
+            }
+            for (int j = 0; j < 2; j++)
+            {
+                if (xlsx.read(51 + i, 12 + j).isValid())
+                {
+                    datapoint.After_550.append(xlsx.read(51 + i, 12 + j).toDouble());
+                }
+            }
+            for (int j = 0; j < 2; j++)
+            {
+                if (xlsx.read(76 + i, 12 + j).isValid())
+                {
+                    datapoint.After_550.append(xlsx.read(76 + i, 12 + j).toDouble());
+                }
+            }
+            //Foil Tray (cake)
+            for (int j = 0; j < 2; j++)
+            {
+                if (xlsx.read(62 + i, 2 + j).isValid())
+                {
+                    datapoint.Foil_Tray.append(xlsx.read(62 + i, 2 + j).toDouble());
+                }
+            }
+            for (int j = 0; j < 2; j++)
+            {
+                if (xlsx.read(85 + i, 2 + j).isValid())
+                {
+                    datapoint.Foil_Tray.append(xlsx.read(85 + i, 2 + j).toDouble());
+                }
+            }
+            for (int j = 0; j < 2; j++)
+            {
+                if (xlsx.read(62 + i, 4 + j).isValid())
+                {
+                    datapoint.Tray_plus_Sample.append(xlsx.read(62 + i, 4 + j).toDouble());
+                }
+            }
+            for (int j = 0; j < 2; j++)
+            {
+                if (xlsx.read(85 + i, 4 + j).isValid())
+                {
+                    datapoint.Tray_plus_Sample.append(xlsx.read(85 + i, 4 + j).toDouble());
+                }
+            }
+            for (int j = 0; j < 2; j++)
+            {
+                if (xlsx.read(62 + i, 6 + j).isValid())
+                {
+                    datapoint.After_103.append(xlsx.read(62 + i, 6 + j).toDouble());
+                }
+            }
+            for (int j = 0; j < 2; j++)
+            {
+                if (xlsx.read(85 + i, 6 + j).isValid())
+                {
+                    datapoint.After_103.append(xlsx.read(85 + i, 6 + j).toDouble());
+                }
+            }
+            for (int j = 0; j < 2; j++)
+            {
+                if (xlsx.read(62 + i, 11 + j).isValid())
+                {
+                    datapoint.After_550.append(xlsx.read(62 + i, 11 + j).toDouble());
+                }
+            }
+            for (int j = 0; j < 2; j++)
+            {
+                if (xlsx.read(85 + i, 11 + j).isValid())
+                {
+                    datapoint.After_550.append(xlsx.read(85 + i, 11 + j).toDouble());
+                }
+            }
             // continue with all data
 
             dummydataset.Append(datapoint);
@@ -102,11 +248,14 @@ SludgeAnalyzer::SludgeAnalyzer(QWidget *parent)
         qDebug() << "Failed to load the file.";
     
     }
-
+  
+    
 }
 
 SludgeAnalyzer::~SludgeAnalyzer()
-{}
+{
+
+}
 
 void SludgeAnalyzer::onItemDoubleClicked(QModelIndex index)
 {
