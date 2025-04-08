@@ -37,8 +37,11 @@ public:
     QVector<double> CST_Sludge;
     QVector<double> CST_Supernatant;
     QVector<double> Sample_Volume; 
-    QVector<double> After_103; 
-
+    QVector<double> After_103_cake; 
+    QVector<double> After_103_filtrate;
+    QVector<double> Tray_plus_Sample; 
+    QVector<double> After_550_cake; 
+    QVector<double> After_550_filtrate;
     double Dilution_Factor;
     QVector<double> Foil_Tray; 
     double Tolerance; 
@@ -61,8 +64,13 @@ public:
 
     double Calculated_Polymer_Added();
     double Actual_Belt_Filter_Press_before_PD_TS();
-    double TS_percent();
-
+    double Actual_Polymer_Added();
+    QVector<double> TS_percent() const;
+    QVector<double> TSS() const;
+    double TS() const;
+    double VS() const;
+    QVector<double> VSS() const;
+    
 
     //Utility functions
     QJsonArray vectorToJsonArray(const QVector<double>& vec) const;
@@ -71,6 +79,7 @@ public:
 
 };
 
+double Average(const QVector<double>& values);
 
 
 #endif // SAMPLEDATA_H

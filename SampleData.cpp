@@ -10,7 +10,7 @@ Tolerance(0.0), Tolerance2(0.0), Sample_Number("1")
 }
 
 
-SampleData::SampleData(const SampleData& other)
+SampleData::SampleData(const SampleData& other) //Copy Constructor
     : Polymer_Dose(other.Polymer_Dose),
     Sludge_Weight(other.Sludge_Weight),
     Polymer_Before(other.Polymer_Before),
@@ -24,8 +24,12 @@ SampleData::SampleData(const SampleData& other)
     CST_Sludge(other.CST_Sludge),
     CST_Supernatant(other.CST_Supernatant),
     Sample_Volume(other.Sample_Volume),
-    After_103(other.After_103),
+    After_103_cake(other.After_103_cake),
+    After_103_filtrate(other.After_103_filtrate),
+    After_550_cake(other.After_550_cake),
+    After_550_filtrate(other.After_550_filtrate),
     Dilution_Factor(other.Dilution_Factor),
+    Tray_plus_Sample(other.Tray_plus_Sample),
     Foil_Tray(other.Foil_Tray),
     Tolerance(other.Tolerance),
     Tolerance2(other.Tolerance2),
@@ -51,13 +55,16 @@ SampleData& SampleData::operator=(const SampleData& other) {
         CST_Sludge = other.CST_Sludge;
         CST_Supernatant = other.CST_Supernatant;
         Sample_Volume = other.Sample_Volume;
-        After_103 = other.After_103;
-
+        After_103_cake = other.After_103_cake;
+        After_103_filtrate = other.After_103_filtrate;
+        After_550_cake = other.After_550_cake;
+        After_550_filtrate = other.After_550_filtrate;
         Dilution_Factor = other.Dilution_Factor;
         Foil_Tray = other.Foil_Tray;
         Tolerance = other.Tolerance;
         Tolerance2 = other.Tolerance2;
         Sample_Number = other.Sample_Number;
+        Tray_plus_Sample = other.Tray_plus_Sample;
     }
     return *this;
 }
@@ -69,13 +76,43 @@ SampleData::~SampleData()
 
 double SampleData::Calculated_Polymer_Added()
 {
-    return Polymer_Dose * Sludge_Weight * GramtoTon * Actual_Belt_Filter_Press_before_PD_TS / (GramtoLb * Polymer_Solution);
+    return Polymer_Dose * Sludge_Weight * GramtoTon * Actual_Belt_Filter_Press_before_PD_TS() / (GramtoLb * Polymer_Solution);
 }
 
-
-double SampleData::TS_percent()
+double SampleData::Actual_Belt_Filter_Press_before_PD_TS()
 {
-    return 0; //needs to be completed; 
+    return 0.0;
+}
+
+QVector<double> SampleData::TS_percent() const
+{
+    QVector<double> out(After_103_cake.size());
+    for (int i = 0; i < After_103_cake.size(); i++)
+    {
+        out[i] = (After_103_cake[i] - Foil_Tray[i]) * 100.0 / (Tray_plus_Sample[i] - Foil_Tray[i]);
+    }
+    return out; 
+}
+
+QVector<double> SampleData::TSS() const
+{
+    QVector<double> out(After_103_filtrate.size());
+    for (int i = 0; i < After_103_filtrate.size(); i++)
+    {
+        out[i] = (After_103_filtrate[i] - Foil_Tray[i]) * 1000.0 /( Dilution_Factor - Sample_Volume[i]);
+       
+    }
+    return out;
+}
+QVector<double> SampleData::VSS() const
+{
+    QVector<double> out(After_550_filtrate.size());
+    for (int i = 0; i < After_550_filtrate.size(); i++)
+    {
+        out[i] = (After_550_filtrate[i] - After_103_filtrate[i]) / (Sample_Volume[i] *1000000.0);
+
+    }
+    return out;
 }
 
 double SampleData::Actual_Polymer_Added()
@@ -107,7 +144,10 @@ QJsonObject SampleData::toJson() const {
     json["CST_Sludge"] = vectorToJsonArray(CST_Sludge);
     json["CST_Supernatant"] = vectorToJsonArray(CST_Supernatant);
     json["Sample_Volume"] = vectorToJsonArray(Sample_Volume);
-    json["After_103"] = vectorToJsonArray(After_103);
+    json["After_103_cake"] = vectorToJsonArray(After_103_cake);
+    json["After_103_filtrate"] = vectorToJsonArray(After_103_filtrate);
+    json["After_550_cake"] = vectorToJsonArray(After_550_cake);
+    json["After_550_filtrate"] = vectorToJsonArray(After_550_filtrate);
     json["Foil_Tray"] = vectorToJsonArray(Foil_Tray);
 
     return json;
@@ -146,9 +186,29 @@ QMap<QString, QVector<double>> SampleData::VariablesToMap()
     out["CST_Sludge"] = CST_Sludge;
     out["CST_Supernatant"] = CST_Supernatant;
     out["Sample_Volume"] = Sample_Volume;
-    out["After_103"] = After_103;
+    out["After_103_cake"] = After_103_cake;
+    out["After_103_filtrate"] = After_103_filtrate;
+    out["After_550_cake"] = After_550_cake;
+    out["After_550_filtrate"] = After_550_filtrate;
     out["Foil_Tray"] = Foil_Tray;
 
     return out;
 }
 
+double SampleData::TS() const
+{
+    return Average(TSS());
+}
+double SampleData::VS() const
+{
+    return Average(VSS());
+}
+double Average(const QVector<double>& values)
+{
+    double sum = 0; 
+    for (int i = 0; i < values.count(); i++)
+    {
+        sum += values[i];
+    }
+    return sum / double(values.count());
+}

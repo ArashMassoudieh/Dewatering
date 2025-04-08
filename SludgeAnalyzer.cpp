@@ -156,28 +156,28 @@ SludgeAnalyzer::SludgeAnalyzer(QWidget *parent)
             {
                 if (xlsx.read(51 + i, 6 + j).isValid())
                 {
-                    datapoint.After_103.append(xlsx.read(51 + i, 6 + j).toDouble());
+                    datapoint.After_103_filtrate.append(xlsx.read(51 + i, 6 + j).toDouble());
                 }
             }
             for (int j = 0; j < 2; j++)
             {
                 if (xlsx.read(76 + i, 6 + j).isValid())
                 {
-                    datapoint.After_103.append(xlsx.read(76 + i, 6 + j).toDouble());
+                    datapoint.After_103_filtrate.append(xlsx.read(76 + i, 6 + j).toDouble());
                 }
             }
             for (int j = 0; j < 2; j++)
             {
                 if (xlsx.read(51 + i, 12 + j).isValid())
                 {
-                    datapoint.After_550.append(xlsx.read(51 + i, 12 + j).toDouble());
+                    datapoint.After_550_filtrate.append(xlsx.read(51 + i, 12 + j).toDouble());
                 }
             }
             for (int j = 0; j < 2; j++)
             {
                 if (xlsx.read(76 + i, 12 + j).isValid())
                 {
-                    datapoint.After_550.append(xlsx.read(76 + i, 12 + j).toDouble());
+                    datapoint.After_550_filtrate.append(xlsx.read(76 + i, 12 + j).toDouble());
                 }
             }
             //Foil Tray (cake)
@@ -213,28 +213,28 @@ SludgeAnalyzer::SludgeAnalyzer(QWidget *parent)
             {
                 if (xlsx.read(62 + i, 6 + j).isValid())
                 {
-                    datapoint.After_103.append(xlsx.read(62 + i, 6 + j).toDouble());
+                    datapoint.After_103_cake.append(xlsx.read(62 + i, 6 + j).toDouble());
                 }
             }
             for (int j = 0; j < 2; j++)
             {
                 if (xlsx.read(85 + i, 6 + j).isValid())
                 {
-                    datapoint.After_103.append(xlsx.read(85 + i, 6 + j).toDouble());
+                    datapoint.After_103_cake.append(xlsx.read(85 + i, 6 + j).toDouble());
                 }
             }
             for (int j = 0; j < 2; j++)
             {
                 if (xlsx.read(62 + i, 11 + j).isValid())
                 {
-                    datapoint.After_550.append(xlsx.read(62 + i, 11 + j).toDouble());
+                    datapoint.After_550_cake.append(xlsx.read(62 + i, 11 + j).toDouble());
                 }
             }
             for (int j = 0; j < 2; j++)
             {
                 if (xlsx.read(85 + i, 11 + j).isValid())
                 {
-                    datapoint.After_550.append(xlsx.read(85 + i, 11 + j).toDouble());
+                    datapoint.After_550_cake.append(xlsx.read(85 + i, 11 + j).toDouble());
                 }
             }
             // continue with all data

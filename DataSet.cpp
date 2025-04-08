@@ -50,18 +50,18 @@ bool DataSet::ReadSheet(QXlsx::Document *xlsdoc, const QString &sheetname)
         }
 
 
-        // for (int j = 0; j < 2; j++)
+        for (int j = 0; j < 2; j++)
         {
-            if (xlsdoc->read(51 + i, 4 + j).isValid())
+            if (xlsdoc->read(62 + i, 4 + j).isValid())
             {
-                datapoint.Tray_plus_Sample.append(xlsdoc->read(51 + i, 4 + j).toDouble());
+                datapoint.Tray_plus_Sample.append(xlsdoc->read(62 + i, 4 + j).toDouble());
             }
         }
         for (int j = 0; j < 2; j++)
         {
-            if (xlsdoc->read(76 + i, 4 + j).isValid())
+            if (xlsdoc->read(84 + i, 4 + j).isValid())
             {
-                datapoint.Tray_plus_Sample.append(xlsdoc->read(76 + i, 4 + j).toDouble());
+                datapoint.Tray_plus_Sample.append(xlsdoc->read(84 + i, 4 + j).toDouble());
             }
         }
         for (int j = 0; j < 2; j++)
@@ -78,32 +78,34 @@ bool DataSet::ReadSheet(QXlsx::Document *xlsdoc, const QString &sheetname)
                 datapoint.Sample_Volume.append(xlsdoc->read(76 + i, 4 + j).toDouble());
             }
         }
+        
         for (int j = 0; j < 2; j++)
         {
             if (xlsdoc->read(51 + i, 6 + j).isValid())
             {
-                datapoint.After_103.append(xlsdoc->read(51 + i, 6 + j).toDouble());
+                datapoint.After_103_filtrate.append(xlsdoc->read(51 + i, 6 + j).toDouble());
             }
         }
         for (int j = 0; j < 2; j++)
         {
             if (xlsdoc->read(76 + i, 6 + j).isValid())
             {
-                datapoint.After_103.append(xlsdoc->read(76 + i, 6 + j).toDouble());
+                datapoint.After_103_filtrate.append(xlsdoc->read(51 + i, 6 + j).toDouble());
             }
         }
         for (int j = 0; j < 2; j++)
         {
             if (xlsdoc->read(51 + i, 12 + j).isValid())
             {
-                datapoint.After_550.append(xlsdoc->read(51 + i, 12 + j).toDouble());
+                datapoint.After_550_filtrate.append(xlsdoc->read(51 + i, 12 + j).toDouble());
+          
             }
         }
         for (int j = 0; j < 2; j++)
         {
             if (xlsdoc->read(76 + i, 12 + j).isValid())
             {
-                datapoint.After_550.append(xlsdoc->read(76 + i, 12 + j).toDouble());
+                datapoint.After_550_filtrate.append(xlsdoc->read(76 + i, 12 + j).toDouble());
             }
         }
         //Foil Tray (cake)
@@ -123,44 +125,30 @@ bool DataSet::ReadSheet(QXlsx::Document *xlsdoc, const QString &sheetname)
         }
         for (int j = 0; j < 2; j++)
         {
-            if (xlsdoc->read(62 + i, 4 + j).isValid())
-            {
-                datapoint.Tray_plus_Sample.append(xlsdoc->read(62 + i, 4 + j).toDouble());
-            }
-        }
-        for (int j = 0; j < 2; j++)
-        {
-            if (xlsdoc->read(85 + i, 4 + j).isValid())
-            {
-                datapoint.Tray_plus_Sample.append(xlsdoc->read(85 + i, 4 + j).toDouble());
-            }
-        }
-        for (int j = 0; j < 2; j++)
-        {
             if (xlsdoc->read(62 + i, 6 + j).isValid())
             {
-                datapoint.After_103.append(xlsdoc->read(62 + i, 6 + j).toDouble());
+                datapoint.After_103_cake.append(xlsdoc->read(62 + i, 6 + j).toDouble());
             }
         }
         for (int j = 0; j < 2; j++)
         {
             if (xlsdoc->read(85 + i, 6 + j).isValid())
             {
-                datapoint.After_103.append(xlsdoc->read(85 + i, 6 + j).toDouble());
+                datapoint.After_103_cake.append(xlsdoc->read(85 + i, 6 + j).toDouble());
             }
         }
         for (int j = 0; j < 2; j++)
         {
             if (xlsdoc->read(62 + i, 11 + j).isValid())
             {
-                datapoint.After_550.append(xlsdoc->read(62 + i, 11 + j).toDouble());
+                datapoint.After_550_cake.append(xlsdoc->read(62 + i, 11 + j).toDouble());
             }
         }
         for (int j = 0; j < 2; j++)
         {
             if (xlsdoc->read(85 + i, 11 + j).isValid())
             {
-                datapoint.After_550.append(xlsdoc->read(85 + i, 11 + j).toDouble());
+                datapoint.After_550_cake.append(xlsdoc->read(85 + i, 11 + j).toDouble());
             }
         }
         // continue with all data
@@ -169,7 +157,22 @@ bool DataSet::ReadSheet(QXlsx::Document *xlsdoc, const QString &sheetname)
 
         Append(datapoint);
     }
+    
+    // Testing functions
+    for (int i = 0; i < size(); i++)
+    {
+        qDebug() << at(i).TS_percent(); 
+    }
+    
     return true;
+    // Testing functions
+        for (int i = 0; i < size(); i++)
+        {
+            qDebug() << at(i).TSS();
+        }
+
+    return true;
+    
 }
 
 // Function to convert to QJsonObject
