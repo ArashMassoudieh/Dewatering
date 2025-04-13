@@ -71,6 +71,10 @@ public:
 
     int LookupSampleNumber(const QString& sample_number);
 
+    QString CreateAndFillSheet(QXlsx::Document& doc, const QString& sheetName) const;
+
+    unsigned int MaxSize(const QString& variableName) const;
+
 
 };
 

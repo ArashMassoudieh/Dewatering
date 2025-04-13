@@ -1,5 +1,6 @@
 #include "SampleData.h"
 #include "DataSet.h"
+#include <algorithm>
 
 SampleData::SampleData() : Polymer_Dose(0.0), Sludge_Weight(0.0), Polymer_Before(0.0), Polymer_After(0.0),
 Sieve_Weight(0.0), Bucket_Weight(0.0), Sieve_plus_Wet_Solids_Weight(0.0),
@@ -74,19 +75,19 @@ SampleData::~SampleData()
 
 };
 
-double SampleData::Calculated_Polymer_Added()
+double SampleData::Calculated_Polymer_Added() const
 {
     return Polymer_Dose * Sludge_Weight * GramtoTon * Actual_Belt_Filter_Press_before_PD_TS() / (GramtoLb * Polymer_Solution);
 }
 
-double SampleData::Actual_Belt_Filter_Press_before_PD_TS()
+double SampleData::Actual_Belt_Filter_Press_before_PD_TS() const 
 {
     return 0.0;
 }
 
 QVector<double> SampleData::TS_percent() const
 {
-    QVector<double> out(After_103_cake.size());
+    QVector<double> out(minsize(After_103_cake,Foil_Tray,Tray_plus_Sample));
     for (int i = 0; i < After_103_cake.size(); i++)
     {
         out[i] = (After_103_cake[i] - Foil_Tray[i]) * 100.0 / (Tray_plus_Sample[i] - Foil_Tray[i]);
@@ -96,8 +97,9 @@ QVector<double> SampleData::TS_percent() const
 
 QVector<double> SampleData::TSS() const
 {
-    QVector<double> out(After_103_filtrate.size());
-    for (int i = 0; i < After_103_filtrate.size(); i++)
+    QVector<double> out(minsize(After_103_filtrate, Foil_Tray, Sample_Volume));
+
+    for (int i = 0; i < out.size(); i++)
     {
         out[i] = (After_103_filtrate[i] - Foil_Tray[i]) * 1000.0 /( Dilution_Factor - Sample_Volume[i]);
        
@@ -107,7 +109,7 @@ QVector<double> SampleData::TSS() const
 QVector<double> SampleData::VSS() const
 {
     QVector<double> out(After_550_filtrate.size());
-    for (int i = 0; i < After_550_filtrate.size(); i++)
+    for (int i = 0; i < out.size(); i++)
     {
         out[i] = (After_550_filtrate[i] - After_103_filtrate[i]) / (Sample_Volume[i] *1000000.0);
 
@@ -115,7 +117,7 @@ QVector<double> SampleData::VSS() const
     return out;
 }
 
-double SampleData::Actual_Polymer_Added()
+double SampleData::Actual_Polymer_Added() const
 {
     return Polymer_After - Polymer_Before;
 }
@@ -150,6 +152,17 @@ QJsonObject SampleData::toJson() const {
     json["After_550_filtrate"] = vectorToJsonArray(After_550_filtrate);
     json["Foil_Tray"] = vectorToJsonArray(Foil_Tray);
 
+	// Convert cacluated values to QJsonArray
+	json["Calculated_polymer_added"] = Calculated_Polymer_Added();
+	json["Actual_polymer_added"] = Actual_Polymer_Added();
+	json["TS_percent"] = vectorToJsonArray(TS_percent());
+	json["TSS"] = vectorToJsonArray(TSS());
+	json["VSS"] = vectorToJsonArray(VSS());
+	json["TS"] = TS();
+	json["VS"] = VS();
+	json["Actual_Belt_Filter_Press_before_PD_TS"] = Actual_Belt_Filter_Press_before_PD_TS();
+
+
     return json;
 }
 
@@ -162,7 +175,7 @@ QJsonArray SampleData::vectorToJsonArray(const QVector<double>& vec) const {
     return array;
 }
 
-QMap<QString, QVector<double>> SampleData::VariablesToMap()
+QMap<QString, QVector<double>> SampleData::VariablesToMap() // Parnia: Shows variable in the table
 {
     QMap<QString, QVector<double>> out;
 
@@ -181,7 +194,7 @@ QMap<QString, QVector<double>> SampleData::VariablesToMap()
     out["Tolerance"].append(Tolerance);
     out["Tolerance2"].append(Tolerance2);
 
-    // Convert QVector<double> to QJsonArray using the helper function
+    // Convert QVector<double> to Table Data
     out["FoilTray_plus_Filter_Weight"] = FoilTray_plus_Filter_Weight;
     out["CST_Sludge"] = CST_Sludge;
     out["CST_Supernatant"] = CST_Supernatant;
@@ -191,6 +204,16 @@ QMap<QString, QVector<double>> SampleData::VariablesToMap()
     out["After_550_cake"] = After_550_cake;
     out["After_550_filtrate"] = After_550_filtrate;
     out["Foil_Tray"] = Foil_Tray;
+
+	// Convert cacluated values to Table Data
+    out["Calculated_polymer_added"].append(Calculated_Polymer_Added());
+    out["Actual_polymer_added"].append(Actual_Polymer_Added());
+    out["TS_percent"] = TS_percent();
+    out["TSS"] = TSS();
+    out["VSS"] = VSS();
+    out["TS"].append(TS());
+    out["VS"].append(VS());
+    out["Actual_Belt_Filter_Press_before_PD_TS"].append(Actual_Belt_Filter_Press_before_PD_TS());
 
     return out;
 }
@@ -211,4 +234,16 @@ double Average(const QVector<double>& values)
         sum += values[i];
     }
     return sum / double(values.count());
+}
+
+unsigned int minsize(const QVector<double>& vec1, const QVector<double>& vec2, const QVector<double>& vec3)
+{
+	return std::min({ vec1.size(), vec2.size(), vec3.size() });
+
+}
+
+unsigned int minsize(const QVector<double>& vec1, const QVector<double>& vec2)
+{
+    return std::min({ vec1.size(), vec2.size()});
+
 }
