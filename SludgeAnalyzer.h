@@ -19,10 +19,12 @@ public:
 
 private:
     Ui::SludgeAnalyzerClass ui;
-    TreeModel* model;
-    TreeView*  treeview;
-    QTableView* tableview;
-    DataSetCollection* data;
+    TreeModel* model = nullptr;
+    TreeView*  treeview = nullptr;
+    QTableView* tableview = nullptr;
+    DataSetCollection* data = nullptr;
 public slots:
     void onItemDoubleClicked(QModelIndex index);
+    void onExportClicked();
+
 };

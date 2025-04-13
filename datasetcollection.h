@@ -23,6 +23,8 @@ public:
     QJsonObject toJson() const;
     bool SavetoJsonDocument(const QString &fileName) const;
 
+    bool ExportToExcel(const QString& filePath) const;
+
 
 
 };

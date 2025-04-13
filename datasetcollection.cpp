@@ -61,3 +61,17 @@ bool DataSetCollection::SavetoJsonDocument(const QString &fileName) const
     qDebug() << "JSON saved successfully to" << fileName;
     return true;
 }
+
+bool  DataSetCollection::ExportToExcel(const QString& filePath) const
+{
+    QXlsx::Document xlsx;
+    for (QMap<QDate, DataSet>::const_iterator it = constBegin(); it != constEnd(); it++)
+    {
+        QString sheetName = it.key().toString("MM_dd_yyyy");
+        xlsx.addSheet(sheetName);
+        xlsx.selectSheet(sheetName);
+        it.value().CreateAndFillSheet(xlsx, sheetName);
+    }
+    return xlsx.saveAs(filePath);
+    
+}

@@ -32,6 +32,10 @@ public:
     double Sieve_plus_Wet_Solids_Weight;
     double Bucket_Filtrate;
     double Capture_Efficiency;
+    double Dilution_Factor;
+    double Tolerance;
+    double Tolerance2;
+
     
     QVector<double> FoilTray_plus_Filter_Weight;
     QVector<double> CST_Sludge;
@@ -42,10 +46,7 @@ public:
     QVector<double> Tray_plus_Sample; 
     QVector<double> After_550_cake; 
     QVector<double> After_550_filtrate;
-    double Dilution_Factor;
-    QVector<double> Foil_Tray; 
-    double Tolerance; 
-    double Tolerance2; 
+    QVector<double> Foil_Tray;
     
     
     QMap<QString, QVector<double>> VariablesToMap(); 
@@ -62,13 +63,14 @@ public:
     // Destructor
     ~SampleData();
 
-    double Calculated_Polymer_Added();
-    double Actual_Belt_Filter_Press_before_PD_TS();
-    double Actual_Polymer_Added();
-    QVector<double> TS_percent() const;
-    QVector<double> TSS() const;
+    double Calculated_Polymer_Added() const;
+    double Actual_Belt_Filter_Press_before_PD_TS() const;
+    double Actual_Polymer_Added() const;
     double TS() const;
     double VS() const;
+
+    QVector<double> TS_percent() const;
+    QVector<double> TSS() const;
     QVector<double> VSS() const;
     
 
@@ -80,6 +82,9 @@ public:
 };
 
 double Average(const QVector<double>& values);
+unsigned int minsize(const QVector<double>& vec1, const QVector<double>& vec2);
+unsigned int minsize(const QVector<double>& vec1, const QVector<double>& vec2, const QVector<double>& vec3);
+
 
 
 #endif // SAMPLEDATA_H
