@@ -1,5 +1,5 @@
 {
-    "05_21_2024": {
+    "05_21_2020": {
         "Belt_No": "A3",
         "DIG_SLDG_FLOW_FROM_SBT": 0,
         "DIL_WTR_FLOW_TO_BFP": 0,
@@ -11,24 +11,22 @@
                 "Actual_Belt_Filter_Press_before_PD_TS": 0,
                 "Actual_polymer_added": -68.3,
                 "After_103_cake": [
-                    2.417,
-                    2.3566
+                    2.2718,
+                    2.3265
                 ],
                 "After_103_filtrate": [
-                    1.1422,
-                    1.1358,
-                    1.1422,
-                    1.1358
+                    1.1137,
+                    1.1225
                 ],
                 "After_550_cake": [
-                    1.5103,
-                    1.4837
+                    1.4507,
+                    1.4722
                 ],
                 "After_550_filtrate": [
-                    1.136,
-                    1.1286
+                    1.1085,
+                    1.1138
                 ],
-                "Bucket_Filtrate": 0,
+                "Bucket_Filtrate": 779.21,
                 "Bucket_Weight": 409.17,
                 "CST_Sludge": [
                     73.6,
@@ -41,17 +39,16 @@
                     39.7
                 ],
                 "Calculated_polymer_added": 0,
-                "Capture_Efficiency": 0,
-                "Dilution_Factor": 0,
+                "Capture_Efficiency": 100,
+                "Dilution_Factor": 1,
+                "Filtered_Solids": 141.15,
                 "FoilTray_plus_Filter_Weight": [
-                    1.1345,
-                    1.1268,
-                    0,
-                    0
+                    1.1038,
+                    1.1116
                 ],
                 "Foil_Tray": [
-                    1.0114,
-                    1.0056
+                    1.0061,
+                    1.0124
                 ],
                 "Polymer_After": 1.98,
                 "Polymer_Before": 70.28,
@@ -59,23 +56,93 @@
                 "Sample_Number": "1",
                 "Sample_Volume": [
                     10,
-                    10,
-                    0,
-                    0
+                    10
                 ],
                 "Sieve_Weight": 206.78,
-                "Sieve_plus_Wet_Solids_Weight": 0,
+                "Sieve_plus_Wet_Solids_Weight": 347.93,
                 "Sludge_Weight": 500.54,
-                "TS": -13.049999999999995,
+                "TS": -12.094444444444445,
                 "TSS": [
-                    -13.080000000000004,
-                    -13.019999999999987
+                    -11.955555555555547,
+                    -12.233333333333341
                 ],
                 "TS_percent": [
-                    33.098641297948994,
-                    32.68021286889211
+                    29.767168391345248,
+                    31.839988369839105
                 ],
-                "Tolerance": 0,
+                "Tolerance": 20,
+                "Tolerance2": 0,
+                "VS": -6.950000000000012e-10,
+                "VSS": [
+                    -5.199999999999871e-10,
+                    -8.700000000000152e-10
+                ]
+            },
+            {
+                "Actual_Belt_Filter_Press_before_PD_TS": 0,
+                "Actual_polymer_added": -81.05,
+                "After_103_cake": [
+                    2.417,
+                    2.3566
+                ],
+                "After_103_filtrate": [
+                    1.1422,
+                    1.1358
+                ],
+                "After_550_cake": [
+                    1.5103,
+                    1.4837
+                ],
+                "After_550_filtrate": [
+                    1.136,
+                    1.1286
+                ],
+                "Bucket_Filtrate": 782.64,
+                "Bucket_Weight": 408.9,
+                "CST_Sludge": [
+                    48.1,
+                    48.7,
+                    47.2,
+                    36.6
+                ],
+                "CST_Supernatant": [
+                    42.2,
+                    38.2,
+                    36.6
+                ],
+                "Calculated_polymer_added": 0,
+                "Capture_Efficiency": 100,
+                "Dilution_Factor": 1,
+                "Filtered_Solids": 141.53000000000003,
+                "FoilTray_plus_Filter_Weight": [
+                    1.1345,
+                    1.1268
+                ],
+                "Foil_Tray": [
+                    1.0114,
+                    1.0056
+                ],
+                "Polymer_After": 2.5,
+                "Polymer_Before": 83.55,
+                "Polymer_Dose": 23,
+                "Sample_Number": "2",
+                "Sample_Volume": [
+                    10,
+                    10
+                ],
+                "Sieve_Weight": 205.82,
+                "Sieve_plus_Wet_Solids_Weight": 347.35,
+                "Sludge_Weight": 503.13,
+                "TS": -14.499999999999996,
+                "TSS": [
+                    -14.533333333333339,
+                    -14.466666666666653
+                ],
+                "TS_percent": [
+                    33.02631578947368,
+                    30.612707332547807
+                ],
+                "Tolerance": 20,
                 "Tolerance2": 0,
                 "VS": -6.700000000000039e-10,
                 "VSS": [
@@ -85,7 +152,7 @@
             },
             {
                 "Actual_Belt_Filter_Press_before_PD_TS": 0,
-                "Actual_polymer_added": -81.05,
+                "Actual_polymer_added": -94.77000000000001,
                 "After_103_cake": [
                     2.3317,
                     2.306
@@ -102,22 +169,23 @@
                     1.116,
                     1.1233
                 ],
-                "Bucket_Filtrate": 0,
-                "Bucket_Weight": 408.9,
+                "Bucket_Filtrate": 827.41,
+                "Bucket_Weight": 408.25,
                 "CST_Sludge": [
-                    48.1,
-                    48.7,
-                    47.2,
-                    36.6
+                    50.2,
+                    44.7,
+                    45.6,
+                    37.4
                 ],
                 "CST_Supernatant": [
-                    42.2,
-                    38.2,
-                    36.6
+                    31.3,
+                    31.4,
+                    30.7
                 ],
                 "Calculated_polymer_added": 0,
-                "Capture_Efficiency": 0,
-                "Dilution_Factor": 0,
+                "Capture_Efficiency": 100,
+                "Dilution_Factor": 1,
+                "Filtered_Solids": 136.32000000000002,
                 "FoilTray_plus_Filter_Weight": [
                     1.114,
                     1.1224
@@ -126,27 +194,27 @@
                     0.9888,
                     1.0072
                 ],
-                "Polymer_After": 2.5,
-                "Polymer_Before": 83.55,
-                "Polymer_Dose": 23,
-                "Sample_Number": "2",
+                "Polymer_After": 2.74,
+                "Polymer_Before": 97.51,
+                "Polymer_Dose": 26,
+                "Sample_Number": "3",
                 "Sample_Volume": [
                     10,
                     10
                 ],
-                "Sieve_Weight": 205.82,
-                "Sieve_plus_Wet_Solids_Weight": 0,
-                "Sludge_Weight": 503.13,
-                "TS": -12.779999999999998,
+                "Sieve_Weight": 159.42,
+                "Sieve_plus_Wet_Solids_Weight": 295.74,
+                "Sludge_Weight": 509.78,
+                "TS": -14.199999999999998,
                 "TSS": [
-                    -13.429999999999998,
-                    -12.129999999999997
+                    -14.92222222222222,
+                    -13.477777777777774
                 ],
                 "TS_percent": [
-                    31.38643481512645,
-                    29.440565781122494
+                    32.747268825595015,
+                    30.084313907162052
                 ],
-                "Tolerance": 0,
+                "Tolerance": 20,
                 "Tolerance2": 0,
                 "VS": -6.149999999999989e-10,
                 "VSS": [
@@ -156,7 +224,7 @@
             },
             {
                 "Actual_Belt_Filter_Press_before_PD_TS": 0,
-                "Actual_polymer_added": -94.77000000000001,
+                "Actual_polymer_added": -101.50999999999999,
                 "After_103_cake": [
                     2.2401,
                     2.3258
@@ -173,22 +241,23 @@
                     1.1179,
                     1.1148
                 ],
-                "Bucket_Filtrate": 0,
-                "Bucket_Weight": 408.25,
+                "Bucket_Filtrate": 771.74,
+                "Bucket_Weight": 359.01,
                 "CST_Sludge": [
-                    50.2,
-                    44.7,
-                    45.6,
-                    37.4
+                    38.4,
+                    38.6,
+                    36.2,
+                    32.4
                 ],
                 "CST_Supernatant": [
-                    31.3,
-                    31.4,
-                    30.7
+                    27.1,
+                    28.8,
+                    29.3
                 ],
                 "Calculated_polymer_added": 0,
-                "Capture_Efficiency": 0,
-                "Dilution_Factor": 0,
+                "Capture_Efficiency": 100,
+                "Dilution_Factor": 1,
+                "Filtered_Solids": 148.98000000000008,
                 "FoilTray_plus_Filter_Weight": [
                     1.1174,
                     1.115
@@ -197,27 +266,27 @@
                     1.004,
                     0.9975
                 ],
-                "Polymer_After": 2.74,
-                "Polymer_Before": 97.51,
-                "Polymer_Dose": 26,
-                "Sample_Number": "3",
+                "Polymer_After": 1.7,
+                "Polymer_Before": 103.21,
+                "Polymer_Dose": 28.5,
+                "Sample_Number": "4",
                 "Sample_Volume": [
                     10,
                     10
                 ],
-                "Sieve_Weight": 159.42,
-                "Sieve_plus_Wet_Solids_Weight": 0,
-                "Sludge_Weight": 509.78,
-                "TS": -11.939999999999994,
+                "Sieve_Weight": 401.84,
+                "Sieve_plus_Wet_Solids_Weight": 550.82,
+                "Sludge_Weight": 506.6,
+                "TS": -13.26666666666666,
                 "TSS": [
-                    -11.729999999999995,
-                    -12.149999999999995
+                    -13.033333333333328,
+                    -13.499999999999993
                 ],
                 "TS_percent": [
-                    30.2550420990797,
-                    30.69865261503617
+                    30.880883381632852,
+                    29.46082019207311
                 ],
-                "Tolerance": 0,
+                "Tolerance": 20,
                 "Tolerance2": 0,
                 "VS": -3.800000000000025e-10,
                 "VSS": [
@@ -227,7 +296,7 @@
             },
             {
                 "Actual_Belt_Filter_Press_before_PD_TS": 0,
-                "Actual_polymer_added": -101.50999999999999,
+                "Actual_polymer_added": -112.10000000000001,
                 "After_103_cake": [
                     2.2412,
                     2.2818
@@ -244,22 +313,23 @@
                     1.1217,
                     1.1168
                 ],
-                "Bucket_Filtrate": 0,
-                "Bucket_Weight": 359.01,
+                "Bucket_Filtrate": 810,
+                "Bucket_Weight": 399.07,
                 "CST_Sludge": [
-                    38.4,
-                    38.6,
-                    36.2,
-                    32.4
+                    28.3,
+                    27.3,
+                    29.1,
+                    19.8
                 ],
                 "CST_Supernatant": [
-                    27.1,
-                    28.8,
-                    29.3
+                    22.1,
+                    12.8,
+                    12.5
                 ],
                 "Calculated_polymer_added": 0,
-                "Capture_Efficiency": 0,
-                "Dilution_Factor": 0,
+                "Capture_Efficiency": 100,
+                "Dilution_Factor": 1,
+                "Filtered_Solids": 165.34000000000003,
                 "FoilTray_plus_Filter_Weight": [
                     1.1218,
                     1.1165
@@ -268,27 +338,27 @@
                     1.0014,
                     0.9955
                 ],
-                "Polymer_After": 1.7,
-                "Polymer_Before": 103.21,
-                "Polymer_Dose": 28.5,
-                "Sample_Number": "4",
+                "Polymer_After": 4.02,
+                "Polymer_Before": 116.12,
+                "Polymer_Dose": 31.5,
+                "Sample_Number": "5",
                 "Sample_Volume": [
                     10,
                     10
                 ],
-                "Sieve_Weight": 401.84,
-                "Sieve_plus_Wet_Solids_Weight": 0,
-                "Sludge_Weight": 506.6,
-                "TS": -12.404999999999987,
+                "Sieve_Weight": 509.78,
+                "Sieve_plus_Wet_Solids_Weight": 675.12,
+                "Sludge_Weight": 502.02,
+                "TS": -13.78333333333332,
                 "TSS": [
-                    -12.38999999999999,
-                    -12.419999999999986
+                    -13.766666666666655,
+                    -13.799999999999985
                 ],
                 "TS_percent": [
-                    30.95321316223099,
-                    28.51663821579799
+                    30.48363698950112,
+                    30.6305662713721
                 ],
-                "Tolerance": 0,
+                "Tolerance": 20,
                 "Tolerance2": 0,
                 "VS": -3.2499999999999753e-10,
                 "VSS": [
@@ -298,7 +368,7 @@
             },
             {
                 "Actual_Belt_Filter_Press_before_PD_TS": 0,
-                "Actual_polymer_added": -112.10000000000001,
+                "Actual_polymer_added": -119.11999999999999,
                 "After_103_cake": [
                     2.2471,
                     2.226
@@ -315,78 +385,7 @@
                     1.1181,
                     1.1178
                 ],
-                "Bucket_Filtrate": 0,
-                "Bucket_Weight": 399.07,
-                "CST_Sludge": [
-                    28.3,
-                    27.3,
-                    29.1,
-                    19.8
-                ],
-                "CST_Supernatant": [
-                    22.1,
-                    12.8,
-                    12.5
-                ],
-                "Calculated_polymer_added": 0,
-                "Capture_Efficiency": 0,
-                "Dilution_Factor": 0,
-                "FoilTray_plus_Filter_Weight": [
-                    1.1181,
-                    1.1172
-                ],
-                "Foil_Tray": [
-                    1.0062,
-                    0.996
-                ],
-                "Polymer_After": 4.02,
-                "Polymer_Before": 116.12,
-                "Polymer_Dose": 31.5,
-                "Sample_Number": "5",
-                "Sample_Volume": [
-                    10,
-                    10
-                ],
-                "Sieve_Weight": 509.78,
-                "Sieve_plus_Wet_Solids_Weight": 0,
-                "Sludge_Weight": 502.02,
-                "TS": -12.040000000000006,
-                "TSS": [
-                    -11.580000000000013,
-                    -12.5
-                ],
-                "TS_percent": [
-                    30.546734608473034,
-                    29.293386363095095
-                ],
-                "Tolerance": 0,
-                "Tolerance2": 0,
-                "VS": -3.550000000000053e-10,
-                "VSS": [
-                    -3.9000000000000144e-10,
-                    -3.200000000000092e-10
-                ]
-            },
-            {
-                "Actual_Belt_Filter_Press_before_PD_TS": 0,
-                "Actual_polymer_added": -119.11999999999999,
-                "After_103_cake": [
-                    2.297,
-                    2.1544
-                ],
-                "After_103_filtrate": [
-                    1.1169,
-                    1.1154
-                ],
-                "After_550_cake": [
-                    1.443,
-                    1.3901
-                ],
-                "After_550_filtrate": [
-                    1.111,
-                    1.1097
-                ],
-                "Bucket_Filtrate": 0,
+                "Bucket_Filtrate": 808.95,
                 "Bucket_Weight": 359.01,
                 "CST_Sludge": [
                     27.3,
@@ -400,15 +399,16 @@
                     12.5
                 ],
                 "Calculated_polymer_added": 0,
-                "Capture_Efficiency": 0,
-                "Dilution_Factor": 0,
+                "Capture_Efficiency": 101,
+                "Dilution_Factor": 1,
+                "Filtered_Solids": 156.7,
                 "FoilTray_plus_Filter_Weight": [
-                    1.1103,
-                    1.1087
+                    1.1181,
+                    1.1172
                 ],
                 "Foil_Tray": [
-                    1.0041,
-                    0.9928
+                    1.0062,
+                    0.996
                 ],
                 "Polymer_After": 1.12,
                 "Polymer_Before": 120.24,
@@ -419,30 +419,30 @@
                     10
                 ],
                 "Sieve_Weight": 401.84,
-                "Sieve_plus_Wet_Solids_Weight": 0,
+                "Sieve_plus_Wet_Solids_Weight": 558.54,
                 "Sludge_Weight": 500.45,
-                "TS": -11.769999999999998,
+                "TS": -13.377777777777785,
                 "TSS": [
-                    -11.280000000000001,
-                    -12.259999999999994
+                    -12.866666666666681,
+                    -13.88888888888889
                 ],
                 "TS_percent": [
-                    30.038800213749685,
-                    27.904965527181876
+                    28.84472338447234,
+                    29.570861882437796
                 ],
-                "Tolerance": 0,
+                "Tolerance": 20,
                 "Tolerance2": 0,
-                "VS": -5.800000000000028e-10,
+                "VS": -3.550000000000053e-10,
                 "VSS": [
-                    -5.900000000000017e-10,
-                    -5.700000000000038e-10
+                    -3.9000000000000144e-10,
+                    -3.200000000000092e-10
                 ]
             }
         ],
         "Sampling_time": "",
         "Sludge_Flow": 78.1
     },
-    "05_28_2024": {
+    "05_28_2020": {
         "Belt_No": "A4",
         "DIG_SLDG_FLOW_FROM_SBT": 0,
         "DIL_WTR_FLOW_TO_BFP": 0,
@@ -454,22 +454,20 @@
                 "Actual_Belt_Filter_Press_before_PD_TS": 0,
                 "Actual_polymer_added": -65.25999999999999,
                 "After_103_cake": [
-                    2.174,
-                    2.1693
+                    2.1986,
+                    2.2118
                 ],
                 "After_103_filtrate": [
-                    1.1126,
-                    1.1182,
-                    1.1126,
-                    1.1182
+                    1.105,
+                    1.1105
                 ],
                 "After_550_cake": [
-                    1.4224,
-                    1.4178
+                    1.4211,
+                    1.428
                 ],
                 "After_550_filtrate": [
-                    1.1024,
-                    1.1084
+                    1.0952,
+                    1.1002
                 ],
                 "Bucket_Filtrate": 0,
                 "Bucket_Weight": 408.48,
@@ -483,17 +481,16 @@
                     46.6
                 ],
                 "Calculated_polymer_added": 0,
-                "Capture_Efficiency": 0,
-                "Dilution_Factor": 0,
+                "Capture_Efficiency": 100,
+                "Dilution_Factor": 1,
+                "Filtered_Solids": 145.32,
                 "FoilTray_plus_Filter_Weight": [
-                    1.1015,
-                    1.1064,
-                    0,
-                    0
+                    1.0936,
+                    1.0981
                 ],
                 "Foil_Tray": [
-                    0.9919,
-                    0.9909
+                    0.9859,
+                    0.9891
                 ],
                 "Polymer_After": 1.98,
                 "Polymer_Before": 67.24,
@@ -501,23 +498,91 @@
                 "Sample_Number": "1",
                 "Sample_Volume": [
                     10,
-                    10,
-                    0,
-                    0
+                    10
                 ],
                 "Sieve_Weight": 206.64,
-                "Sieve_plus_Wet_Solids_Weight": 0,
+                "Sieve_plus_Wet_Solids_Weight": 351.96,
                 "Sludge_Weight": 504.72,
-                "TS": -12.400000000000006,
+                "TS": -13.361111111111114,
                 "TSS": [
-                    -12.070000000000004,
-                    -12.730000000000008
+                    -13.23333333333333,
+                    -13.488888888888896
                 ],
                 "TS_percent": [
-                    28.666699000873024,
-                    28.044456079392653
+                    29.36604029445951,
+                    29.08628113328734
                 ],
-                "Tolerance": 0,
+                "Tolerance": 20,
+                "Tolerance2": 0,
+                "VS": -1.0050000000000004e-09,
+                "VSS": [
+                    -9.80000000000003e-10,
+                    -1.0299999999999977e-09
+                ]
+            },
+            {
+                "Actual_Belt_Filter_Press_before_PD_TS": 0,
+                "Actual_polymer_added": -71.74,
+                "After_103_cake": [
+                    2.174,
+                    2.1693
+                ],
+                "After_103_filtrate": [
+                    1.1126,
+                    1.1182
+                ],
+                "After_550_cake": [
+                    1.4224,
+                    1.4178
+                ],
+                "After_550_filtrate": [
+                    1.1024,
+                    1.1084
+                ],
+                "Bucket_Filtrate": 0,
+                "Bucket_Weight": 407.97,
+                "CST_Sludge": [
+                    91.6,
+                    133,
+                    118.7
+                ],
+                "CST_Supernatant": [
+                    41.8,
+                    48.3
+                ],
+                "Calculated_polymer_added": 0,
+                "Capture_Efficiency": 100,
+                "Dilution_Factor": 1,
+                "Filtered_Solids": 148.13,
+                "FoilTray_plus_Filter_Weight": [
+                    1.1015,
+                    1.1064
+                ],
+                "Foil_Tray": [
+                    0.9919,
+                    0.9909
+                ],
+                "Polymer_After": 2.11,
+                "Polymer_Before": 73.85,
+                "Polymer_Dose": 19,
+                "Sample_Number": "2",
+                "Sample_Volume": [
+                    10,
+                    10
+                ],
+                "Sieve_Weight": 205.76,
+                "Sieve_plus_Wet_Solids_Weight": 353.89,
+                "Sludge_Weight": 503.8,
+                "TS": -13.777777777777784,
+                "TSS": [
+                    -13.411111111111115,
+                    -14.144444444444453
+                ],
+                "TS_percent": [
+                    29.072083814957825,
+                    26.110655646894596
+                ],
+                "Tolerance": 20,
                 "Tolerance2": 0,
                 "VS": -1.0000000000000009e-09,
                 "VSS": [
@@ -527,7 +592,7 @@
             },
             {
                 "Actual_Belt_Filter_Press_before_PD_TS": 0,
-                "Actual_polymer_added": -71.74,
+                "Actual_polymer_added": -81.6,
                 "After_103_cake": [
                     2.152,
                     2.3096
@@ -544,20 +609,22 @@
                     1.1185,
                     1.122
                 ],
-                "Bucket_Filtrate": 0,
-                "Bucket_Weight": 407.97,
+                "Bucket_Filtrate": 785.76,
+                "Bucket_Weight": 412.95,
                 "CST_Sludge": [
-                    91.6,
-                    133,
-                    118.7
+                    52.7,
+                    58.5,
+                    65
                 ],
                 "CST_Supernatant": [
-                    41.8,
-                    48.3
+                    42.9,
+                    39.7,
+                    49.2
                 ],
                 "Calculated_polymer_added": 0,
-                "Capture_Efficiency": 0,
-                "Dilution_Factor": 0,
+                "Capture_Efficiency": 100,
+                "Dilution_Factor": 1,
+                "Filtered_Solids": 142.39999999999998,
                 "FoilTray_plus_Filter_Weight": [
                     1.1183,
                     1.12
@@ -566,27 +633,27 @@
                     1.0131,
                     0.9908
                 ],
-                "Polymer_After": 2.11,
-                "Polymer_Before": 73.85,
-                "Polymer_Dose": 19,
-                "Sample_Number": "2",
+                "Polymer_After": 1.9,
+                "Polymer_Before": 83.5,
+                "Polymer_Dose": 21.5,
+                "Sample_Number": "3",
                 "Sample_Volume": [
                     10,
                     10
                 ],
-                "Sieve_Weight": 205.76,
-                "Sieve_plus_Wet_Solids_Weight": 0,
-                "Sludge_Weight": 503.8,
-                "TS": -12.705000000000005,
+                "Sieve_Weight": 159.38,
+                "Sieve_plus_Wet_Solids_Weight": 301.78,
+                "Sludge_Weight": 501.37,
+                "TS": -14.116666666666672,
                 "TSS": [
-                    -11.390000000000011,
-                    -14.02
+                    -12.65555555555557,
+                    -15.577777777777776
                 ],
                 "TS_percent": [
-                    28.15644391703133,
-                    29.220951874501466
+                    27.257497068185632,
+                    31.768361718016042
                 ],
-                "Tolerance": 0,
+                "Tolerance": 20,
                 "Tolerance2": 0,
                 "VS": -8.749999999999924e-10,
                 "VSS": [
@@ -596,7 +663,7 @@
             },
             {
                 "Actual_Belt_Filter_Press_before_PD_TS": 0,
-                "Actual_polymer_added": -81.6,
+                "Actual_polymer_added": -91.32000000000001,
                 "After_103_cake": [
                     2.2377,
                     2.2145
@@ -613,21 +680,22 @@
                     1.1303,
                     1.1242
                 ],
-                "Bucket_Filtrate": 0,
-                "Bucket_Weight": 412.95,
+                "Bucket_Filtrate": 759.18,
+                "Bucket_Weight": 399.01,
                 "CST_Sludge": [
-                    52.7,
-                    58.5,
-                    65
+                    54.4,
+                    44,
+                    67
                 ],
                 "CST_Supernatant": [
-                    42.9,
-                    39.7,
-                    49.2
+                    37.7,
+                    37.1,
+                    44.6
                 ],
                 "Calculated_polymer_added": 0,
-                "Capture_Efficiency": 0,
-                "Dilution_Factor": 0,
+                "Capture_Efficiency": 100,
+                "Dilution_Factor": 1,
+                "Filtered_Solids": 139.18,
                 "FoilTray_plus_Filter_Weight": [
                     1.1297,
                     1.1231
@@ -636,27 +704,27 @@
                     0.9809,
                     0.9809
                 ],
-                "Polymer_After": 1.9,
-                "Polymer_Before": 83.5,
-                "Polymer_Dose": 21.5,
-                "Sample_Number": "3",
+                "Polymer_After": 1.6,
+                "Polymer_Before": 92.92,
+                "Polymer_Dose": 24,
+                "Sample_Number": "4",
                 "Sample_Volume": [
                     10,
                     10
                 ],
-                "Sieve_Weight": 159.38,
-                "Sieve_plus_Wet_Solids_Weight": 0,
-                "Sludge_Weight": 501.37,
-                "TS": -15.255000000000008,
+                "Sieve_Weight": 401.68,
+                "Sieve_plus_Wet_Solids_Weight": 540.86,
+                "Sludge_Weight": 502.76,
+                "TS": -16.95000000000001,
                 "TSS": [
-                    -15.550000000000008,
-                    -14.960000000000008
+                    -17.277777777777786,
+                    -16.62222222222223
                 ],
                 "TS_percent": [
-                    29.849186557415976,
-                    29.645294626550033
+                    29.33432919428624,
+                    29.82159261229029
                 ],
-                "Tolerance": 0,
+                "Tolerance": 20,
                 "Tolerance2": 0,
                 "VS": -6.199999999999983e-10,
                 "VSS": [
@@ -666,7 +734,7 @@
             },
             {
                 "Actual_Belt_Filter_Press_before_PD_TS": 0,
-                "Actual_polymer_added": -91.32000000000001,
+                "Actual_polymer_added": -101.28999999999999,
                 "After_103_cake": [
                     2.1164,
                     2.0559
@@ -683,21 +751,22 @@
                     1.1134,
                     1.1179
                 ],
-                "Bucket_Filtrate": 0,
-                "Bucket_Weight": 399.01,
+                "Bucket_Filtrate": 1047,
+                "Bucket_Weight": 686.52,
                 "CST_Sludge": [
-                    54.4,
-                    44,
-                    67
+                    42.1,
+                    41.7,
+                    39.4
                 ],
                 "CST_Supernatant": [
-                    37.7,
-                    37.1,
-                    44.6
+                    33.1,
+                    35,
+                    43.7
                 ],
                 "Calculated_polymer_added": 0,
-                "Capture_Efficiency": 0,
-                "Dilution_Factor": 0,
+                "Capture_Efficiency": 100,
+                "Dilution_Factor": 1,
+                "Filtered_Solids": 175.06000000000006,
                 "FoilTray_plus_Filter_Weight": [
                     1.1131,
                     1.1171
@@ -706,27 +775,27 @@
                     0.9794,
                     0.9999
                 ],
-                "Polymer_After": 1.6,
-                "Polymer_Before": 92.92,
-                "Polymer_Dose": 24,
-                "Sample_Number": "4",
+                "Polymer_After": 1.62,
+                "Polymer_Before": 102.91,
+                "Polymer_Dose": 26.5,
+                "Sample_Number": "5",
                 "Sample_Volume": [
                     10,
                     10
                 ],
-                "Sieve_Weight": 401.68,
-                "Sieve_plus_Wet_Solids_Weight": 0,
-                "Sludge_Weight": 502.76,
-                "TS": -13.354999999999995,
+                "Sieve_Weight": 509.76,
+                "Sieve_plus_Wet_Solids_Weight": 684.82,
+                "Sludge_Weight": 500.98,
+                "TS": -14.838888888888883,
                 "TSS": [
-                    -14.189999999999992,
-                    -12.519999999999998
+                    -15.766666666666659,
+                    -13.911111111111108
                 ],
                 "TS_percent": [
-                    26.528850416481955,
-                    25.64600738294152
+                    27.11403634282444,
+                    26.061847528320044
                 ],
-                "Tolerance": 0,
+                "Tolerance": 20,
                 "Tolerance2": 0,
                 "VS": -7.550000000000057e-10,
                 "VSS": [
@@ -736,7 +805,7 @@
             },
             {
                 "Actual_Belt_Filter_Press_before_PD_TS": 0,
-                "Actual_polymer_added": -101.28999999999999,
+                "Actual_polymer_added": -111.63,
                 "After_103_cake": [
                     2.2263,
                     2.1789
@@ -753,77 +822,7 @@
                     1.1065,
                     1.1169
                 ],
-                "Bucket_Filtrate": 0,
-                "Bucket_Weight": 686.52,
-                "CST_Sludge": [
-                    42.1,
-                    41.7,
-                    39.4
-                ],
-                "CST_Supernatant": [
-                    33.1,
-                    35,
-                    43.7
-                ],
-                "Calculated_polymer_added": 0,
-                "Capture_Efficiency": 0,
-                "Dilution_Factor": 0,
-                "FoilTray_plus_Filter_Weight": [
-                    1.1061,
-                    1.1164
-                ],
-                "Foil_Tray": [
-                    0.9806,
-                    0.9845
-                ],
-                "Polymer_After": 1.62,
-                "Polymer_Before": 102.91,
-                "Polymer_Dose": 26.5,
-                "Sample_Number": "5",
-                "Sample_Volume": [
-                    10,
-                    10
-                ],
-                "Sieve_Weight": 509.76,
-                "Sieve_plus_Wet_Solids_Weight": 0,
-                "Sludge_Weight": 500.98,
-                "TS": -13.295000000000002,
-                "TSS": [
-                    -12.970000000000004,
-                    -13.62
-                ],
-                "TS_percent": [
-                    29.714708267735325,
-                    29.365918422540748
-                ],
-                "Tolerance": 0,
-                "Tolerance2": 0,
-                "VS": -3.8000000000000257e-10,
-                "VSS": [
-                    -3.8000000000000257e-10,
-                    -3.8000000000000257e-10
-                ]
-            },
-            {
-                "Actual_Belt_Filter_Press_before_PD_TS": 0,
-                "Actual_polymer_added": -111.63,
-                "After_103_cake": [
-                    2.2032,
-                    2.1509
-                ],
-                "After_103_filtrate": [
-                    1.1079,
-                    1.1134
-                ],
-                "After_550_cake": [
-                    1.4345,
-                    1.425
-                ],
-                "After_550_filtrate": [
-                    1.1022,
-                    1.1071
-                ],
-                "Bucket_Filtrate": 0,
+                "Bucket_Filtrate": 741,
                 "Bucket_Weight": 361.64,
                 "CST_Sludge": [
                     39,
@@ -836,15 +835,16 @@
                     21
                 ],
                 "Calculated_polymer_added": 0,
-                "Capture_Efficiency": 0,
-                "Dilution_Factor": 0,
+                "Capture_Efficiency": 100,
+                "Dilution_Factor": 1,
+                "Filtered_Solids": 127.91999999999996,
                 "FoilTray_plus_Filter_Weight": [
-                    1.102,
-                    1.1056
+                    1.1061,
+                    1.1164
                 ],
                 "Foil_Tray": [
-                    0.9868,
-                    0.9974
+                    0.9806,
+                    0.9845
                 ],
                 "Polymer_After": 1.22,
                 "Polymer_Before": 112.85,
@@ -855,23 +855,23 @@
                     10
                 ],
                 "Sieve_Weight": 443.26,
-                "Sieve_plus_Wet_Solids_Weight": 0,
+                "Sieve_plus_Wet_Solids_Weight": 571.18,
                 "Sludge_Weight": 504.06,
-                "TS": -11.855000000000004,
+                "TS": -14.772222222222226,
                 "TSS": [
-                    -12.11000000000001,
-                    -11.599999999999998
+                    -14.411111111111117,
+                    -15.133333333333333
                 ],
                 "TS_percent": [
-                    28.60704122668798,
-                    28.728332337118953
+                    29.253457952704135,
+                    29.651696829770856
                 ],
-                "Tolerance": 0,
+                "Tolerance": 20,
                 "Tolerance2": 0,
-                "VS": -6.000000000000005e-10,
+                "VS": -3.8000000000000257e-10,
                 "VSS": [
-                    -5.700000000000038e-10,
-                    -6.299999999999972e-10
+                    -3.8000000000000257e-10,
+                    -3.8000000000000257e-10
                 ]
             }
         ],

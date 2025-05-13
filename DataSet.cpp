@@ -18,6 +18,15 @@ bool DataSet::ReadSheet(QXlsx::Document *xlsdoc, const QString &sheetname)
         datapoint.Polymer_After = xlsdoc->read(33 + i, 7).toDouble();
         datapoint.Sieve_Weight = xlsdoc->read(33 + i, 10).toDouble();
         datapoint.Bucket_Weight = xlsdoc->read(33 + i, 11).toDouble();
+        datapoint.Sieve_plus_Wet_Solids_Weight = xlsdoc->read(33 + i, 12).toDouble();
+        datapoint.Bucket_Filtrate = xlsdoc->read(33 + i, 13).toDouble();
+        datapoint.Capture_Efficiency = xlsdoc->read(33 + i, 14).toDouble();
+        datapoint.Dilution_Factor = xlsdoc->read(33 + i, 15).toDouble();
+        datapoint.Tolerance = xlsdoc->read(33 + i, 16).toDouble();
+        datapoint.Tolerance2 = xlsdoc->read(33 + i, 17).toDouble();
+        
+        
+
         for (int j = 0; j < 5; j++)
         {
             if (xlsdoc->read(41 + i, 4 + j).isValid())
@@ -36,121 +45,132 @@ bool DataSet::ReadSheet(QXlsx::Document *xlsdoc, const QString &sheetname)
         //Foil Tray + Filter Weight
         for (int j = 0; j < 2; j++)
         {
-            if (xlsdoc->read(51 + i, 2 + j).isValid())
+            if (xlsdoc->read(50 + i, 2 + j).isValid())
             {
-                datapoint.FoilTray_plus_Filter_Weight.append(xlsdoc->read(51 + i, 2 + j).toDouble());
+                datapoint.FoilTray_plus_Filter_Weight.append(xlsdoc->read(50 + i, 2 + j).toDouble());
             }
         }
-        for (int j = 0; j < 2; j++)
+       /* for (int j = 0; j < 2; j++)
         {
             if (xlsdoc->read(76 + i, 2 + j).isValid())
             {
                 datapoint.FoilTray_plus_Filter_Weight.append(xlsdoc->read(76 + i, 2 + j).toDouble());
             }
-        }
+        }*/
 
 
         for (int j = 0; j < 2; j++)
         {
-            if (xlsdoc->read(62 + i, 4 + j).isValid())
+            if (xlsdoc->read(61 + i, 4 + j).isValid())
             {
                 datapoint.Tray_plus_Sample.append(xlsdoc->read(62 + i, 4 + j).toDouble());
             }
         }
-        for (int j = 0; j < 2; j++)
+       /* for (int j = 0; j < 2; j++)
         {
             if (xlsdoc->read(84 + i, 4 + j).isValid())
             {
                 datapoint.Tray_plus_Sample.append(xlsdoc->read(84 + i, 4 + j).toDouble());
             }
-        }
+        }*/
         for (int j = 0; j < 2; j++)
         {
-            if (xlsdoc->read(51 + i, 4 + j).isValid())
+            if (xlsdoc->read(50 + i, 4 + j).isValid())
             {
-                datapoint.Sample_Volume.append(xlsdoc->read(51 + i, 4 + j).toDouble());
+                datapoint.Sample_Volume.append(xlsdoc->read(50 + i, 4 + j).toDouble());
             }
         }
-        for (int j = 0; j < 2; j++)
+        /*for (int j = 0; j < 2; j++)
         {
             if (xlsdoc->read(76 + i, 4 + j).isValid())
             {
                 datapoint.Sample_Volume.append(xlsdoc->read(76 + i, 4 + j).toDouble());
             }
-        }
+        }*/
         
         for (int j = 0; j < 2; j++)
         {
-            if (xlsdoc->read(51 + i, 6 + j).isValid())
+            if (xlsdoc->read(50 + i, 6 + j).isValid())
             {
-                datapoint.After_103_filtrate.append(xlsdoc->read(51 + i, 6 + j).toDouble());
+                datapoint.After_103_filtrate.append(xlsdoc->read(50 + i, 6 + j).toDouble());
             }
         }
-        for (int j = 0; j < 2; j++)
+        /*for (int j = 0; j < 2; j++)
         {
             if (xlsdoc->read(76 + i, 6 + j).isValid())
             {
                 datapoint.After_103_filtrate.append(xlsdoc->read(51 + i, 6 + j).toDouble());
             }
-        }
+        }*/
         for (int j = 0; j < 2; j++)
         {
-            if (xlsdoc->read(51 + i, 12 + j).isValid())
+            if (xlsdoc->read(50 + i, 12 + j).isValid())
             {
-                datapoint.After_550_filtrate.append(xlsdoc->read(51 + i, 12 + j).toDouble());
+                datapoint.After_550_filtrate.append(xlsdoc->read(50 + i, 12 + j).toDouble());
           
             }
         }
-        for (int j = 0; j < 2; j++)
+       /* for (int j = 0; j < 2; j++)
         {
             if (xlsdoc->read(76 + i, 12 + j).isValid())
             {
                 datapoint.After_550_filtrate.append(xlsdoc->read(76 + i, 12 + j).toDouble());
             }
-        }
+        }*/
         //Foil Tray (cake)
         for (int j = 0; j < 2; j++)
         {
-            if (xlsdoc->read(62 + i, 2 + j).isValid())
+            if (xlsdoc->read(61 + i, 2 + j).isValid())
             {
-                datapoint.Foil_Tray.append(xlsdoc->read(62 + i, 2 + j).toDouble());
+                datapoint.Foil_Tray.append(xlsdoc->read(61 + i, 2 + j).toDouble());
             }
         }
-        for (int j = 0; j < 2; j++)
+        /*for (int j = 0; j < 2; j++)
         {
             if (xlsdoc->read(85 + i, 2 + j).isValid())
             {
                 datapoint.Foil_Tray.append(xlsdoc->read(85 + i, 2 + j).toDouble());
             }
-        }
+        }*/
         for (int j = 0; j < 2; j++)
         {
-            if (xlsdoc->read(62 + i, 6 + j).isValid())
+            if (xlsdoc->read(61 + i, 6 + j).isValid())
             {
-                datapoint.After_103_cake.append(xlsdoc->read(62 + i, 6 + j).toDouble());
+                datapoint.After_103_cake.append(xlsdoc->read(61 + i, 6 + j).toDouble());
             }
         }
-        for (int j = 0; j < 2; j++)
+        /*for (int j = 0; j < 2; j++)
         {
             if (xlsdoc->read(85 + i, 6 + j).isValid())
             {
                 datapoint.After_103_cake.append(xlsdoc->read(85 + i, 6 + j).toDouble());
             }
-        }
+        }*/
         for (int j = 0; j < 2; j++)
         {
-            if (xlsdoc->read(62 + i, 11 + j).isValid())
+            if (xlsdoc->read(61 + i, 11 + j).isValid())
             {
-                datapoint.After_550_cake.append(xlsdoc->read(62 + i, 11 + j).toDouble());
+                datapoint.After_550_cake.append(xlsdoc->read(61 + i, 11 + j).toDouble());
             }
         }
-        for (int j = 0; j < 2; j++)
+        /*for (int j = 0; j < 2; j++)
         {
             if (xlsdoc->read(85 + i, 11 + j).isValid())
             {
                 datapoint.After_550_cake.append(xlsdoc->read(85 + i, 11 + j).toDouble());
             }
+        }*/
+
+        if (xlsdoc->read(50 + i, 8).isValid())
+        {
+            datapoint.Dilution_Factor = xlsdoc->read(50+i, 8).toDouble();
         }
+
+        if (xlsdoc->read(71 + i, 8).isValid())
+        {
+            datapoint.Tolerance = xlsdoc->read(71 + i, 8).toDouble();
+        }
+        
         // continue with all data
 
         // continue with all data
@@ -164,7 +184,6 @@ bool DataSet::ReadSheet(QXlsx::Document *xlsdoc, const QString &sheetname)
         qDebug() << at(i).TS_percent(); 
     }
     
-    return true;
     // Testing functions
         for (int i = 0; i < size(); i++)
         {
@@ -215,7 +234,11 @@ QString DataSet::CreateAndFillSheet(QXlsx::Document& doc, const QString& sheetNa
     doc.addSheet(sheetName);
     doc.selectSheet(sheetName);
 
+
+
 	int column_counter = 1;
+
+    // Writing headings
 	doc.write(1, column_counter, "Sample Number"); column_counter++;
 	doc.write(1, column_counter, "Polymer Dose"); column_counter++;
 	doc.write(1, column_counter, "Sludge Weight"); column_counter++;
@@ -244,7 +267,7 @@ QString DataSet::CreateAndFillSheet(QXlsx::Document& doc, const QString& sheetNa
 
     // For functions that return a single scalar do this: 
     doc.write(1, column_counter, "TS"); column_counter++;
-
+    doc.write(1, column_counter, "Filtered Solids"); column_counter++;
 
     unsigned int row = 2;
     for (const SampleData& sample : *this)
@@ -282,6 +305,7 @@ QString DataSet::CreateAndFillSheet(QXlsx::Document& doc, const QString& sheetNa
 
         // for functions that return a single scalar value do this
         doc.write(row, column_counter, sample.TS()); column_counter++;
+        doc.write(row, column_counter, sample.Filtered_Solids()); column_counter++;
 
         row++; 
 	}

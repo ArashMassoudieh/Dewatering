@@ -21,6 +21,7 @@ SampleData::SampleData(const SampleData& other) //Copy Constructor
     Sieve_plus_Wet_Solids_Weight(other.Sieve_plus_Wet_Solids_Weight),
     Bucket_Filtrate(other.Bucket_Filtrate),
     Capture_Efficiency(other.Capture_Efficiency),
+    
     FoilTray_plus_Filter_Weight(other.FoilTray_plus_Filter_Weight),
     CST_Sludge(other.CST_Sludge),
     CST_Supernatant(other.CST_Supernatant),
@@ -51,6 +52,7 @@ SampleData& SampleData::operator=(const SampleData& other) {
         Sieve_plus_Wet_Solids_Weight = other.Sieve_plus_Wet_Solids_Weight;
         Bucket_Filtrate = other.Bucket_Filtrate;
         Capture_Efficiency = other.Capture_Efficiency;
+     
 
         FoilTray_plus_Filter_Weight = other.FoilTray_plus_Filter_Weight;
         CST_Sludge = other.CST_Sludge;
@@ -161,7 +163,9 @@ QJsonObject SampleData::toJson() const {
 	json["TS"] = TS();
 	json["VS"] = VS();
 	json["Actual_Belt_Filter_Press_before_PD_TS"] = Actual_Belt_Filter_Press_before_PD_TS();
-
+    json["Filtered_Solids"] = Filtered_Solids();
+    //json["Flitrate"] = Filtrate();
+    //json["Estimated_TS_Wet_Solids"] = Estimated_TS_Wet_Solids();
 
     return json;
 }
@@ -214,7 +218,9 @@ QMap<QString, QVector<double>> SampleData::VariablesToMap() // Parnia: Shows var
     out["TS"].append(TS());
     out["VS"].append(VS());
     out["Actual_Belt_Filter_Press_before_PD_TS"].append(Actual_Belt_Filter_Press_before_PD_TS());
-
+    out["Filtered_Solids"].append(Filtered_Solids());
+    //out["Filtrate"].append(Filtrate());
+    //out["Estimated_TS_Wet_Solids"].append(Estimated_TS_Wet_Solids());
     return out;
 }
 
@@ -246,4 +252,9 @@ unsigned int minsize(const QVector<double>& vec1, const QVector<double>& vec2)
 {
     return std::min({ vec1.size(), vec2.size()});
 
+}
+
+double SampleData::Filtered_Solids() const
+{
+    return Sieve_plus_Wet_Solids_Weight - Sieve_Weight;
 }

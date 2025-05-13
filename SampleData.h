@@ -68,6 +68,7 @@ public:
     double Actual_Polymer_Added() const;
     double TS() const;
     double VS() const;
+    double Filtered_Solids() const;
 
     QVector<double> TS_percent() const;
     QVector<double> TSS() const;
