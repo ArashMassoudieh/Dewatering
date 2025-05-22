@@ -35,10 +35,10 @@ SampleData::SampleData(const SampleData& other) //Copy Constructor
     Foil_Tray(other.Foil_Tray),
     Tolerance(other.Tolerance),
     Tolerance2(other.Tolerance2),
-    Sample_Number(other.Sample_Number),
-    Actual_Belt_Filter_Press_before_PD_TS(other.Actual_Belt_Filter_Press_before_PD_TS),
-
-    
+    Sample_Number(other.Sample_Number){
+   
+     
+        parent = other.parent; 
     }
 SampleData& SampleData::operator=(const SampleData& other) {
     if (this != &other) {
@@ -67,7 +67,8 @@ SampleData& SampleData::operator=(const SampleData& other) {
         Tolerance2 = other.Tolerance2;
         Sample_Number = other.Sample_Number;
         Tray_plus_Sample = other.Tray_plus_Sample;
-        Actual_Belt_Filter_Press_before_PD_TS= other.Actual_Belt_Filter_Press_before_PD_TS;
+        parent = other.parent;
+        
     }
     return *this;
 }
@@ -84,7 +85,7 @@ double SampleData::Calculated_Polymer_Added() const
 
 double SampleData::Actual_Belt_Filter_Press_before_PD_TS() const 
 {
-    return 0.0;
+    return parent->BFPTS_percent;
 }
 
 QVector<double> SampleData::TS_percent() const
@@ -142,7 +143,7 @@ QJsonObject SampleData::toJson() const {
     json["Dilution_Factor"] = Dilution_Factor;
     json["Tolerance"] = Tolerance;
     json["Tolerance2"] = Tolerance2;
-    json["Actual_Belt_Filter_Press_before_PD_TS"] = Actual_Belt_Filter_Press_before_PD_TS;
+    json["Actual_Belt_Filter_Press_before_PD_TS"] = Actual_Belt_Filter_Press_before_PD_TS();
 
     // Convert QVector<double> to QJsonArray using the helper function
     json["FoilTray_plus_Filter_Weight"] = vectorToJsonArray(FoilTray_plus_Filter_Weight);
@@ -165,7 +166,7 @@ QJsonObject SampleData::toJson() const {
 	json["VS"] = VS();
 	json["Actual_Belt_Filter_Press_before_PD_TS"] = Actual_Belt_Filter_Press_before_PD_TS();
     json["Filtered_Solids"] = Filtered_Solids();
-    //json["Flitrate"] = Filtrate();
+    json["Flitrate"] = Filtrate();
     //json["Estimated_TS_Wet_Solids"] = Estimated_TS_Wet_Solids();
 
     return json;
@@ -198,7 +199,7 @@ QMap<QString, QVector<double>> SampleData::VariablesToMap() // Parnia: Shows var
     out["Dilution_Factor"].append(Dilution_Factor);
     out["Tolerance"].append(Tolerance);
     out["Tolerance2"].append(Tolerance2);
-    out["Actual_Belt_Filter_Press_before_PD_TS"].append(Actual_Belt_Filter_Press_before_PD_TS);
+    out["Actual_Belt_Filter_Press_before_PD_TS"].append(Actual_Belt_Filter_Press_before_PD_TS());
     
 
     // Convert QVector<double> to Table Data
@@ -222,7 +223,7 @@ QMap<QString, QVector<double>> SampleData::VariablesToMap() // Parnia: Shows var
     out["VS"].append(VS());
     out["Actual_Belt_Filter_Press_before_PD_TS"].append(Actual_Belt_Filter_Press_before_PD_TS());
     out["Filtered_Solids"].append(Filtered_Solids());
-    //out["Filtrate"].append(Filtrate());
+    out["Filtrate"].append(Filtrate());
     //out["Estimated_TS_Wet_Solids"].append(Estimated_TS_Wet_Solids());
     return out;
 }
@@ -260,4 +261,8 @@ unsigned int minsize(const QVector<double>& vec1, const QVector<double>& vec2)
 double SampleData::Filtered_Solids() const
 {
     return Sieve_plus_Wet_Solids_Weight - Sieve_Weight;
+}
+double SampleData::Filtrate() const
+{
+    return Bucket_Filtrate - Bucket_Weight;
 }

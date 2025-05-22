@@ -21,7 +21,7 @@ public:
 
     
     // Variables
-    DataSet* parent; 
+    DataSet* parent = nullptr; 
     QString Sample_Number;
     double Polymer_Dose;
     double Sludge_Weight;
@@ -69,6 +69,7 @@ public:
     double TS() const;
     double VS() const;
     double Filtered_Solids() const;
+    double Filtrate() const;
 
     QVector<double> TS_percent() const;
     QVector<double> TSS() const;
