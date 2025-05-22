@@ -24,9 +24,9 @@ bool DataSet::ReadSheet(QXlsx::Document *xlsdoc, const QString &sheetname)
         datapoint.Dilution_Factor = xlsdoc->read(33 + i, 15).toDouble();
         datapoint.Tolerance = xlsdoc->read(33 + i, 16).toDouble();
         datapoint.Tolerance2 = xlsdoc->read(33 + i, 17).toDouble();
+        datapoint.Actual_Belt_Filter_Press_before_PD_TS = (xlsdoc->read(33 + i, 18).toDouble());
+       
         
-        
-
         for (int j = 0; j < 5; j++)
         {
             if (xlsdoc->read(41 + i, 4 + j).isValid())
@@ -170,7 +170,11 @@ bool DataSet::ReadSheet(QXlsx::Document *xlsdoc, const QString &sheetname)
         {
             datapoint.Tolerance = xlsdoc->read(71 + i, 8).toDouble();
         }
-        
+        if (xlsdoc->read(71 + i, 20).isValid())
+        {
+            datapoint.Tolerance2 = xlsdoc->read(71 + i, 20).toDouble();
+        }
+
         // continue with all data
 
         // continue with all data
@@ -254,6 +258,11 @@ QString DataSet::CreateAndFillSheet(QXlsx::Document& doc, const QString& sheetNa
 	doc.write(1, column_counter, "Tolerance2"); column_counter++;
 
     // For vector variables do this: 
+    for (int i = 0; i < MaxSize("After_103_cake"); i++)
+    {
+        doc.write(1, column_counter, "After 103 cake #" + QString::number(i + 1)); column_counter++;
+    }
+    
     for (int i = 0; i < MaxSize("CST_Sludge"); i++)
     {
         doc.write(1, column_counter, "CST Sludge #" + QString::number(i+1)); column_counter++;
@@ -289,7 +298,14 @@ QString DataSet::CreateAndFillSheet(QXlsx::Document& doc, const QString& sheetNa
         //write the rest of variables entered by user
         
         // For vector variables do this: 
-		for (int i = 0; i < MaxSize("CST_Sludge"); i++)
+		
+        for (int i = 0; i < MaxSize("After_103_cake"); i++)
+        {
+            if (i < sample.After_103_cake.size())
+                doc.write(row, column_counter, sample.After_103_cake[i]); column_counter++;
+        }
+        
+        for (int i = 0; i < MaxSize("CST_Sludge"); i++)
 		{
 			if (i < sample.CST_Sludge.size())
                 doc.write(row, column_counter, sample.CST_Sludge[i]); column_counter++;

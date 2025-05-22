@@ -35,12 +35,11 @@ SampleData::SampleData(const SampleData& other) //Copy Constructor
     Foil_Tray(other.Foil_Tray),
     Tolerance(other.Tolerance),
     Tolerance2(other.Tolerance2),
-    Sample_Number(other.Sample_Number)
-    {
+    Sample_Number(other.Sample_Number),
+    Actual_Belt_Filter_Press_before_PD_TS(other.Actual_Belt_Filter_Press_before_PD_TS),
 
-
+    
     }
-
 SampleData& SampleData::operator=(const SampleData& other) {
     if (this != &other) {
         Polymer_Dose = other.Polymer_Dose;
@@ -68,6 +67,7 @@ SampleData& SampleData::operator=(const SampleData& other) {
         Tolerance2 = other.Tolerance2;
         Sample_Number = other.Sample_Number;
         Tray_plus_Sample = other.Tray_plus_Sample;
+        Actual_Belt_Filter_Press_before_PD_TS= other.Actual_Belt_Filter_Press_before_PD_TS;
     }
     return *this;
 }
@@ -99,11 +99,11 @@ QVector<double> SampleData::TS_percent() const
 
 QVector<double> SampleData::TSS() const
 {
-    QVector<double> out(minsize(After_103_filtrate, Foil_Tray, Sample_Volume));
+    QVector<double> out(minsize(After_103_filtrate, FoilTray_plus_Filter_Weight, Sample_Volume));
 
     for (int i = 0; i < out.size(); i++)
     {
-        out[i] = (After_103_filtrate[i] - Foil_Tray[i]) * 1000.0 /( Dilution_Factor - Sample_Volume[i]);
+        out[i] = (After_103_filtrate[i] - FoilTray_plus_Filter_Weight[i]) * 1000.0*Dilution_Factor/Sample_Volume[i];
        
     }
     return out;
@@ -142,6 +142,7 @@ QJsonObject SampleData::toJson() const {
     json["Dilution_Factor"] = Dilution_Factor;
     json["Tolerance"] = Tolerance;
     json["Tolerance2"] = Tolerance2;
+    json["Actual_Belt_Filter_Press_before_PD_TS"] = Actual_Belt_Filter_Press_before_PD_TS;
 
     // Convert QVector<double> to QJsonArray using the helper function
     json["FoilTray_plus_Filter_Weight"] = vectorToJsonArray(FoilTray_plus_Filter_Weight);
@@ -197,6 +198,8 @@ QMap<QString, QVector<double>> SampleData::VariablesToMap() // Parnia: Shows var
     out["Dilution_Factor"].append(Dilution_Factor);
     out["Tolerance"].append(Tolerance);
     out["Tolerance2"].append(Tolerance2);
+    out["Actual_Belt_Filter_Press_before_PD_TS"].append(Actual_Belt_Filter_Press_before_PD_TS);
+    
 
     // Convert QVector<double> to Table Data
     out["FoilTray_plus_Filter_Weight"] = FoilTray_plus_Filter_Weight;
