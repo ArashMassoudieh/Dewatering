@@ -199,7 +199,6 @@ QMap<QString, QVector<double>> SampleData::VariablesToMap() // Parnia: Shows var
     out["Dilution_Factor"].append(Dilution_Factor);
     out["Tolerance"].append(Tolerance);
     out["Tolerance2"].append(Tolerance2);
-    out["Actual_Belt_Filter_Press_before_PD_TS"].append(Actual_Belt_Filter_Press_before_PD_TS());
     
 
     // Convert QVector<double> to Table Data

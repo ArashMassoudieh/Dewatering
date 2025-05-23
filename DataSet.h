@@ -38,6 +38,12 @@ public:
         DIG_SLDG_FLOW_FROM_SBT(other.DIG_SLDG_FLOW_FROM_SBT),
         BFPTS_percent(other.BFPTS_percent),
         DIL_WTR_FLOW_TO_BFP(other.DIL_WTR_FLOW_TO_BFP) {
+		    for (int i = 0; i < other.size(); i++) {
+			    SampleData sample = other.at(i);
+			    sample.setParent(this); // Set the parent for each SampleData
+			    append(sample);
+		}
+    
     }
 
     // Assignment Operator
@@ -53,13 +59,19 @@ public:
             BFPTS_percent = other.BFPTS_percent; 
             DIG_SLDG_FLOW_FROM_SBT = other.DIG_SLDG_FLOW_FROM_SBT;
             DIL_WTR_FLOW_TO_BFP = other.DIL_WTR_FLOW_TO_BFP;
+        
+            for (SampleData& sample : *this) {
+                sample.setParent(this);
+            }
+
         }
+        
         return *this;
     }
     void Append(const SampleData& data)
     {
         append(data);
-        last().parent = this; 
+        last().setParent(this); 
     }
 
     SampleData* getLast() {

@@ -8,7 +8,7 @@
         "SBT3_TS_percent_LAB_TSPCT_J04": 0,
         "Samples": [
             {
-                "Actual_Belt_Filter_Press_before_PD_TS": -9.255963134931783e+61,
+                "Actual_Belt_Filter_Press_before_PD_TS": 3.41,
                 "Actual_polymer_added": -68.3,
                 "After_103_cake": [
                     2.2718,
@@ -38,7 +38,7 @@
                     39,
                     39.7
                 ],
-                "Calculated_polymer_added": -1.8068596584117264e+63,
+                "Calculated_polymer_added": 66.56672401741795,
                 "Capture_Efficiency": 100,
                 "Dilution_Factor": 1,
                 "Filtered_Solids": 141.15,
@@ -80,7 +80,7 @@
                 ]
             },
             {
-                "Actual_Belt_Filter_Press_before_PD_TS": -9.255963134931783e+61,
+                "Actual_Belt_Filter_Press_before_PD_TS": 3.41,
                 "Actual_polymer_added": -81.05,
                 "After_103_cake": [
                     2.417,
@@ -111,7 +111,7 @@
                     38.2,
                     36.6
                 ],
-                "Calculated_polymer_added": -2.1421953417021323e+63,
+                "Calculated_polymer_added": 78.9208644061665,
                 "Capture_Efficiency": 100,
                 "Dilution_Factor": 1,
                 "Filtered_Solids": 141.53000000000003,
@@ -153,7 +153,7 @@
                 ]
             },
             {
-                "Actual_Belt_Filter_Press_before_PD_TS": -9.255963134931783e+61,
+                "Actual_Belt_Filter_Press_before_PD_TS": 3.41,
                 "Actual_polymer_added": -94.77000000000001,
                 "After_103_cake": [
                     2.3317,
@@ -184,7 +184,7 @@
                     31.4,
                     30.7
                 ],
-                "Calculated_polymer_added": -2.4536192023684546e+63,
+                "Calculated_polymer_added": 90.39406659367701,
                 "Capture_Efficiency": 100,
                 "Dilution_Factor": 1,
                 "Filtered_Solids": 136.32000000000002,
@@ -226,7 +226,7 @@
                 ]
             },
             {
-                "Actual_Belt_Filter_Press_before_PD_TS": -9.255963134931783e+61,
+                "Actual_Belt_Filter_Press_before_PD_TS": 3.41,
                 "Actual_polymer_added": -101.50999999999999,
                 "After_103_cake": [
                     2.2401,
@@ -257,7 +257,7 @@
                     28.8,
                     29.3
                 ],
-                "Calculated_polymer_added": -2.6727667897249783e+63,
+                "Calculated_polymer_added": 98.46770800723753,
                 "Capture_Efficiency": 100,
                 "Dilution_Factor": 1,
                 "Filtered_Solids": 148.98000000000008,
@@ -299,7 +299,7 @@
                 ]
             },
             {
-                "Actual_Belt_Filter_Press_before_PD_TS": -9.255963134931783e+61,
+                "Actual_Belt_Filter_Press_before_PD_TS": 3.41,
                 "Actual_polymer_added": -112.10000000000001,
                 "After_103_cake": [
                     2.2412,
@@ -330,7 +330,7 @@
                     12.8,
                     12.5
                 ],
-                "Calculated_polymer_added": -2.927403542640556e+63,
+                "Calculated_polymer_added": 107.8488098416337,
                 "Capture_Efficiency": 100,
                 "Dilution_Factor": 1,
                 "Filtered_Solids": 165.34000000000003,
@@ -372,7 +372,7 @@
                 ]
             },
             {
-                "Actual_Belt_Filter_Press_before_PD_TS": -9.255963134931783e+61,
+                "Actual_Belt_Filter_Press_before_PD_TS": 3.41,
                 "Actual_polymer_added": -119.11999999999999,
                 "After_103_cake": [
                     2.2471,
@@ -403,7 +403,7 @@
                     11.7,
                     12.5
                 ],
-                "Calculated_polymer_added": -3.242498313290896e+63,
+                "Calculated_polymer_added": 119.45725244511192,
                 "Capture_Efficiency": 101,
                 "Dilution_Factor": 1,
                 "Filtered_Solids": 156.7,
@@ -457,7 +457,7 @@
         "SBT3_TS_percent_LAB_TSPCT_J04": 0,
         "Samples": [
             {
-                "Actual_Belt_Filter_Press_before_PD_TS": -9.255963134931783e+61,
+                "Actual_Belt_Filter_Press_before_PD_TS": 3.8,
                 "Actual_polymer_added": -65.25999999999999,
                 "After_103_cake": [
                     2.1986,
@@ -486,7 +486,7 @@
                     54.6,
                     46.6
                 ],
-                "Calculated_polymer_added": -1.5883655411633005e+63,
+                "Calculated_polymer_added": 65.20973526397938,
                 "Capture_Efficiency": 100,
                 "Dilution_Factor": 1,
                 "Filtered_Solids": 145.32,
@@ -528,7 +528,7 @@
                 ]
             },
             {
-                "Actual_Belt_Filter_Press_before_PD_TS": -9.255963134931783e+61,
+                "Actual_Belt_Filter_Press_before_PD_TS": 3.8,
                 "Actual_polymer_added": -71.74,
                 "After_103_cake": [
                     2.174,
@@ -557,7 +557,7 @@
                     41.8,
                     48.3
                 ],
-                "Calculated_polymer_added": -1.7719961951091514e+63,
+                "Calculated_polymer_added": 72.74862100522404,
                 "Capture_Efficiency": 100,
                 "Dilution_Factor": 1,
                 "Filtered_Solids": 148.13,
@@ -599,7 +599,7 @@
                 ]
             },
             {
-                "Actual_Belt_Filter_Press_before_PD_TS": -9.255963134931783e+61,
+                "Actual_Belt_Filter_Press_before_PD_TS": 3.8,
                 "Actual_polymer_added": -81.6,
                 "After_103_cake": [
                     2.152,
@@ -629,7 +629,7 @@
                     39.7,
                     49.2
                 ],
-                "Calculated_polymer_added": -1.9954820464836e+63,
+                "Calculated_polymer_added": 81.92374651990839,
                 "Capture_Efficiency": 100,
                 "Dilution_Factor": 1,
                 "Filtered_Solids": 142.39999999999998,
@@ -671,7 +671,7 @@
                 ]
             },
             {
-                "Actual_Belt_Filter_Press_before_PD_TS": -9.255963134931783e+61,
+                "Actual_Belt_Filter_Press_before_PD_TS": 3.8,
                 "Actual_polymer_added": -91.32000000000001,
                 "After_103_cake": [
                     2.2377,
@@ -701,7 +701,7 @@
                     37.1,
                     44.6
                 ],
-                "Calculated_polymer_added": -2.2336904127863863e+63,
+                "Calculated_polymer_added": 91.70329921210111,
                 "Capture_Efficiency": 100,
                 "Dilution_Factor": 1,
                 "Filtered_Solids": 139.18,
@@ -743,7 +743,7 @@
                 ]
             },
             {
-                "Actual_Belt_Filter_Press_before_PD_TS": -9.255963134931783e+61,
+                "Actual_Belt_Filter_Press_before_PD_TS": 3.8,
                 "Actual_polymer_added": -101.28999999999999,
                 "After_103_cake": [
                     2.1164,
@@ -773,7 +773,7 @@
                     35,
                     43.7
                 ],
-                "Calculated_polymer_added": -2.4576344337125468e+63,
+                "Calculated_polymer_added": 100.89723470118928,
                 "Capture_Efficiency": 100,
                 "Dilution_Factor": 1,
                 "Filtered_Solids": 175.06000000000006,
@@ -815,7 +815,7 @@
                 ]
             },
             {
-                "Actual_Belt_Filter_Press_before_PD_TS": -9.255963134931783e+61,
+                "Actual_Belt_Filter_Press_before_PD_TS": 3.8,
                 "Actual_polymer_added": -111.63,
                 "After_103_cake": [
                     2.2263,
@@ -845,7 +845,7 @@
                     22.4,
                     21
                 ],
-                "Calculated_polymer_added": -2.706021568823765e+63,
+                "Calculated_polymer_added": 111.09467282473237,
                 "Capture_Efficiency": 100,
                 "Dilution_Factor": 1,
                 "Filtered_Solids": 127.91999999999996,

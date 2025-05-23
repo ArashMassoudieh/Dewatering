@@ -18,10 +18,11 @@ public:
     const double TSAssumed = 3.50;
     const double Polymer_Solution = 0.25;
         
-
+    void setParent(DataSet* p) { parent = p; }
+    DataSet* getParent() const { return parent; }
     
     // Variables
-    DataSet* parent = nullptr; 
+    
     QString Sample_Number;
     double Polymer_Dose;
     double Sludge_Weight;
@@ -79,7 +80,8 @@ public:
     //Utility functions
     QJsonArray vectorToJsonArray(const QVector<double>& vec) const;
     QJsonObject toJson() const;
-    
+private: 
+    DataSet* parent = nullptr;
 
 };
 
