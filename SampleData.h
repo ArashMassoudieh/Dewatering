@@ -41,13 +41,13 @@ public:
     QVector<double> FoilTray_plus_Filter_Weight;
     QVector<double> CST_Sludge;
     QVector<double> CST_Supernatant;
-    QVector<double> Sample_Volume; 
     QVector<double> After_103_cake; 
     QVector<double> After_103_filtrate;
     QVector<double> Tray_plus_Sample; 
     QVector<double> After_550_cake; 
     QVector<double> After_550_filtrate;
     QVector<double> Foil_Tray;
+	QVector<double> SampleVolume;
     
     
     QMap<QString, QVector<double>> VariablesToMap(); 
@@ -67,14 +67,24 @@ public:
     double Calculated_Polymer_Added() const;
     double Actual_Belt_Filter_Press_before_PD_TS() const;
     double Actual_Polymer_Added() const;
-    double TS() const;
-    double VS() const;
+    double Actual_Polymer_Added_lb_per_Ton() const;
+    double TSS_Avg() const;
+    double VSS_Avg() const;
+    double TS_Avg() const;
+    double VS_Avg() const;
     double Filtered_Solids() const;
     double Filtrate() const;
+    double Estimated_TSp_of_Wet_Solids_on_frabic() const; 
+    double TargetWSinCup() const;
+    double CST_Sludge_Avg() const;
+    double CST_Supernatant_Avg() const;
+    double Lab_Filtrate_TSS() const;
 
     QVector<double> TS_percent() const;
     QVector<double> TSS() const;
     QVector<double> VSS() const;
+    QVector<double> TS() const; 
+    QVector<double> VS() const;
     
 
     //Utility functions

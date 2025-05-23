@@ -14,17 +14,24 @@ public:
     QString Belt_No;
     double Poly_Ratio;
     double Sludge_Flow;
-    double Polymer_sol;
     double SBT3_TS_percent_LAB_TSPCT_J04;
     double BFPTS_percent; 
     double DIG_SLDG_FLOW_FROM_SBT;
     double DIL_WTR_FLOW_TO_BFP;
+    double grtoton; 
+    double grtolb; 
+    double PolymerSolution; 
+    double CupLoading() const {
+        return CupArea() * 800;
+    };
+    double CupDiameter; 
+    double CupArea() const { return 3.1415 * pow(CupDiameter* 0.0254, 2) / 4.0; }
 
     // Default Constructor
     DataSet() : QVector<SampleData>(),
-        Poly_Ratio(0.0), Sludge_Flow(0.0), Polymer_sol(0.0),
+        Poly_Ratio(0.0), Sludge_Flow(0.0), 
         SBT3_TS_percent_LAB_TSPCT_J04(0.0), DIG_SLDG_FLOW_FROM_SBT(0.0),
-        DIL_WTR_FLOW_TO_BFP(0.0), BFPTS_percent(0.0) {
+        DIL_WTR_FLOW_TO_BFP(0.0), BFPTS_percent(0.0), grtoton(0.0), grtolb(0.0), PolymerSolution(0.0), CupDiameter(0.0) {
     }
 
     // Copy Constructor
@@ -33,11 +40,15 @@ public:
         Belt_No(other.Belt_No),
         Poly_Ratio(other.Poly_Ratio),
         Sludge_Flow(other.Sludge_Flow),
-        Polymer_sol(other.Polymer_sol),
         SBT3_TS_percent_LAB_TSPCT_J04(other.SBT3_TS_percent_LAB_TSPCT_J04),
         DIG_SLDG_FLOW_FROM_SBT(other.DIG_SLDG_FLOW_FROM_SBT),
         BFPTS_percent(other.BFPTS_percent),
-        DIL_WTR_FLOW_TO_BFP(other.DIL_WTR_FLOW_TO_BFP) {
+        DIL_WTR_FLOW_TO_BFP(other.DIL_WTR_FLOW_TO_BFP),
+        grtolb(other.grtolb),
+        grtoton(other.grtoton),
+		PolymerSolution(other.PolymerSolution),  // Initialize the new member variable
+		CupDiameter(other.CupDiameter) // Initialize the new member variable
+        {
 		    for (int i = 0; i < other.size(); i++) {
 			    SampleData sample = other.at(i);
 			    sample.setParent(this); // Set the parent for each SampleData
@@ -54,12 +65,14 @@ public:
             Belt_No = other.Belt_No;
             Poly_Ratio = other.Poly_Ratio;
             Sludge_Flow = other.Sludge_Flow;
-            Polymer_sol = other.Polymer_sol;
             SBT3_TS_percent_LAB_TSPCT_J04 = other.SBT3_TS_percent_LAB_TSPCT_J04;
             BFPTS_percent = other.BFPTS_percent; 
             DIG_SLDG_FLOW_FROM_SBT = other.DIG_SLDG_FLOW_FROM_SBT;
             DIL_WTR_FLOW_TO_BFP = other.DIL_WTR_FLOW_TO_BFP;
-        
+            grtoton = other.grtoton;
+            grtolb = other.grtolb;
+			PolymerSolution = other.PolymerSolution; // Assign the new member variable
+			CupDiameter = other.CupDiameter; // Assign the new member variable
             for (SampleData& sample : *this) {
                 sample.setParent(this);
             }

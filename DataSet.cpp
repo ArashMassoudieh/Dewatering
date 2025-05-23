@@ -7,15 +7,17 @@ bool DataSet::ReadSheet(QXlsx::Document *xlsdoc, const QString &sheetname)
     Sludge_Flow = xlsdoc->read("B10").toDouble();
     qDebug() << xlsdoc->read("B13");
     BFPTS_percent = xlsdoc->read("B13").toDouble(); 
-
-
+    grtolb = xlsdoc->read("B19").toDouble();
+    grtoton = xlsdoc->read("B20").toDouble();
+	PolymerSolution = xlsdoc->read("B27").toDouble();
+	CupDiameter = xlsdoc->read("B21").toDouble();
     //Reading data related to samples
-    for (int i = 0; i < 6; i++)
+    for (int i = 0; i < 7; i++)
     {
         SampleData datapoint;
         datapoint.setParent(this); 
         int j = xlsdoc->read(33+i, 1).toInt();
-        datapoint.Sample_Number = QString::number(xlsdoc->read(33+i,1).toInt());
+        datapoint.Sample_Number = xlsdoc->read(50+i,1).toString();
         datapoint.Polymer_Dose = xlsdoc->read(33 + i, 2).toDouble();
         datapoint.Sludge_Weight = xlsdoc->read(33 + i, 4).toDouble();
         datapoint.Polymer_Before = xlsdoc->read(33 + i, 6).toDouble();
@@ -53,6 +55,14 @@ bool DataSet::ReadSheet(QXlsx::Document *xlsdoc, const QString &sheetname)
                 datapoint.FoilTray_plus_Filter_Weight.append(xlsdoc->read(50 + i, 2 + j).toDouble());
             }
         }
+        for (int j = 0; j < 2; j++)
+        {
+            if (xlsdoc->read(50 + i, 4 + j).isValid())
+            {
+                datapoint.SampleVolume.append(xlsdoc->read(50 + i, 4 + j).toDouble());
+            }
+        }
+
        /* for (int j = 0; j < 2; j++)
         {
             if (xlsdoc->read(76 + i, 2 + j).isValid())
@@ -66,7 +76,7 @@ bool DataSet::ReadSheet(QXlsx::Document *xlsdoc, const QString &sheetname)
         {
             if (xlsdoc->read(61 + i, 4 + j).isValid())
             {
-                datapoint.Tray_plus_Sample.append(xlsdoc->read(62 + i, 4 + j).toDouble());
+                datapoint.Tray_plus_Sample.append(xlsdoc->read(61 + i, 4 + j).toDouble());
             }
         }
        /* for (int j = 0; j < 2; j++)
@@ -76,13 +86,7 @@ bool DataSet::ReadSheet(QXlsx::Document *xlsdoc, const QString &sheetname)
                 datapoint.Tray_plus_Sample.append(xlsdoc->read(84 + i, 4 + j).toDouble());
             }
         }*/
-        for (int j = 0; j < 2; j++)
-        {
-            if (xlsdoc->read(50 + i, 4 + j).isValid())
-            {
-                datapoint.Sample_Volume.append(xlsdoc->read(50 + i, 4 + j).toDouble());
-            }
-        }
+      
         /*for (int j = 0; j < 2; j++)
         {
             if (xlsdoc->read(76 + i, 4 + j).isValid())
@@ -210,10 +214,16 @@ QJsonObject DataSet::toJson() const {
     json["Belt_No"] = Belt_No;
     json["Poly_Ratio"] = Poly_Ratio;
     json["Sludge_Flow"] = Sludge_Flow;
-    json["Polymer_sol"] = Polymer_sol;
+	json["BFPTS_percent"] = BFPTS_percent;
     json["SBT3_TS_percent_LAB_TSPCT_J04"] = SBT3_TS_percent_LAB_TSPCT_J04;
     json["DIG_SLDG_FLOW_FROM_SBT"] = DIG_SLDG_FLOW_FROM_SBT;
     json["DIL_WTR_FLOW_TO_BFP"] = DIL_WTR_FLOW_TO_BFP;
+	json["grtoton"] = grtoton;
+	json["grtolb"] = grtolb;
+	json["PolymerSolution"] = PolymerSolution;
+	json["CupLoading"] = CupLoading();
+    json["CupDiameter"] = CupDiameter;
+    json["CupArea"] = CupArea(); 
 
     // Convert QVector<SampleData> to QJsonArray
     QJsonArray samplesArray;
@@ -375,8 +385,8 @@ QString DataSet::CreateAndFillSheet(QXlsx::Document& doc, const QString& sheetNa
         }
 
         // for functions that return a single scalar value do this
-        doc.write(row, column_counter, sample.TS()); column_counter++;
-        doc.write(row, column_counter, sample.VS()); column_counter++;
+        doc.write(row, column_counter, sample.TSS_Avg()); column_counter++;
+        doc.write(row, column_counter, sample.VSS_Avg()); column_counter++;
         doc.write(row, column_counter, sample.Filtered_Solids()); column_counter++;
         
         doc.write(row, column_counter, sample.Filtrate()); column_counter++;
@@ -400,8 +410,8 @@ unsigned int DataSet::MaxSize(const QString& variableName) const
             size = data.CST_Sludge.size();
         else if (variableName == "CST_Supernatant")
             size = data.CST_Supernatant.size();
-        else if (variableName == "Sample_Volume")
-            size = data.Sample_Volume.size();
+        else if (variableName == "SampleVolume")
+            size = data.SampleVolume.size();
         else if (variableName == "After_103_cake")
             size = data.After_103_cake.size();
         else if (variableName == "After_103_filtrate")
