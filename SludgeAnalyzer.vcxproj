@@ -36,13 +36,13 @@
     <Import Project="$(QtMsBuild)\qt_defaults.props" />
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
-    <QtInstall>6.7</QtInstall>
-    <QtModules>core;gui;widgets</QtModules>
+    <QtInstall>Qt 6.8</QtInstall>
+    <QtModules>core;gui;widgets;charts</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
-    <QtInstall>6.7</QtInstall>
-    <QtModules>core;gui;widgets</QtModules>
+    <QtInstall>Qt 6.8</QtInstall>
+    <QtModules>core;gui;widgets;charts</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
   <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
@@ -118,12 +118,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="chartview.cpp" />
     <ClCompile Include="datasetcollection.cpp" />
+    <ClCompile Include="qplotter.cpp" />
+    <ClCompile Include="qplotwindow.cpp" />
     <ClCompile Include="TableModel.cpp" />
     <ClCompile Include="treeitem.cpp" />
     <ClCompile Include="treemodel.cpp" />
     <ClCompile Include="treeview.cpp" />
     <QtRcc Include="SludgeAnalyzer.qrc" />
+    <QtUic Include="qplotwindow.ui" />
     <QtUic Include="SludgeAnalyzer.ui" />
     <QtMoc Include="SludgeAnalyzer.h" />
     <ClCompile Include="..\Utilities\Matrix.cpp" />
@@ -150,10 +154,13 @@
     <ClInclude Include="..\Utilities\Utilities.h" />
     <ClInclude Include="..\Utilities\Vector.h" />
     <ClInclude Include="..\Utilities\Vector_arma.h" />
+    <ClInclude Include="chartview.h" />
     <ClInclude Include="DataSet.h" />
     <ClInclude Include="datasetcollection.h" />
     <ClInclude Include="ExpressionCalculator.h" />
     <ClInclude Include="fitfunction.h" />
+    <QtMoc Include="qplotwindow.h" />
+    <ClInclude Include="qplotter.h" />
     <ClInclude Include="SampleData.h" />
     <QtMoc Include="TableModel.h" />
     <ClInclude Include="treeitem.h" />

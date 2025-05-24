@@ -52,7 +52,6 @@ public:
 		    for (int i = 0; i < other.size(); i++) {
 			    SampleData sample = other.at(i);
 			    sample.setParent(this); // Set the parent for each SampleData
-			    append(sample);
 		}
     
     }
@@ -81,6 +80,9 @@ public:
         
         return *this;
     }
+
+    QVector<double> ExtractVariable(const QString& name) const;
+    
     void Append(const SampleData& data)
     {
         append(data);
@@ -106,3 +108,8 @@ public:
 
 };
 
+void writeHeaders(QXlsx::Document& doc, int& col, const QVector<QString>& headers);
+void writeIndexedHeaders(QXlsx::Document& doc, int& col, const QString& base, int count);
+
+template <typename T>
+void writeVector(QXlsx::Document& doc, int row, int& col, const QVector<T>& vec, int maxSize);

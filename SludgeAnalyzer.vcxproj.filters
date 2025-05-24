@@ -85,6 +85,15 @@
     <ClCompile Include="TableModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="chartview.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="qplotwindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="qplotter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SampleData.h">
@@ -135,6 +144,12 @@
     <ClInclude Include="treeitem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="chartview.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="qplotter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="treemodel.h">
@@ -146,5 +161,13 @@
     <QtMoc Include="TableModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="qplotwindow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="qplotwindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
 </Project>

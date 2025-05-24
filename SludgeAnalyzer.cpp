@@ -19,11 +19,14 @@
 #include <QVBoxLayout>
 #include <QFileDialog>
 #include "xlsxdocument.h"
+#include "qplotwindow.h"
 
 SludgeAnalyzer::SludgeAnalyzer(QWidget* parent)
     : QMainWindow(parent)
 {
     // ui.setupUi(this); // skip if you're not using the .ui layout
+
+    resource_directory = qApp->applicationDirPath() + "/../../resources";
 
     QString filePath = QFileDialog::getOpenFileName(
         nullptr,
@@ -49,6 +52,7 @@ SludgeAnalyzer::SludgeAnalyzer(QWidget* parent)
 
     tableview = new QTableView(this);
     tableview->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    treeview->setContextMenuPolicy(Qt::CustomContextMenu);
 
     QPushButton* exportButton = new QPushButton("Export to Excel", this);
 
@@ -66,6 +70,7 @@ SludgeAnalyzer::SludgeAnalyzer(QWidget* parent)
     setCentralWidget(centralWidget);
 
     connect(treeview, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(onItemDoubleClicked(QModelIndex)));
+    connect(treeview, &QWidget::customContextMenuRequested, this, &SludgeAnalyzer::onTreeContextMenuRequested);
     connect(exportButton, &QPushButton::clicked, this, &SludgeAnalyzer::onExportClicked);
 }
 
@@ -104,4 +109,91 @@ void SludgeAnalyzer::onItemDoubleClicked(QModelIndex index)
     TableModel* tableModel = new TableModel(sampledata);
     tableview->setModel(tableModel);
     
+}
+
+void SludgeAnalyzer::onTreeContextMenuRequested(const QPoint& pos)
+{
+    QModelIndex index = treeview->indexAt(pos);
+    if (!index.isValid())
+        return;
+
+    QString itemText = model->data(index, Qt::DisplayRole).toString();
+    qDebug() << "Right-clicked item:" << itemText;
+    
+    QDate date = QDate::fromString(itemText, "yyyy-MM-dd");
+    qDebug() << date; 
+    if (data->count(date) != 0)
+    {
+        QMenu contextMenu(this);
+        QAction* exportAction = contextMenu.addAction("Export Sample");
+        QAction* viewAction = contextMenu.addAction("View Sample");
+        QAction* TSvsPolymerDose = contextMenu.addAction("Plot TS vs Polymer Dose");
+        QAction* CSTSludgevsPolymerDose = contextMenu.addAction("Plot CST Sludge vs. Polymer Dose");
+        QAction* TSSvsPolymerDose = contextMenu.addAction("Plot TSS vs. Polymer Dose");
+
+        QAction* selectedAction = contextMenu.exec(treeview->viewport()->mapToGlobal(pos));
+
+        if (selectedAction == TSvsPolymerDose) {
+            QPlotWindow* plotter = new QPlotWindow(this);
+            CTimeSeriesSet<double> plotitemset;
+            CTimeSeries<double> plotitem;
+            QVector<double> xvalues = data->value(date).ExtractVariable("Polymer_Dose");
+            QVector<double> yvalues = data->value(date).ExtractVariable("TS_Avg");
+            for (int i = 0; i < min(xvalues.size(), yvalues.size()); i++)
+            {
+				if (xvalues[i] != 0) // Skip zero values
+                    plotitem.append(xvalues[i], yvalues[i]);
+            }
+            plotitemset.append(plotitem, "TS");
+            plotter->PlotData(plotitemset, false);
+            plotter->show();
+
+        }
+
+        if (selectedAction == CSTSludgevsPolymerDose) {
+            QPlotWindow* plotter = new QPlotWindow(this);
+            CTimeSeriesSet<double> plotitemset;
+            CTimeSeries<double> plotitem;
+            QVector<double> xvalues = data->value(date).ExtractVariable("Polymer_Dose");
+            QVector<double> yvalues = data->value(date).ExtractVariable("CST_Sludge_Avg");
+            for (int i = 0; i < min(xvalues.size(), yvalues.size()); i++)
+            {
+                if (xvalues[i] != 0) // Skip zero values
+                    plotitem.append(xvalues[i], yvalues[i]);
+            }
+            plotitemset.append(plotitem, "CST Sludge");
+            plotter->PlotData(plotitemset, false);
+            plotter->show();
+
+        }
+
+        if (selectedAction == TSSvsPolymerDose) {
+            QPlotWindow* plotter = new QPlotWindow(this);
+            CTimeSeriesSet<double> plotitemset;
+            CTimeSeries<double> plotitem;
+            QVector<double> xvalues = data->value(date).ExtractVariable("Polymer_Dose");
+            QVector<double> yvalues = data->value(date).ExtractVariable("TSS_Avg");
+            for (int i = 0; i < min(xvalues.size(), yvalues.size()); i++)
+            {
+                if (xvalues[i] != 0) // Skip zero values
+                    plotitem.append(xvalues[i], yvalues[i]);
+            }
+			plotitemset.append(plotitem, "TSS");
+            plotter->PlotData(plotitemset, false);
+            plotter->show();
+
+        }
+
+        if (selectedAction == exportAction) {
+            qDebug() << "Export triggered for" << itemText;
+            // Handle export logic here
+        }
+
+
+        else if (selectedAction == viewAction) {
+            qDebug() << "View triggered for" << itemText;
+            // You could call onItemDoubleClicked(index) or custom view logic
+            onItemDoubleClicked(index);
+        }
+    }
 }

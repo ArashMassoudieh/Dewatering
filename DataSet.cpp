@@ -102,13 +102,7 @@ bool DataSet::ReadSheet(QXlsx::Document *xlsdoc, const QString &sheetname)
                 datapoint.After_103_filtrate.append(xlsdoc->read(50 + i, 6 + j).toDouble());
             }
         }
-        /*for (int j = 0; j < 2; j++)
-        {
-            if (xlsdoc->read(76 + i, 6 + j).isValid())
-            {
-                datapoint.After_103_filtrate.append(xlsdoc->read(51 + i, 6 + j).toDouble());
-            }
-        }*/
+       
         for (int j = 0; j < 2; j++)
         {
             if (xlsdoc->read(50 + i, 12 + j).isValid())
@@ -117,13 +111,7 @@ bool DataSet::ReadSheet(QXlsx::Document *xlsdoc, const QString &sheetname)
           
             }
         }
-       /* for (int j = 0; j < 2; j++)
-        {
-            if (xlsdoc->read(76 + i, 12 + j).isValid())
-            {
-                datapoint.After_550_filtrate.append(xlsdoc->read(76 + i, 12 + j).toDouble());
-            }
-        }*/
+       
         //Foil Tray (cake)
         for (int j = 0; j < 2; j++)
         {
@@ -132,13 +120,7 @@ bool DataSet::ReadSheet(QXlsx::Document *xlsdoc, const QString &sheetname)
                 datapoint.Foil_Tray.append(xlsdoc->read(61 + i, 2 + j).toDouble());
             }
         }
-        /*for (int j = 0; j < 2; j++)
-        {
-            if (xlsdoc->read(85 + i, 2 + j).isValid())
-            {
-                datapoint.Foil_Tray.append(xlsdoc->read(85 + i, 2 + j).toDouble());
-            }
-        }*/
+        
         for (int j = 0; j < 2; j++)
         {
             if (xlsdoc->read(61 + i, 6 + j).isValid())
@@ -146,13 +128,7 @@ bool DataSet::ReadSheet(QXlsx::Document *xlsdoc, const QString &sheetname)
                 datapoint.After_103_cake.append(xlsdoc->read(61 + i, 6 + j).toDouble());
             }
         }
-        /*for (int j = 0; j < 2; j++)
-        {
-            if (xlsdoc->read(85 + i, 6 + j).isValid())
-            {
-                datapoint.After_103_cake.append(xlsdoc->read(85 + i, 6 + j).toDouble());
-            }
-        }*/
+       
         for (int j = 0; j < 2; j++)
         {
             if (xlsdoc->read(61 + i, 11 + j).isValid())
@@ -246,156 +222,113 @@ int DataSet::LookupSampleNumber(const QString& sample_number)
     return -1; 
 }
 
-QString DataSet::CreateAndFillSheet(QXlsx::Document& doc, const QString& sheetName) const
-{
+void writeHeaders(QXlsx::Document& doc, int& col, const QVector<QString>& headers) {
+    for (const QString& header : headers)
+        doc.write(1, col++, header);
+}
+
+// Helper to write indexed headers like "CST Sludge #1"
+void writeIndexedHeaders(QXlsx::Document& doc, int& col, const QString& base, int count) {
+    for (int i = 0; i < count; ++i)
+        doc.write(1, col++, base + " #" + QString::number(i + 1));
+}
+
+// Helper to write vector data
+template <typename T>
+void writeVector(QXlsx::Document& doc, int row, int& col, const QVector<T>& vec, int maxSize) {
+    for (int i = 0; i < maxSize; ++i)
+        doc.write(row, col++, i < vec.size() ? QVariant(vec[i]) : QVariant());
+}
+
+QString DataSet::CreateAndFillSheet(QXlsx::Document& doc, const QString& sheetName) const {
     doc.addSheet(sheetName);
     doc.selectSheet(sheetName);
 
+    int col = 1;
+    writeHeaders(doc, col, {
+        "Sample Number", "Polymer Dose", "Actual Belt Filter Press before PD TS", "Sludge Weight",
+        "Calculated Polymer Added", "Polymer Before", "Polymer After", "Actual Polymer Added",
+        "Actual Polymer Added (lb/ton)", "Sieve Weight", "Bucket Weight",
+        "Sieve + Wet Solids Weight", "Bucket + Filtrate", "Capture Efficiency",
+        "Filtered Solids", "Filtrate", "Estimated TS% of Wet Solids", "Target WS in Cup"
+        });
 
+    writeIndexedHeaders(doc, col, "CST Sludge", MaxSize("CST_Sludge"));
+    doc.write(1, col++, "CST Sludge (Avg)");
+    writeIndexedHeaders(doc, col, "CST Supernatant", MaxSize("CST_Supernatant"));
+    doc.write(1, col++, "CST Supernatant (Avg)");
+    writeIndexedHeaders(doc, col, "Foil Tray + Filter Weight", MaxSize("FoilTray_plus_Filter_Weight"));
+    writeIndexedHeaders(doc, col, "Sample Volume", MaxSize("SampleVolume"));
+    writeIndexedHeaders(doc, col, "After 103 filtrate", MaxSize("After_103_filtrate"));
+    doc.write(1, col++, "Dilution Factor");
+    writeIndexedHeaders(doc, col, "TSS", MaxSize("TSS"));
+    doc.write(1, col++, "TSS (Avg)");
+    writeIndexedHeaders(doc, col, "After 550 filtrate", MaxSize("After_550_filtrate"));
+    writeIndexedHeaders(doc, col, "VSS", MaxSize("VSS"));
+    doc.write(1, col++, "VSS (Avg)");
+    writeIndexedHeaders(doc, col, "Foil Tray", MaxSize("Foil_Tray"));
+    writeIndexedHeaders(doc, col, "Tray plus Sample", MaxSize("Tray_plus_Sample"));
+    writeIndexedHeaders(doc, col, "After 103 cake", MaxSize("After_103_cake"));
+    writeIndexedHeaders(doc, col, "TS", MaxSize("TS"));
+    doc.write(1, col++, "TS (Avg)");
+    writeIndexedHeaders(doc, col, "After 550 cake", MaxSize("After_550_cake"));
+    writeIndexedHeaders(doc, col, "VS", MaxSize("VS"));
+    doc.write(1, col++, "VS (Avg)");
+    doc.write(1, col++, "Tolerance");
+    doc.write(1, col++, "Tolerance2");
 
-	int column_counter = 1;
+    int row = 2;
+    for (const SampleData& sample : *this) {
+        int col = 1;
+        doc.write(row, col++, sample.Sample_Number);
+        doc.write(row, col++, sample.Polymer_Dose);
+        doc.write(row, col++, sample.Actual_Belt_Filter_Press_before_PD_TS());
+        doc.write(row, col++, sample.Sludge_Weight);
+        doc.write(row, col++, sample.Calculated_Polymer_Added());
+        doc.write(row, col++, sample.Polymer_Before);
+        doc.write(row, col++, sample.Polymer_After);
+        doc.write(row, col++, sample.Actual_Polymer_Added());
+        doc.write(row, col++, sample.Actual_Polymer_Added_lb_per_Ton());
+        doc.write(row, col++, sample.Sieve_Weight);
+        doc.write(row, col++, sample.Bucket_Weight);
+        doc.write(row, col++, sample.Sieve_plus_Wet_Solids_Weight);
+        doc.write(row, col++, sample.Bucket_Filtrate);
+        doc.write(row, col++, sample.Capture_Efficiency);
+        doc.write(row, col++, sample.Filtered_Solids());
+        doc.write(row, col++, sample.Filtrate());
+        doc.write(row, col++, sample.Estimated_TSp_of_Wet_Solids_on_frabic());
+        doc.write(row, col++, sample.TargetWSinCup());
 
-    // Writing headings
-	doc.write(1, column_counter, "Sample Number"); column_counter++;
-	doc.write(1, column_counter, "Polymer Dose"); column_counter++;
-	doc.write(1, column_counter, "Sludge Weight"); column_counter++;
-	doc.write(1, column_counter, "Polymer Before"); column_counter++;
-	doc.write(1, column_counter, "Polymer After"); column_counter++;
-	doc.write(1, column_counter, "Sieve Weight"); column_counter++;
-	doc.write(1, column_counter, "Bucket Weight"); column_counter++;
-	doc.write(1, column_counter, "Sieve + Wet Solids Weight"); column_counter++;
-	doc.write(1, column_counter, "Bucket Filtrate"); column_counter++;
-    doc.write(1, column_counter, "Capture Efficiency"); column_counter++;
-	doc.write(1, column_counter, "Dilution Factor");    column_counter++;
-	doc.write(1, column_counter, "Tolerance"); column_counter++;
-	doc.write(1, column_counter, "Tolerance2"); column_counter++;
-    
-    
-     
-    // For vector variables do this: 
-    for (int i = 0; i < MaxSize("After_103_cake"); i++)
-    {
-        doc.write(1, column_counter, "After 103 cake #" + QString::number(i + 1)); column_counter++;
-    }
-    
-    for (int i = 0; i < MaxSize("After_103_filtrate"); i++)
-    {
-        doc.write(1, column_counter, "After 103 filtrate #" + QString::number(i + 1)); column_counter++;
-    }
-    for (int i = 0; i < MaxSize("After_550_filtrate"); i++)
-    {
-        doc.write(1, column_counter, "After 550 filtrate #" + QString::number(i + 1)); column_counter++;
-    }
-    for (int i = 0; i < MaxSize("After_550_cake"); i++)
-    {
-        doc.write(1, column_counter, "After 550 cake #" + QString::number(i + 1)); column_counter++;
-    }
-    for (int i = 0; i < MaxSize("CST_Sludge"); i++)
-    {
-        doc.write(1, column_counter, "CST Sludge #" + QString::number(i+1)); column_counter++;
-    }
-    for (int i = 0; i < MaxSize("CST_Supernatant"); i++)
-    {
-        doc.write(1, column_counter, "CST_Supernatant #" + QString::number(i + 1)); column_counter++;
-    }
+        writeVector(doc, row, col, sample.CST_Sludge, MaxSize("CST_Sludge"));
+        doc.write(row, col++, sample.CST_Sludge_Avg());
+        writeVector(doc, row, col, sample.CST_Supernatant, MaxSize("CST_Supernatant"));
+        doc.write(row, col++, sample.CST_Supernatant_Avg());
+        writeVector(doc, row, col, sample.FoilTray_plus_Filter_Weight, MaxSize("FoilTray_plus_Filter_Weight"));
+        writeVector(doc, row, col, sample.SampleVolume, MaxSize("SampleVolume"));
+        writeVector(doc, row, col, sample.After_103_filtrate, MaxSize("After_103_filtrate"));
+        doc.write(row, col++, sample.Dilution_Factor);
+        writeVector(doc, row, col, sample.TSS(), MaxSize("TSS"));
+        doc.write(row, col++, sample.TSS_Avg());
+        writeVector(doc, row, col, sample.After_550_filtrate, MaxSize("After_550_filtrate"));
+        writeVector(doc, row, col, sample.VSS(), MaxSize("VSS"));
+        doc.write(row, col++, sample.VSS_Avg());
+        writeVector(doc, row, col, sample.Foil_Tray, MaxSize("Foil_Tray"));
+        writeVector(doc, row, col, sample.Tray_plus_Sample, MaxSize("Tray_plus_Sample"));
+        writeVector(doc, row, col, sample.After_103_cake, MaxSize("After_103_cake"));
+        writeVector(doc, row, col, sample.TS(), MaxSize("TS"));
+        doc.write(row, col++, sample.TS_Avg());
+        writeVector(doc, row, col, sample.After_550_cake, MaxSize("After_550_cake"));
+        writeVector(doc, row, col, sample.VS(), MaxSize("VS"));
+        doc.write(row, col++, sample.VS_Avg());
+        doc.write(row, col++, sample.Tolerance);
+        doc.write(row, col++, sample.Tolerance2);
 
-    // For functions that return an array do this: 
-    for (int i = 0; i < MaxSize("TSS"); i++)
-    {
-        doc.write(1, column_counter, "TSS #" + QString::number(i + 1)); column_counter++;
+        ++row;
     }
-    for (int i = 0; i < MaxSize("VSS"); i++)
-    {
-        doc.write(1, column_counter, "VSS #" + QString::number(i + 1)); column_counter++;
-    }
-    
-
-    // For functions that return a single scalar do this: 
-    doc.write(1, column_counter, "TS"); column_counter++;
-    doc.write(1, column_counter, "VS"); column_counter++;
-    doc.write(1, column_counter, "Filtered Solids"); column_counter++;
-    doc.write(1, column_counter, "Filtrate"); column_counter++;
-    doc.write(1, column_counter, "Actual Belt Filter Press before PD TS"); column_counter++;
-
-    unsigned int row = 2;
-    for (const SampleData& sample : *this)
-	{
-        int column_counter = 1; 
-        doc.write(row, column_counter, sample.Sample_Number); column_counter++;
-		doc.write(row, column_counter, sample.Polymer_Dose); column_counter++;
-		doc.write(row, column_counter, sample.Sludge_Weight); column_counter++;
-		doc.write(row, column_counter, sample.Polymer_Before); column_counter++;
-		doc.write(row, column_counter, sample.Polymer_After); column_counter++;
-		doc.write(row, column_counter, sample.Sieve_Weight); column_counter++;
-		doc.write(row, column_counter, sample.Bucket_Weight); column_counter++;
-		doc.write(row, column_counter, sample.Sieve_plus_Wet_Solids_Weight); column_counter++;
-		doc.write(row, column_counter, sample.Bucket_Filtrate); column_counter++;
-		doc.write(row, column_counter, sample.Capture_Efficiency); column_counter++;
-		doc.write(row, column_counter, sample.Dilution_Factor); column_counter++;
-		doc.write(row, column_counter, sample.Tolerance); column_counter++;
-		doc.write(row, column_counter, sample.Tolerance2); column_counter++;
-       
-        //write the rest of variables entered by user
-        
-        // For vector variables do this: 
-		
-        for (int i = 0; i < MaxSize("After_103_cake"); i++)
-        {
-            if (i < sample.After_103_cake.size())
-                doc.write(row, column_counter, sample.After_103_cake[i]); column_counter++;
-        }
-        for (int i = 0; i < MaxSize("After_103_filtarte"); i++)
-        {
-            if (i < sample.After_103_filtrate.size())
-                doc.write(row, column_counter, sample.After_103_filtrate[i]); column_counter++;
-        }
-        for (int i = 0; i < MaxSize("After_550_filtarte"); i++)
-        {
-            if (i < sample.After_550_filtrate.size())
-                doc.write(row, column_counter, sample.After_550_filtrate[i]); column_counter++;
-        }
-        for (int i = 0; i < MaxSize("After_550_cake"); i++)
-        {
-            if (i < sample.After_550_cake.size())
-                doc.write(row, column_counter, sample.After_550_cake[i]); column_counter++;
-        }
-        for (int i = 0; i < MaxSize("CST_Sludge"); i++)
-		{
-			if (i < sample.CST_Sludge.size())
-                doc.write(row, column_counter, sample.CST_Sludge[i]); column_counter++;
-		}
-        for (int i = 0; i < MaxSize("CST_Supernatant"); i++)
-        {
-            if (i < sample.CST_Supernatant.size())
-                doc.write(row, column_counter, sample.CST_Supernatant[i]); column_counter++;
-        }
-        
-        // For functions which return arrays do this: 
-        for (int i = 0; i < MaxSize("TSS"); i++)
-        {
-            QVector<double> TSS = sample.TSS(); 
-            if (i < TSS.size())
-                doc.write(row, column_counter, TSS[i]); column_counter++;
-        }
-        for (int i = 0; i < MaxSize("VSS"); i++)
-        {
-            QVector<double> VSS = sample.VSS();
-            if (i < VSS.size())
-                doc.write(row, column_counter, VSS[i]); column_counter++;
-        }
-
-        // for functions that return a single scalar value do this
-        doc.write(row, column_counter, sample.TSS_Avg()); column_counter++;
-        doc.write(row, column_counter, sample.VSS_Avg()); column_counter++;
-        doc.write(row, column_counter, sample.Filtered_Solids()); column_counter++;
-        
-        doc.write(row, column_counter, sample.Filtrate()); column_counter++;
-        doc.write(row, column_counter, sample.Actual_Belt_Filter_Press_before_PD_TS()); column_counter++;
-        row++; 
-	}
 
     return sheetName;
 }
+
 
 unsigned int DataSet::MaxSize(const QString& variableName) const
 {
@@ -430,6 +363,10 @@ unsigned int DataSet::MaxSize(const QString& variableName) const
             size = data.TSS().size();
         else if (variableName == "VSS")
             size = data.VSS().size();
+        else if (variableName == "TS")
+            size = data.TS().size();
+        else if (variableName == "VS")
+            size = data.VS().size();
         else
             qWarning() << "Unknown variable name:" << variableName;
 
@@ -438,4 +375,45 @@ unsigned int DataSet::MaxSize(const QString& variableName) const
     }
 
     return maxSize;
+}
+
+QVector<double> DataSet::ExtractVariable(const QString& name) const {
+    QVector<double> result;
+    result.reserve(this->size());
+
+    for (const SampleData& sample : *this) {
+        if (name == "Sludge_Weight") result.append(sample.Sludge_Weight);
+        else if (name == "Polymer_Dose") result.append(sample.Polymer_Dose);
+        else if (name == "Polymer_Before") result.append(sample.Polymer_Before);
+        else if (name == "Polymer_After") result.append(sample.Polymer_After);
+        else if (name == "Sieve_Weight") result.append(sample.Sieve_Weight);
+        else if (name == "Bucket_Weight") result.append(sample.Bucket_Weight);
+        else if (name == "Sieve_plus_Wet_Solids_Weight") result.append(sample.Sieve_plus_Wet_Solids_Weight);
+        else if (name == "Bucket_Filtrate") result.append(sample.Bucket_Filtrate);
+        else if (name == "Capture_Efficiency") result.append(sample.Capture_Efficiency);
+        else if (name == "Dilution_Factor") result.append(sample.Dilution_Factor);
+        else if (name == "Tolerance") result.append(sample.Tolerance);
+        else if (name == "Tolerance2") result.append(sample.Tolerance2);
+
+        // Functions
+        else if (name == "Calculated_Polymer_Added") result.append(sample.Calculated_Polymer_Added());
+        else if (name == "Actual_Belt_Filter_Press_before_PD_TS") result.append(sample.Actual_Belt_Filter_Press_before_PD_TS());
+        else if (name == "Actual_Polymer_Added") result.append(sample.Actual_Polymer_Added());
+        else if (name == "Actual_Polymer_Added_lb_per_Ton") result.append(sample.Actual_Polymer_Added_lb_per_Ton());
+        else if (name == "TSS_Avg") result.append(sample.TSS_Avg());
+        else if (name == "VSS_Avg") result.append(sample.VSS_Avg());
+        else if (name == "TS_Avg") result.append(sample.TS_Avg());
+        else if (name == "VS_Avg") result.append(sample.VS_Avg());
+        else if (name == "Filtered_Solids") result.append(sample.Filtered_Solids());
+        else if (name == "Filtrate") result.append(sample.Filtrate());
+        else if (name == "Estimated_TSp_of_Wet_Solids_on_frabic") result.append(sample.Estimated_TSp_of_Wet_Solids_on_frabic());
+        else if (name == "TargetWSinCup") result.append(sample.TargetWSinCup());
+        else if (name == "CST_Sludge_Avg") result.append(sample.CST_Sludge_Avg());
+        else if (name == "CST_Supernatant_Avg") result.append(sample.CST_Supernatant_Avg());
+        else if (name == "Lab_Filtrate_TSS") result.append(sample.Lab_Filtrate_TSS());
+
+        else result.append(qQNaN());  // Unknown variable
+    }
+
+    return result;
 }

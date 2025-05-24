@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QMap>
+#include "BTC.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -14,8 +16,11 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
+	const QString resource_directory = "/resources/"; 
+    QMap<QString, CTimeSeries<double>*> graphsClipboard = QMap<QString, CTimeSeries<double>*>();
 private:
     Ui::MainWindow *ui;
+
+
 };
 #endif // MAINWINDOW_H
