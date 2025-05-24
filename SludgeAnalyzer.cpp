@@ -55,6 +55,7 @@ SludgeAnalyzer::SludgeAnalyzer(QWidget* parent)
     treeview->setContextMenuPolicy(Qt::CustomContextMenu);
 
     QPushButton* exportButton = new QPushButton("Export to Excel", this);
+    QPushButton* exporttoJsonButton = new QPushButton("Export to Json", this);
 
     // Set up layouts
     QHBoxLayout* hLayout = new QHBoxLayout();
@@ -63,8 +64,11 @@ SludgeAnalyzer::SludgeAnalyzer(QWidget* parent)
 
     QVBoxLayout* vLayout = new QVBoxLayout();
     vLayout->addLayout(hLayout);
-    vLayout->addWidget(exportButton);
-
+    QHBoxLayout* bLayout = new QHBoxLayout();
+    
+    bLayout->addWidget(exportButton);
+    bLayout->addWidget(exporttoJsonButton);
+    vLayout->addLayout(bLayout);
     QWidget* centralWidget = new QWidget(this);
     centralWidget->setLayout(vLayout);
     setCentralWidget(centralWidget);
@@ -72,6 +76,7 @@ SludgeAnalyzer::SludgeAnalyzer(QWidget* parent)
     connect(treeview, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(onItemDoubleClicked(QModelIndex)));
     connect(treeview, &QWidget::customContextMenuRequested, this, &SludgeAnalyzer::onTreeContextMenuRequested);
     connect(exportButton, &QPushButton::clicked, this, &SludgeAnalyzer::onExportClicked);
+    connect(exporttoJsonButton, &QPushButton::clicked, this, &SludgeAnalyzer::onExporttoJsonClicked);
 }
 
 SludgeAnalyzer::~SludgeAnalyzer()
@@ -94,6 +99,23 @@ void SludgeAnalyzer::onExportClicked()
 	else {
 		qDebug() << "No file selected for export.";
 	}
+}
+
+void SludgeAnalyzer::onExporttoJsonClicked()
+{
+    QString filePath = QFileDialog::getSaveFileName(
+        nullptr,
+        "Save File",
+        QDir::homePath(),
+        "Json Files (*.json);;All Files (*)"
+    );
+    if (!filePath.isEmpty()) {
+        qDebug() << "Exporting to:" << filePath;
+        data->SavetoJsonDocument(filePath);
+    }
+    else {
+        qDebug() << "No file selected for export.";
+    }
 }
 
 void SludgeAnalyzer::onItemDoubleClicked(QModelIndex index)

@@ -28,6 +28,7 @@ private:
 public slots:
     void onItemDoubleClicked(QModelIndex index);
     void onExportClicked();
+    void onExporttoJsonClicked();
     void onTreeContextMenuRequested(const QPoint& pos);
 
 };
