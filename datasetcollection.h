@@ -3,14 +3,25 @@
 
 #include "DataSet.h"
 
+struct parameters
+{
+    double CST_threshold; 
+	double TSS_gradient_threshold;
+
+};
 
 class DataSetCollection : public QMap<QDate,DataSet>
 {
 public:
     DataSetCollection():QMap<QDate,DataSet>(){}
-    DataSetCollection(const DataSetCollection &RHS):QMap<QDate,DataSet>(RHS){}
+    DataSetCollection(const DataSetCollection &RHS):QMap<QDate,DataSet>(RHS){
+		CalculationParameters = RHS.CalculationParameters;
+
+    }
     DataSetCollection& operator=(const DataSetCollection &RHS)
     {
+		if (this == &RHS) return *this; // self-assignment check
+		CalculationParameters = RHS.CalculationParameters;
         QMap<QDate,DataSet>::operator=(RHS);
         return *this;
     }
@@ -22,9 +33,15 @@ public:
 
     QJsonObject toJson() const;
     bool SavetoJsonDocument(const QString &fileName) const;
-
+    void SetCSTThreshold(double threshold) { CalculationParameters.CST_threshold = threshold; }
+	void SetTSSGradientThreshold(double threshold) { CalculationParameters.TSS_gradient_threshold = threshold; }
     bool ExportToExcel(const QString& filePath) const;
-
+	double GetCSTThreshold() const { return CalculationParameters.CST_threshold; }
+	double GetTSSGradientThreshold() const { return CalculationParameters.TSS_gradient_threshold; }
+	
+private:
+	parameters CalculationParameters;
+	
 
 
 };

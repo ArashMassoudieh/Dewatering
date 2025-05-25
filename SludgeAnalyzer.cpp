@@ -29,23 +29,28 @@ SludgeAnalyzer::SludgeAnalyzer(QWidget* parent)
 
     resource_directory = qApp->applicationDirPath() + "/../../resources";
 
-    QString filePath = QFileDialog::getOpenFileName(
-        nullptr,
-        "Open File",
-        QDir::homePath(),
-        "Text Files (*.xlsx);;All Files (*)"
-    );
+    
 
-    data = new DataSetCollection();
-    if (!filePath.isEmpty() && data->OpenExcel(filePath)) {
-        qDebug() << "Selected file:" << filePath;
-        data->SavetoJsonDocument("AllData.json");
-    }
-    else {
-        qDebug() << "Failed to open Excel file.";
-        return;
-    }
+    
+}
 
+void SludgeAnalyzer::SetThreshold(double CST_threshold, double TSS_gradient_threshold)
+{
+    if (data)
+    {
+        data->SetCSTThreshold(CST_threshold);
+        data->SetTSSGradientThreshold(TSS_gradient_threshold);
+    }
+}
+
+SludgeAnalyzer::~SludgeAnalyzer()
+{
+
+}
+
+bool SludgeAnalyzer::SetData(DataSetCollection* _data)
+{
+	this->data = _data;
     model = new TreeModel(data);
     treeview = new TreeView(this);
     treeview->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
@@ -66,7 +71,7 @@ SludgeAnalyzer::SludgeAnalyzer(QWidget* parent)
     QVBoxLayout* vLayout = new QVBoxLayout();
     vLayout->addLayout(hLayout);
     QHBoxLayout* bLayout = new QHBoxLayout();
-    
+
     bLayout->addWidget(exportButton);
     bLayout->addWidget(exporttoJsonButton);
     vLayout->addLayout(bLayout);
@@ -78,11 +83,7 @@ SludgeAnalyzer::SludgeAnalyzer(QWidget* parent)
     connect(treeview, &QWidget::customContextMenuRequested, this, &SludgeAnalyzer::onTreeContextMenuRequested);
     connect(exportButton, &QPushButton::clicked, this, &SludgeAnalyzer::onExportClicked);
     connect(exporttoJsonButton, &QPushButton::clicked, this, &SludgeAnalyzer::onExporttoJsonClicked);
-}
-
-SludgeAnalyzer::~SludgeAnalyzer()
-{
-
+    return true;
 }
 
 void SludgeAnalyzer::onExportClicked()
@@ -200,6 +201,22 @@ void SludgeAnalyzer::onTreeContextMenuRequested(const QPoint& pos)
 
             plotitemset.append(Result.predicted, "Fit: CST Sludge");
             plotitemset.append(Result.derivative, "Fit: CST Sludge (derivative)");
+
+			
+            QPair<double, double> OPD_point = data->value(date).OPD();
+            CTimeSeries<double> plotitemOPD;
+            
+            plotitemOPD.append(plotitem.mint(), OPD_point.second);
+            plotitemOPD.append(plotitem.maxt(), OPD_point.second);
+            plotitemset.append(plotitemOPD, "OPD threshold");
+
+            
+            CTimeSeries<double> plotitemOPDvertical;
+            plotitemOPDvertical.append(OPD_point.first, plotitem.minC());
+            plotitemOPDvertical.append(OPD_point.first, plotitem.maxC());
+            
+            plotitemset.append(plotitemOPDvertical, "OPD");
+
             plotter->PlotData(plotitemset, false);
             plotter->show();
 

@@ -120,6 +120,7 @@
   <ItemGroup>
     <ClCompile Include="chartview.cpp" />
     <ClCompile Include="datasetcollection.cpp" />
+    <ClCompile Include="Parameters_dialog.cpp" />
     <ClCompile Include="qplotter.cpp" />
     <ClCompile Include="qplotwindow.cpp" />
     <ClCompile Include="TableModel.cpp" />
@@ -127,6 +128,7 @@
     <ClCompile Include="treemodel.cpp" />
     <ClCompile Include="treeview.cpp" />
     <QtRcc Include="SludgeAnalyzer.qrc" />
+    <QtUic Include="Parameters.ui" />
     <QtUic Include="qplotwindow.ui" />
     <QtUic Include="SludgeAnalyzer.ui" />
     <QtMoc Include="SludgeAnalyzer.h" />
@@ -160,6 +162,7 @@
     <ClInclude Include="ExpressionCalculator.h" />
     <ClInclude Include="fitfunction.h" />
     <QtMoc Include="qplotwindow.h" />
+    <QtMoc Include="Parameters_dialog.h" />
     <ClInclude Include="qplotter.h" />
     <ClInclude Include="SampleData.h" />
     <QtMoc Include="TableModel.h" />

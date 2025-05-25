@@ -19,7 +19,7 @@ bool DataSetCollection::OpenExcel(const QString &filename)
 
     for (int i=0; i<sheets.size(); i++)
     {
-        DataSet dataset;
+        DataSet dataset(this);
         dataset.ReadSheet(&xlsx,sheets[i]);
         qDebug() << sheets[i];
         QStringList MDY = sheets[i].split("_");

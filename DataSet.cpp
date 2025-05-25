@@ -1,4 +1,5 @@
 #include "DataSet.h"
+#include "DataSetCollection.h"
 
 bool DataSet::ReadSheet(QXlsx::Document *xlsdoc, const QString &sheetname)
 {
@@ -200,6 +201,8 @@ QJsonObject DataSet::toJson() const {
 	json["CupLoading"] = CupLoading();
     json["CupDiameter"] = CupDiameter;
     json["CupArea"] = CupArea(); 
+    json["OPD"] = OPD().second;
+	json["CST @ OPD"] = OPD().first;
 
     // Convert QVector<SampleData> to QJsonArray
     QJsonArray samplesArray;
@@ -377,6 +380,20 @@ unsigned int DataSet::MaxSize(const QString& variableName) const
     return maxSize;
 }
 
+QPair<double,double> DataSet::OPD() const
+{
+	QPair<double, double> result;
+    QVector<double> xvalues = ExtractVariable("Polymer_Dose");
+    QVector<double> yvalues = ExtractVariable("CST_Sludge_Avg");
+	return interpolateXforY(xvalues, yvalues, parent->GetCSTThreshold() );
+    
+}
+
+QPair<double, double> DataSet::ED() const
+{
+    return QPair<double, double>();
+}
+
 QVector<double> DataSet::ExtractVariable(const QString& name) const {
     QVector<double> result;
     result.reserve(this->size());
@@ -416,4 +433,43 @@ QVector<double> DataSet::ExtractVariable(const QString& name) const {
     }
 
     return result;
+}
+
+
+QPair<double, double> interpolateXforY(
+    const QVector<double>& xvalues,
+    const QVector<double>& yvalues,
+    double a)
+{
+    if (xvalues.size() != yvalues.size() || xvalues.size() < 2)
+        return qMakePair(std::numeric_limits<double>::quiet_NaN(), std::numeric_limits<double>::quiet_NaN());
+
+    // Compute target y-value
+    double ymin = *std::min_element(yvalues.begin(), yvalues.end());
+    double ymax = *std::max_element(yvalues.begin(), yvalues.end());
+    double y_target = (ymax-ymin)*a + ymin;
+
+    QPair<double, double> best_result = qMakePair(std::numeric_limits<double>::max(), std::numeric_limits<double>::quiet_NaN());
+
+    for (int i = 0; i < yvalues.size() - 1; ++i)
+    {
+        double y1 = yvalues[i];
+        double y2 = yvalues[i + 1];
+
+        if ((y_target <= y1 && y_target >= y2) || (y_target >= y1 && y_target <= y2))
+        {
+            double t = (y_target - y1) / (y2 - y1);
+            double x_interp = xvalues[i] + t * (xvalues[i + 1] - xvalues[i]);
+            double y_interp = y1 + t * (y2 - y1);
+
+            // Keep the one with the smallest x
+            if (x_interp < best_result.first)
+                best_result = qMakePair(x_interp, y_interp);
+        }
+    }
+
+    if (best_result.first == std::numeric_limits<double>::max())
+        return qMakePair(std::numeric_limits<double>::quiet_NaN(), std::numeric_limits<double>::quiet_NaN());
+
+    return best_result;
 }

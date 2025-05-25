@@ -94,6 +94,9 @@
     <ClCompile Include="qplotter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Parameters_dialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SampleData.h">
@@ -164,9 +167,15 @@
     <QtMoc Include="qplotwindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="Parameters_dialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="qplotwindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="Parameters.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

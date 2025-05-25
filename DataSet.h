@@ -5,6 +5,7 @@
 #include "SampleData.h"
 #include "xlsxdocument.h"
 
+class DataSetCollection; 
 
 class DataSet: public QVector<SampleData>
 {
@@ -26,13 +27,19 @@ public:
     };
     double CupDiameter; 
     double CupArea() const { return 3.1415 * pow(CupDiameter* 0.0254, 2) / 4.0; }
-
+    QPair<double,double> OPD() const;
+    QPair<double,double>  ED() const; 
     // Default Constructor
-    DataSet() : QVector<SampleData>(),
+    DataSet(DataSetCollection *_parent = nullptr) : QVector<SampleData>(),
         Poly_Ratio(0.0), Sludge_Flow(0.0), 
         SBT3_TS_percent_LAB_TSPCT_J04(0.0), DIG_SLDG_FLOW_FROM_SBT(0.0),
         DIL_WTR_FLOW_TO_BFP(0.0), BFPTS_percent(0.0), grtoton(0.0), grtolb(0.0), PolymerSolution(0.0), CupDiameter(0.0) {
+		parent = _parent; // Initialize the parent pointer
     }
+
+	void SetParent(DataSetCollection* _parent) {
+		parent = _parent; // Set the parent pointer
+	}
 
     // Copy Constructor
     DataSet(const DataSet& other) : QVector<SampleData>(other),
@@ -52,6 +59,7 @@ public:
 		    for (int i = 0; i < other.size(); i++) {
 			    SampleData sample = other.at(i);
 			    sample.setParent(this); // Set the parent for each SampleData
+				parent = other.parent; // Set the parent pointer
 		}
     
     }
@@ -74,6 +82,8 @@ public:
 			CupDiameter = other.CupDiameter; // Assign the new member variable
             for (SampleData& sample : *this) {
                 sample.setParent(this);
+
+                parent = other.parent; // Set the parent pointer
             }
 
         }
@@ -104,7 +114,8 @@ public:
     QString CreateAndFillSheet(QXlsx::Document& doc, const QString& sheetName) const;
 
     unsigned int MaxSize(const QString& variableName) const;
-
+private:
+	DataSetCollection* parent = nullptr; // Pointer to the parent DataCollectionSet
 
 };
 
@@ -113,3 +124,4 @@ void writeIndexedHeaders(QXlsx::Document& doc, int& col, const QString& base, in
 
 template <typename T>
 void writeVector(QXlsx::Document& doc, int row, int& col, const QVector<T>& vec, int maxSize);
+QPair<double, double> interpolateXforY(const QVector<double>& xvalues, const QVector<double>& yvalues, double a);

@@ -17,8 +17,11 @@ class SludgeAnalyzer : public QMainWindow
 public:
     SludgeAnalyzer(QWidget *parent = nullptr);
     ~SludgeAnalyzer();
+	bool SetData(DataSetCollection* data);
     QString resource_directory;
     QMap<QString, CTimeSeries<double>*> graphsClipboard = QMap<QString, CTimeSeries<double>*>();
+    void SetThreshold(double CST_threshold, double TSS_gradient_threshold);
+	
 private:
     Ui::SludgeAnalyzerClass ui;
     TreeModel* model = nullptr;
