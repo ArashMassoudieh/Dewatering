@@ -2,6 +2,7 @@
 #include <QJsonDocument>
 #include <QFile>
 #include <QIODevice>
+#include <BTC.h>
 
 bool DataSetCollection::OpenExcel(const QString &filename)
 {
@@ -27,8 +28,8 @@ bool DataSetCollection::OpenExcel(const QString &filename)
         int day = MDY[1].toInt();
         int year = MDY[2].toInt(); 
         QDate date = QDate(year, month, day);
-        
-        operator[](date) = dataset;
+        if (date.isValid())
+            operator[](date) = dataset;
 
     }
 
@@ -74,4 +75,32 @@ bool  DataSetCollection::ExportToExcel(const QString& filePath) const
     }
     return xlsx.saveAs(filePath);
     
+}
+
+CTimeSeries<double> DataSetCollection::GetOPDTimeSeries() const {
+    CTimeSeries<double> ts;
+    for (auto it = this->constBegin(); it != this->constEnd(); ++it) {
+        QDate date = it.key();
+        const DataSet& dataset = it.value();
+        QPair<double, double> opd = dataset.OPD();
+        ts.append(toExcelDate(date), opd.first);
+    }
+    return ts;
+}
+
+double toExcelDate(const QDate& date)
+{
+    // Excel epoch starts at 1899-12-31
+    static const QDate excelEpoch(1899, 12, 31);
+
+    if (!date.isValid() || date < excelEpoch)
+        return std::numeric_limits<double>::quiet_NaN();  // invalid date
+
+    int days = excelEpoch.daysTo(date);
+
+    // Adjust for Excel leap year bug (dates >= 1900-03-01)
+    if (date > QDate(1900, 2, 28))
+        days += 1;
+
+    return static_cast<double>(days);
 }

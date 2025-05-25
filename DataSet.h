@@ -5,6 +5,17 @@
 #include "SampleData.h"
 #include "xlsxdocument.h"
 
+enum RowNumbers
+{
+    
+    CalculationStart = 33,
+    CSTStart = 42,
+    TSSVSSStart = 51,
+    TSVSStart = 42,
+    FinalCalculationStart = 72
+
+};
+
 class DataSetCollection; 
 
 class DataSet: public QVector<SampleData>
@@ -64,7 +75,7 @@ public:
     
     }
 
-    // Assignment Operator
+	// Assignment Operator
     DataSet& operator=(const DataSet& other) {
         if (this != &other) {
             QVector<SampleData>::operator=(other);

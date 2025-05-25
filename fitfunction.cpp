@@ -216,12 +216,7 @@ result FitFunction::Solve() const
     res.predicted = best_prediction;
 	res.derivative = GetPredictedDerivative(best_params, 50);
     
-    if (functionform == FunctionForm::exponentialcummulative)
-        res.inversederivative = best_params[2] - 1.0 / best_params[1];
-    else if (functionform == FunctionForm::expontialdeclining)
-        res.inversederivative = best_params[2] - 1.0 / best_params[1];
-    else
-        res.inversederivative = 0;
+    res.inversederivative = 0;
 
     return res;
 }

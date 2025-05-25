@@ -22,7 +22,17 @@ public:
     FitFunction();
     double Function(const double &x, const CVector_arma &parameters) const;
     CVector_arma SolveLevenBerg_Marquardt(const CVector_arma &parameters) const;
-    void SetObservedData(const CTimeSeries<double> &obsdata) {observed_data = obsdata;}
+    void SetObservedData(const CTimeSeries<double> &obsdata) {
+
+		for (int i = 0; i < obsdata.n; i++)
+		{
+			if (!std::isnan(obsdata.GetC(i)) && !std::isnan(obsdata.GetT(i)))
+			{
+				observed_data.append(obsdata.GetT(i), obsdata.GetC(i));
+			}
+		}
+    
+    }
     double InverseDerivatve(const double &x, const CVector_arma &parameters) const;
     double Derivatve(const double& x, const CVector_arma &parameters) const;
 	void SetFunctionForm(FunctionForm form) { functionform = form; }

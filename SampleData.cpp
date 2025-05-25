@@ -131,7 +131,7 @@ QVector<double> SampleData::TS() const
 
 QVector<double> SampleData::VS() const
 {
-    QVector<double> out(After_103_cake.size());
+    QVector<double> out(std::min(After_103_cake.size(),After_550_cake.size()));
     for (int i = 0; i < out.size(); i++)
     {
         out[i] = (After_103_cake[i] - After_550_cake[i]) / Tray_plus_Sample[i]*100 ;

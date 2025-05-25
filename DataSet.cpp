@@ -3,6 +3,8 @@
 
 bool DataSet::ReadSheet(QXlsx::Document *xlsdoc, const QString &sheetname)
 {
+    
+    
     xlsdoc->selectSheet(sheetname);
     Belt_No = xlsdoc->read("B8").toString();
     Sludge_Flow = xlsdoc->read("B10").toDouble();
@@ -17,50 +19,50 @@ bool DataSet::ReadSheet(QXlsx::Document *xlsdoc, const QString &sheetname)
     {
         SampleData datapoint;
         datapoint.setParent(this); 
-        int j = xlsdoc->read(33+i, 1).toInt();
-        datapoint.Sample_Number = xlsdoc->read(50+i,1).toString();
-        datapoint.Polymer_Dose = xlsdoc->read(33 + i, 2).toDouble();
-        datapoint.Sludge_Weight = xlsdoc->read(33 + i, 4).toDouble();
-        datapoint.Polymer_Before = xlsdoc->read(33 + i, 6).toDouble();
-        datapoint.Polymer_After = xlsdoc->read(33 + i, 7).toDouble();
-        datapoint.Sieve_Weight = xlsdoc->read(33 + i, 10).toDouble();
-        datapoint.Bucket_Weight = xlsdoc->read(33 + i, 11).toDouble();
-        datapoint.Sieve_plus_Wet_Solids_Weight = xlsdoc->read(33 + i, 12).toDouble();
-        datapoint.Bucket_Filtrate = xlsdoc->read(33 + i, 13).toDouble();
-        datapoint.Capture_Efficiency = xlsdoc->read(33 + i, 14).toDouble();
-        datapoint.Dilution_Factor = xlsdoc->read(33 + i, 15).toDouble();
-        datapoint.Tolerance = xlsdoc->read(33 + i, 16).toDouble();
-        datapoint.Tolerance2 = xlsdoc->read(33 + i, 17).toDouble();
+        int j = xlsdoc->read(RowNumbers::CalculationStart+i, 1).toInt();
+        datapoint.Sample_Number = xlsdoc->read(RowNumbers::TSSVSSStart+i,1).toString();
+        datapoint.Polymer_Dose = xlsdoc->read(RowNumbers::CalculationStart + i, 2).toDouble();
+        datapoint.Sludge_Weight = xlsdoc->read(RowNumbers::CalculationStart + i, 4).toDouble();
+        datapoint.Polymer_Before = xlsdoc->read(RowNumbers::CalculationStart + i, 6).toDouble();
+        datapoint.Polymer_After = xlsdoc->read(RowNumbers::CalculationStart + i, 7).toDouble();
+        datapoint.Sieve_Weight = xlsdoc->read(RowNumbers::CalculationStart + i, 10).toDouble();
+        datapoint.Bucket_Weight = xlsdoc->read(RowNumbers::CalculationStart + i, 11).toDouble();
+        datapoint.Sieve_plus_Wet_Solids_Weight = xlsdoc->read(RowNumbers::CalculationStart + i, 12).toDouble();
+        datapoint.Bucket_Filtrate = xlsdoc->read(RowNumbers::CalculationStart + i, 13).toDouble();
+        datapoint.Capture_Efficiency = xlsdoc->read(RowNumbers::CalculationStart + i, 14).toDouble();
+        datapoint.Dilution_Factor = xlsdoc->read(RowNumbers::CalculationStart + i, 15).toDouble();
+        datapoint.Tolerance = xlsdoc->read(RowNumbers::CalculationStart + i, 16).toDouble();
+        datapoint.Tolerance2 = xlsdoc->read(RowNumbers::CalculationStart + i, 17).toDouble();
               
         
         for (int j = 0; j < 5; j++)
         {
-            if (xlsdoc->read(41 + i, 4 + j).isValid())
+            if (xlsdoc->read(RowNumbers::CSTStart + i, 4 + j).isValid())
             {
-                datapoint.CST_Sludge.append(xlsdoc->read(41 + i, 4 + j).toDouble());
+                datapoint.CST_Sludge.append(xlsdoc->read(RowNumbers::CSTStart + i, 4 + j).toDouble());
             }
         }
         for (int j = 0; j < 5; j++)
         {
-            if (xlsdoc->read(41 + i, 9 + j).isValid())
+            if (xlsdoc->read(RowNumbers::CSTStart + i, 9 + j).isValid())
             {
-                datapoint.CST_Supernatant.append(xlsdoc->read(41 + i, 9 + j).toDouble());
+                datapoint.CST_Supernatant.append(xlsdoc->read(RowNumbers::CSTStart + i, 9 + j).toDouble());
             }
         }
 
         //Foil Tray + Filter Weight
         for (int j = 0; j < 2; j++)
         {
-            if (xlsdoc->read(50 + i, 2 + j).isValid())
+            if (xlsdoc->read(RowNumbers::TSSVSSStart + i, 2 + j).isValid())
             {
-                datapoint.FoilTray_plus_Filter_Weight.append(xlsdoc->read(50 + i, 2 + j).toDouble());
+                datapoint.FoilTray_plus_Filter_Weight.append(xlsdoc->read(RowNumbers::TSSVSSStart + i, 2 + j).toDouble());
             }
         }
         for (int j = 0; j < 2; j++)
         {
-            if (xlsdoc->read(50 + i, 4 + j).isValid())
+            if (xlsdoc->read(RowNumbers::TSSVSSStart + i, 4 + j).isValid())
             {
-                datapoint.SampleVolume.append(xlsdoc->read(50 + i, 4 + j).toDouble());
+                datapoint.SampleVolume.append(xlsdoc->read(RowNumbers::TSSVSSStart + i, 4 + j).toDouble());
             }
         }
 
@@ -75,9 +77,9 @@ bool DataSet::ReadSheet(QXlsx::Document *xlsdoc, const QString &sheetname)
 
         for (int j = 0; j < 2; j++)
         {
-            if (xlsdoc->read(61 + i, 4 + j).isValid())
+            if (xlsdoc->read(62 + i, 4 + j).isValid())
             {
-                datapoint.Tray_plus_Sample.append(xlsdoc->read(61 + i, 4 + j).toDouble());
+                datapoint.Tray_plus_Sample.append(xlsdoc->read(62 + i, 4 + j).toDouble());
             }
         }
        /* for (int j = 0; j < 2; j++)
@@ -98,17 +100,17 @@ bool DataSet::ReadSheet(QXlsx::Document *xlsdoc, const QString &sheetname)
         
         for (int j = 0; j < 2; j++)
         {
-            if (xlsdoc->read(50 + i, 6 + j).isValid())
+            if (xlsdoc->read(RowNumbers::TSSVSSStart + i, 6 + j).isValid())
             {
-                datapoint.After_103_filtrate.append(xlsdoc->read(50 + i, 6 + j).toDouble());
+                datapoint.After_103_filtrate.append(xlsdoc->read(RowNumbers::TSSVSSStart + i, 6 + j).toDouble());
             }
         }
        
         for (int j = 0; j < 2; j++)
         {
-            if (xlsdoc->read(50 + i, 12 + j).isValid())
+            if (xlsdoc->read(52 + i, 12 + j).isValid())
             {
-                datapoint.After_550_filtrate.append(xlsdoc->read(50 + i, 12 + j).toDouble());
+                datapoint.After_550_filtrate.append(xlsdoc->read(RowNumbers::TSSVSSStart + i, 12 + j).toDouble());
           
             }
         }
@@ -116,25 +118,25 @@ bool DataSet::ReadSheet(QXlsx::Document *xlsdoc, const QString &sheetname)
         //Foil Tray (cake)
         for (int j = 0; j < 2; j++)
         {
-            if (xlsdoc->read(61 + i, 2 + j).isValid())
+            if (xlsdoc->read(62 + i, 2 + j).isValid())
             {
-                datapoint.Foil_Tray.append(xlsdoc->read(61 + i, 2 + j).toDouble());
+                datapoint.Foil_Tray.append(xlsdoc->read(62 + i, 2 + j).toDouble());
             }
         }
         
         for (int j = 0; j < 2; j++)
         {
-            if (xlsdoc->read(61 + i, 6 + j).isValid())
+            if (xlsdoc->read(62 + i, 6 + j).isValid())
             {
-                datapoint.After_103_cake.append(xlsdoc->read(61 + i, 6 + j).toDouble());
+                datapoint.After_103_cake.append(xlsdoc->read(62 + i, 6 + j).toDouble());
             }
         }
        
         for (int j = 0; j < 2; j++)
         {
-            if (xlsdoc->read(61 + i, 11 + j).isValid())
+            if (xlsdoc->read(62 + i, 11 + j).isValid())
             {
-                datapoint.After_550_cake.append(xlsdoc->read(61 + i, 11 + j).toDouble());
+                datapoint.After_550_cake.append(xlsdoc->read(62 + i, 11 + j).toDouble());
             }
         }
         /*for (int j = 0; j < 2; j++)
@@ -145,18 +147,18 @@ bool DataSet::ReadSheet(QXlsx::Document *xlsdoc, const QString &sheetname)
             }
         }*/
 
-        if (xlsdoc->read(50 + i, 8).isValid())
+        if (xlsdoc->read(RowNumbers::TSSVSSStart + i, 8).isValid())
         {
             datapoint.Dilution_Factor = xlsdoc->read(50+i, 8).toDouble();
         }
 
-        if (xlsdoc->read(71 + i, 8).isValid())
+        if (xlsdoc->read(RowNumbers::FinalCalculationStart + i, 8).isValid())
         {
-            datapoint.Tolerance = xlsdoc->read(71 + i, 8).toDouble();
+            datapoint.Tolerance = xlsdoc->read(RowNumbers::FinalCalculationStart + i, 8).toDouble();
         }
-        if (xlsdoc->read(71 + i, 20).isValid())
+        if (xlsdoc->read(RowNumbers::FinalCalculationStart + i, 20).isValid())
         {
-            datapoint.Tolerance2 = xlsdoc->read(71 + i, 20).toDouble();
+            datapoint.Tolerance2 = xlsdoc->read(RowNumbers::FinalCalculationStart + i, 20).toDouble();
         }
 
         // continue with all data

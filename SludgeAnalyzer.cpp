@@ -62,6 +62,7 @@ bool SludgeAnalyzer::SetData(DataSetCollection* _data)
 
     QPushButton* exportButton = new QPushButton("Export to Excel", this);
     QPushButton* exporttoJsonButton = new QPushButton("Export to Json", this);
+    QPushButton* plotOPD = new QPushButton("Plot OPD", this);
 
     // Set up layouts
     QHBoxLayout* hLayout = new QHBoxLayout();
@@ -74,6 +75,7 @@ bool SludgeAnalyzer::SetData(DataSetCollection* _data)
 
     bLayout->addWidget(exportButton);
     bLayout->addWidget(exporttoJsonButton);
+	bLayout->addWidget(plotOPD);
     vLayout->addLayout(bLayout);
     QWidget* centralWidget = new QWidget(this);
     centralWidget->setLayout(vLayout);
@@ -83,6 +85,7 @@ bool SludgeAnalyzer::SetData(DataSetCollection* _data)
     connect(treeview, &QWidget::customContextMenuRequested, this, &SludgeAnalyzer::onTreeContextMenuRequested);
     connect(exportButton, &QPushButton::clicked, this, &SludgeAnalyzer::onExportClicked);
     connect(exporttoJsonButton, &QPushButton::clicked, this, &SludgeAnalyzer::onExporttoJsonClicked);
+    connect(plotOPD, &QPushButton::clicked, this, &SludgeAnalyzer::onPlotOPD);
     return true;
 }
 
@@ -118,6 +121,17 @@ void SludgeAnalyzer::onExporttoJsonClicked()
     else {
         qDebug() << "No file selected for export.";
     }
+}
+
+void SludgeAnalyzer::onPlotOPD()
+{
+	QPlotWindow* plotter = new QPlotWindow(this);
+    CTimeSeriesSet<double> plotitemset; 
+    CTimeSeries<double> timeseries = data->GetOPDTimeSeries();
+	plotitemset.append(timeseries, "OPD");
+	plotter->PlotData(plotitemset, true);
+	plotter->show();
+	
 }
 
 void SludgeAnalyzer::onItemDoubleClicked(QModelIndex index)

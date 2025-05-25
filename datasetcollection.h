@@ -2,6 +2,7 @@
 #define DATASETCOLLECTION_H
 
 #include "DataSet.h"
+#include "BTC.h"
 
 struct parameters
 {
@@ -38,6 +39,7 @@ public:
     bool ExportToExcel(const QString& filePath) const;
 	double GetCSTThreshold() const { return CalculationParameters.CST_threshold; }
 	double GetTSSGradientThreshold() const { return CalculationParameters.TSS_gradient_threshold; }
+    CTimeSeries<double> GetOPDTimeSeries() const;
 	
 private:
 	parameters CalculationParameters;
@@ -46,4 +48,5 @@ private:
 
 };
 
+double toExcelDate(const QDate& date);
 #endif // DATASETCOLLECTION_H
