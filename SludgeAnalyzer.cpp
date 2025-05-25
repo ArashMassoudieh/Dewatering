@@ -13,6 +13,7 @@
 #include "treeview.h"
 #include "TableModel.h"
 #include <QDate>
+#include "fitfunction.h"
 
 
 #include <QPushButton>
@@ -167,6 +168,14 @@ void SludgeAnalyzer::onTreeContextMenuRequested(const QPoint& pos)
                     plotitem.append(xvalues[i], yvalues[i]);
             }
             plotitemset.append(plotitem, "TS");
+            
+            FitFunction fitFunction;
+            fitFunction.SetObservedData(plotitem); 
+            fitFunction.SetFunctionForm(FunctionForm::expontialdeclining);
+            result Result = fitFunction.Solve();
+			            
+			plotitemset.append(Result.predicted, "Fit: TS vs Polymer Dose");
+            plotitemset.append(Result.derivative, "Fit: TS (derivative)");
             plotter->PlotData(plotitemset, false);
             plotter->show();
 
@@ -184,6 +193,13 @@ void SludgeAnalyzer::onTreeContextMenuRequested(const QPoint& pos)
                     plotitem.append(xvalues[i], yvalues[i]);
             }
             plotitemset.append(plotitem, "CST Sludge");
+            FitFunction fitFunction;
+			fitFunction.SetFunctionForm(FunctionForm::expontialdeclining);
+            fitFunction.SetObservedData(plotitem);
+            result Result = fitFunction.Solve();
+
+            plotitemset.append(Result.predicted, "Fit: CST Sludge");
+            plotitemset.append(Result.derivative, "Fit: CST Sludge (derivative)");
             plotter->PlotData(plotitemset, false);
             plotter->show();
 
@@ -201,6 +217,13 @@ void SludgeAnalyzer::onTreeContextMenuRequested(const QPoint& pos)
                     plotitem.append(xvalues[i], yvalues[i]);
             }
 			plotitemset.append(plotitem, "TSS");
+            FitFunction fitFunction;
+            fitFunction.SetObservedData(plotitem);
+            fitFunction.SetFunctionForm(FunctionForm::expontialdeclining);
+            result Result = fitFunction.Solve();
+
+            plotitemset.append(Result.predicted, "Fit: TSS");
+            plotitemset.append(Result.derivative, "Fit: TSS (derivative)");
             plotter->PlotData(plotitemset, false);
             plotter->show();
 
