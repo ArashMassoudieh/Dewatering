@@ -40,10 +40,11 @@ public:
 	double GetCSTThreshold() const { return CalculationParameters.CST_threshold; }
 	double GetTSSGradientThreshold() const { return CalculationParameters.TSS_gradient_threshold; }
     CTimeSeries<double> GetOPDTimeSeries() const;
-	
+    void SetErrorList(ErrorList* errorList) { errors = errorList; }
+    ErrorList* GetErrorList() const { return errors; }
 private:
 	parameters CalculationParameters;
-	
+	ErrorList* errors = nullptr; // Pointer to an ErrorList for error handling
 
 
 };

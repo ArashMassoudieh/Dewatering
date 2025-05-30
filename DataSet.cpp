@@ -19,6 +19,11 @@ bool DataSet::ReadSheet(QXlsx::Document *xlsdoc, const QString &sheetname)
     {
         SampleData datapoint;
         datapoint.setParent(this); 
+		if (errors)
+		{
+			datapoint.SetErrorList(errors); // Set the error list for each SampleData
+		}
+                
         int j = xlsdoc->read(RowNumbers::CalculationStart+i, 1).toInt();
         datapoint.Sample_Number = xlsdoc->read(RowNumbers::TSSVSSStart+i,1).toString();
         datapoint.Polymer_Dose = xlsdoc->read(RowNumbers::CalculationStart + i, 2).toDouble();
@@ -166,6 +171,7 @@ bool DataSet::ReadSheet(QXlsx::Document *xlsdoc, const QString &sheetname)
         // continue with all data
 
         Append(datapoint);
+		
     }
     
     // Testing functions

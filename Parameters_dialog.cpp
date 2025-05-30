@@ -3,6 +3,8 @@
 #include <QFileDialog>
 #include <QDir>
 #include <datasetcollection.h>
+#include "ErrorList.h"
+#include "ErrorListModel.h"
 
 Parameters_dialog::Parameters_dialog(QWidget* parent)
 {
@@ -34,9 +36,13 @@ void Parameters_dialog::OnFileRequested()
 
 	ui.pushButtonExcelFileName->setText(filePath);
     data = new DataSetCollection();
+    ErrorList* errors = new ErrorList();
+    data->SetErrorList(errors);
     if (!filePath.isEmpty() && data->OpenExcel(filePath)) {
         qDebug() << "Selected file:" << filePath;
         data->SavetoJsonDocument("AllData.json");
+        ErrorDialog dlg(errors);
+        dlg.exec();
     }
     else {
         qDebug() << "Failed to open Excel file.";

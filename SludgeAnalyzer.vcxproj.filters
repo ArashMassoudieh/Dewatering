@@ -97,6 +97,12 @@
     <ClCompile Include="Parameters_dialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ErrorList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ErrorListModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SampleData.h">
@@ -153,6 +159,9 @@
     <ClInclude Include="qplotter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ErrorList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="treemodel.h">
@@ -168,6 +177,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="Parameters_dialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="ErrorListModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

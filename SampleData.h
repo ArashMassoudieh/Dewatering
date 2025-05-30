@@ -6,6 +6,7 @@
 #include <QJsonObject>
 
 class DataSet;
+class ErrorList;
 
 class SampleData {
 public:
@@ -86,12 +87,14 @@ public:
     QVector<double> TS() const; 
     QVector<double> VS() const;
     
-
+	void SetErrorList(ErrorList* errorList) { errors = errorList; }
+	ErrorList* GetErrorList() const { return errors; }
     //Utility functions
     QJsonArray vectorToJsonArray(const QVector<double>& vec) const;
     QJsonObject toJson() const;
 private: 
     DataSet* parent = nullptr;
+	ErrorList* errors = nullptr; // Pointer to ErrorList for error handling
 
 };
 

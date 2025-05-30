@@ -21,6 +21,7 @@ bool DataSetCollection::OpenExcel(const QString &filename)
     for (int i=0; i<sheets.size(); i++)
     {
         DataSet dataset(this);
+		dataset.SetErrorList(errors); // Set the error list for each DataSet
         dataset.ReadSheet(&xlsx,sheets[i]);
         qDebug() << sheets[i];
         QStringList MDY = sheets[i].split("_");
@@ -28,8 +29,12 @@ bool DataSetCollection::OpenExcel(const QString &filename)
         int day = MDY[1].toInt();
         int year = MDY[2].toInt(); 
         QDate date = QDate(year, month, day);
+        dataset.Sampling_date = date;
         if (date.isValid())
+        {
             operator[](date) = dataset;
+            operator[](date).SetErrorList(errors);
+        }
 
     }
 

@@ -21,6 +21,7 @@
 #include <QFileDialog>
 #include "xlsxdocument.h"
 #include "qplotwindow.h"
+#include "ErrorList.h"
 
 SludgeAnalyzer::SludgeAnalyzer(QWidget* parent)
     : QMainWindow(parent)

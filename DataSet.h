@@ -5,6 +5,8 @@
 #include "SampleData.h"
 #include "xlsxdocument.h"
 
+class ErrorList;
+
 enum RowNumbers
 {
     
@@ -23,6 +25,7 @@ class DataSet: public QVector<SampleData>
 public:
     // Variables
     QTime Sampling_time;
+	QDate Sampling_date;
     QString Belt_No;
     double Poly_Ratio;
     double Sludge_Flow;
@@ -55,6 +58,7 @@ public:
     // Copy Constructor
     DataSet(const DataSet& other) : QVector<SampleData>(other),
         Sampling_time(other.Sampling_time),
+		Sampling_date(other.Sampling_date),
         Belt_No(other.Belt_No),
         Poly_Ratio(other.Poly_Ratio),
         Sludge_Flow(other.Sludge_Flow),
@@ -80,6 +84,7 @@ public:
         if (this != &other) {
             QVector<SampleData>::operator=(other);
             Sampling_time = other.Sampling_time;
+			Sampling_date = other.Sampling_date;
             Belt_No = other.Belt_No;
             Poly_Ratio = other.Poly_Ratio;
             Sludge_Flow = other.Sludge_Flow;
@@ -123,10 +128,12 @@ public:
     int LookupSampleNumber(const QString& sample_number);
 
     QString CreateAndFillSheet(QXlsx::Document& doc, const QString& sheetName) const;
-
+	void SetErrorList(ErrorList* errorList) { errors = errorList; }
+	ErrorList* GetErrorList() const { return errors; }
     unsigned int MaxSize(const QString& variableName) const;
 private:
 	DataSetCollection* parent = nullptr; // Pointer to the parent DataCollectionSet
+	ErrorList* errors = nullptr; // Pointer to ErrorList for error handling
 
 };
 

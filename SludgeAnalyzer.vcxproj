@@ -120,6 +120,8 @@
   <ItemGroup>
     <ClCompile Include="chartview.cpp" />
     <ClCompile Include="datasetcollection.cpp" />
+    <ClCompile Include="ErrorList.cpp" />
+    <ClCompile Include="ErrorListModel.cpp" />
     <ClCompile Include="Parameters_dialog.cpp" />
     <ClCompile Include="qplotter.cpp" />
     <ClCompile Include="qplotwindow.cpp" />
@@ -159,6 +161,8 @@
     <ClInclude Include="chartview.h" />
     <ClInclude Include="DataSet.h" />
     <ClInclude Include="datasetcollection.h" />
+    <ClInclude Include="ErrorList.h" />
+    <QtMoc Include="ErrorListModel.h" />
     <ClInclude Include="ExpressionCalculator.h" />
     <ClInclude Include="fitfunction.h" />
     <QtMoc Include="qplotwindow.h" />
