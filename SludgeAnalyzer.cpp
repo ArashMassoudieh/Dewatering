@@ -158,7 +158,7 @@ void SludgeAnalyzer::onTreeContextMenuRequested(const QPoint& pos)
     QString itemText = model->data(index, Qt::DisplayRole).toString();
     qDebug() << "Right-clicked item:" << itemText;
     
-    QDate date = QDate::fromString(itemText, "yyyy-MM-dd");
+    QDate date = QDate::fromString(itemText.trimmed().simplified(), Qt::ISODate);
     qDebug() << date; 
     if (data->count(date) != 0)
     {
