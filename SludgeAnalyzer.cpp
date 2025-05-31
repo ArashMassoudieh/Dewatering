@@ -22,6 +22,7 @@
 #include "xlsxdocument.h"
 #include "qplotwindow.h"
 #include "ErrorList.h"
+#include "DataSet.h"
 
 SludgeAnalyzer::SludgeAnalyzer(QWidget* parent)
     : QMainWindow(parent)
@@ -201,7 +202,7 @@ void SludgeAnalyzer::onTreeContextMenuRequested(const QPoint& pos)
             QPlotWindow* plotter = new QPlotWindow(this);
             CTimeSeriesSet<double> plotitemset;
             CTimeSeries<double> plotitem;
-            QVector<double> xvalues = data->value(date).ExtractVariable("Polymer_Dose");
+            QVector<double> xvalues = data->value(date).ExtractVariable("Actual_Polymer_Added_lb_per_Ton");
             QVector<double> yvalues = data->value(date).ExtractVariable("CST_Sludge_Avg");
             for (int i = 0; i < min(xvalues.size(), yvalues.size()); i++)
             {
@@ -218,7 +219,11 @@ void SludgeAnalyzer::onTreeContextMenuRequested(const QPoint& pos)
             plotitemset.append(Result.derivative, "Fit: CST Sludge (derivative)");
 
 			
-            QPair<double, double> OPD_point = data->value(date).OPD();
+            QPair<double, double> OPD_point;
+            if (data->GetCalculationMethod() == CalculationMethod::OPD_Interpolation)
+                OPD_point = data->value(date).OPD();
+            if (data->GetCalculationMethod() == CalculationMethod::OPD_Lookup)
+                OPD_point = data->value(date).OPD_Haydees_formula();
             CTimeSeries<double> plotitemOPD;
             
             plotitemOPD.append(plotitem.mint(), OPD_point.second);

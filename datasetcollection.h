@@ -4,6 +4,8 @@
 #include "DataSet.h"
 #include "BTC.h"
 
+enum class CalculationMethod { OPD_Interpolation, OPD_Lookup };
+
 struct parameters
 {
     double CST_threshold; 
@@ -42,10 +44,11 @@ public:
     CTimeSeries<double> GetOPDTimeSeries() const;
     void SetErrorList(ErrorList* errorList) { errors = errorList; }
     ErrorList* GetErrorList() const { return errors; }
+	CalculationMethod GetCalculationMethod() const { return calculationMethod; }
 private:
 	parameters CalculationParameters;
 	ErrorList* errors = nullptr; // Pointer to an ErrorList for error handling
-
+	CalculationMethod calculationMethod = CalculationMethod::OPD_Lookup; // Default calculation method
 
 };
 

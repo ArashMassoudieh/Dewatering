@@ -87,7 +87,15 @@ CTimeSeries<double> DataSetCollection::GetOPDTimeSeries() const {
     for (auto it = this->constBegin(); it != this->constEnd(); ++it) {
         QDate date = it.key();
         const DataSet& dataset = it.value();
-        QPair<double, double> opd = dataset.OPD();
+        QPair<double, double> opd;
+        if (calculationMethod == CalculationMethod::OPD_Interpolation)
+            opd = dataset.OPD();
+		else if (calculationMethod == CalculationMethod::OPD_Lookup)
+			opd = dataset.OPD_Haydees_formula();
+		else {
+			qWarning() << "Unknown calculation method for OPD.";
+			continue;  // Skip if the method is unknown
+		}
         ts.append(toExcelDate(date), opd.first);
     }
     return ts;

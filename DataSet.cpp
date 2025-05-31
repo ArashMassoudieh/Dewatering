@@ -211,6 +211,8 @@ QJsonObject DataSet::toJson() const {
     json["CupArea"] = CupArea(); 
     json["OPD"] = OPD().second;
 	json["CST @ OPD"] = OPD().first;
+    json["OPD_H"] = OPD_Haydees_formula().second;
+    json["CST @ OPD_H"] = OPD_Haydees_formula().first;
 
     // Convert QVector<SampleData> to QJsonArray
     QJsonArray samplesArray;
@@ -391,10 +393,44 @@ unsigned int DataSet::MaxSize(const QString& variableName) const
 QPair<double,double> DataSet::OPD() const
 {
 	QPair<double, double> result;
-    QVector<double> xvalues = ExtractVariable("Polymer_Dose");
+    QVector<double> xvalues = ExtractVariable("Actual_Polymer_Added_lb_per_Ton");
     QVector<double> yvalues = ExtractVariable("CST_Sludge_Avg");
 	return interpolateXforY(xvalues, yvalues, parent->GetCSTThreshold() );
     
+}
+
+QPair<double, double> DataSet::OPD_Haydees_formula() const
+{
+    QPair<double, double> result;
+    QVector<double> xvalues = ExtractVariable("Actual_Polymer_Added_lb_per_Ton");
+    QVector<double> yvalues = ExtractVariable("CST_Sludge_Avg");
+    QVector<double> MovingAverage;
+	for (int i = 0; i < yvalues.size(); i++)
+	{
+		if (i < 1) {
+			MovingAverage.append(yvalues[i]);
+		}
+		else {
+			double avg = (yvalues[i] + yvalues[i - 1]) / 2.0;
+			MovingAverage.append(avg);
+		}
+	}
+	QVector<double> difference;
+    for (int i = 1; i < yvalues.size(); i++)
+    {
+		double diff = (MovingAverage[i] - yvalues[i])*100/ MovingAverage[i];
+		difference.append(diff);
+    }
+    for (int i = 1; i < difference.size(); i++)
+    {
+        if (difference[i - 1] > 10 && difference[i] < 10)
+		{
+			result.first = xvalues[i];
+			result.second = yvalues[i];
+            break;
+		}
+    }
+    return result; 
 }
 
 QPair<double, double> DataSet::ED() const

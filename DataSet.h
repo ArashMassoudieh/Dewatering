@@ -42,6 +42,8 @@ public:
     double CupDiameter; 
     double CupArea() const { return 3.1415 * pow(CupDiameter* 0.0254, 2) / 4.0; }
     QPair<double,double> OPD() const;
+    QPair<double, double> OPD_Haydees_formula() const;
+
     QPair<double,double>  ED() const; 
     // Default Constructor
     DataSet(DataSetCollection *_parent = nullptr) : QVector<SampleData>(),
