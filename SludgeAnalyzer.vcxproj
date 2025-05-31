@@ -36,12 +36,12 @@
     <Import Project="$(QtMsBuild)\qt_defaults.props" />
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
-    <QtInstall>6.7.3_msvc2019_64</QtInstall>
+    <QtInstall>Qt 6.8</QtInstall>
     <QtModules>core;gui;widgets;charts</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
-    <QtInstall>6.7.3_msvc2019_64</QtInstall>
+    <QtInstall>Qt 6.8</QtInstall>
     <QtModules>core;gui;widgets;charts</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
@@ -169,7 +169,7 @@
     <QtMoc Include="Parameters_dialog.h" />
     <ClInclude Include="qplotter.h" />
     <ClInclude Include="SampleData.h" />
-    <QtMoc Include="TableModel.h" />
+    <ClInclude Include="TableModel.h" />
     <ClInclude Include="treeitem.h" />
     <QtMoc Include="treemodel.h" />
     <QtMoc Include="treeview.h" />

@@ -139,16 +139,45 @@ void SludgeAnalyzer::onPlotOPD()
 void SludgeAnalyzer::onItemDoubleClicked(QModelIndex index)
 {
     QString key = model->data(index, Qt::DisplayRole).toString();
+	int level = getIndexLevel(index);
     qDebug() << "Parent: " << model->parent(index).data();
     qDebug() << "Clicked Key:" << key;
-    QDate date = model->parent(index).data().toDate();
-    qDebug() << date;
-    if (data->value(date).LookupSampleNumber(key) == -1)
-        return; 
-    QMap<QString, QVector<double>> sampledata = data->value(date)[data->value(date).LookupSampleNumber(key)].VariablesToMap();
-    TableModel* tableModel = new TableModel(sampledata);
-    tableview->setModel(tableModel);
+    if (level == 1) // Only proceed if the clicked item is at the correct level
+    {
+        QDate date = model->parent(index).data().toDate();
+        qDebug() << date;
+        if (data->value(date).LookupSampleNumber(key) == -1)
+            return;
+        QMap<QString, QVector<double>> sampledata = data->value(date)[data->value(date).LookupSampleNumber(key)].VariablesToMap();
+        TableModel<QVector<double>>* tableModel = new TableModel(sampledata);
+        tableview->setModel(tableModel);
+    }
+	else if (level == 0) // If the clicked item is at the date level
+	{
+		QDate date = model->data(index, Qt::DisplayRole).toDate();
+		qDebug() << "Clicked Date:" << date;
+		if (data->count(date) == 0)
+			return;
+		QMap<QString, QString> tabledata = data->value(date).VariablesToMap();
+		TableModel<QString>* tableModel = new TableModel(tabledata);
+		tableview->setModel(tableModel);
+	}
+	else
+	{
+		qDebug() << "Clicked item is not at the correct level.";
+	}
     
+}
+
+int getIndexLevel(const QModelIndex& index)
+{
+    int level = 0;
+    QModelIndex current = index;
+    while (current.parent().isValid()) {
+        current = current.parent();
+        ++level;
+    }
+    return level;
 }
 
 void SludgeAnalyzer::onTreeContextMenuRequested(const QPoint& pos)

@@ -37,3 +37,4 @@ public slots:
     void onPlotOPD();
 
 };
+int getIndexLevel(const QModelIndex& index);

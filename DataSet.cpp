@@ -1,5 +1,7 @@
 #include "DataSet.h"
 #include "DataSetCollection.h"
+#include <xlsxcell.h>
+#include <xlsxcellformula.h>
 
 bool DataSet::ReadSheet(QXlsx::Document *xlsdoc, const QString &sheetname)
 {
@@ -9,13 +11,23 @@ bool DataSet::ReadSheet(QXlsx::Document *xlsdoc, const QString &sheetname)
     Belt_No = xlsdoc->read("B8").toString();
     Sludge_Flow = xlsdoc->read("B10").toDouble();
     qDebug() << xlsdoc->read("B13");
-    BFPTS_percent = xlsdoc->read("B13").toDouble(); 
-    grtolb = xlsdoc->read("B19").toDouble();
+    QString BFPTS_percent_str = xlsdoc->read("B13").toString();
+    if (BFPTS_percent_str.contains("="))
+    {
+        BFPTS_percent = xlsdoc->read(BFPTS_percent_str.remove("=")).toDouble();
+    }
+    else
+        BFPTS_percent = xlsdoc->read("B13").toDouble();
+    
+	
+    double gr_to_lb = xlsdoc->read("B19").toDouble();
+    if (gr_to_lb!=0.0)
+        grtolb = gr_to_lb;
     grtoton = xlsdoc->read("B20").toDouble();
 	PolymerSolution = xlsdoc->read("B27").toDouble();
 	CupDiameter = xlsdoc->read("B21").toDouble();
     //Reading data related to samples
-    for (int i = 0; i < 7; i++)
+    for (int i = 0; i < 8; i++)
     {
         SampleData datapoint;
         datapoint.setParent(this); 
@@ -25,7 +37,7 @@ bool DataSet::ReadSheet(QXlsx::Document *xlsdoc, const QString &sheetname)
 		}
                 
         int j = xlsdoc->read(RowNumbers::CalculationStart+i, 1).toInt();
-        datapoint.Sample_Number = xlsdoc->read(RowNumbers::TSSVSSStart+i,1).toString();
+        datapoint.Sample_Number = xlsdoc->read(RowNumbers::TSVSStart+i,1).toString();
         datapoint.Polymer_Dose = xlsdoc->read(RowNumbers::CalculationStart + i, 2).toDouble();
         datapoint.Sludge_Weight = xlsdoc->read(RowNumbers::CalculationStart + i, 4).toDouble();
         datapoint.Polymer_Before = xlsdoc->read(RowNumbers::CalculationStart + i, 6).toDouble();
@@ -174,6 +186,13 @@ bool DataSet::ReadSheet(QXlsx::Document *xlsdoc, const QString &sheetname)
 		
     }
     
+    
+    if (BFPTS_percent == 0.0 && this->LookupSampleNumber("Sludge")!=-1)
+    {
+        BFPTS_percent = this->value(LookupSampleNumber("Sludge")).TS_Avg();
+    }
+    
+
     // Testing functions
     for (int i = 0; i < size(); i++)
     {
@@ -228,7 +247,7 @@ int DataSet::LookupSampleNumber(const QString& sample_number)
 {
     for (int i = 0; i < size(); i++)
     {
-        if (at(i).Sample_Number == sample_number)
+        if (value(i).Sample_Number == sample_number)
             return i;
 
     }
@@ -431,6 +450,32 @@ QPair<double, double> DataSet::OPD_Haydees_formula() const
 		}
     }
     return result; 
+}
+
+QMap<QString, QString> DataSet::VariablesToMap() const
+{
+    QMap<QString, QString> out; 
+	out["ED"] = QString::number(ED().first);
+	out["ED_CST"] = QString::number(ED().second);
+	out["OPD"] = QString::number(OPD().first);
+	out["OPD_CST"] = QString::number(OPD().second);
+	out["OPD_H"] = QString::number(OPD_Haydees_formula().first);
+	out["OPD_H_CST"] = QString::number(OPD_Haydees_formula().second);
+	out["PolymerSolution"] = QString::number(PolymerSolution);
+	out["CupDiameter"] = QString::number(CupDiameter);
+	out["CupArea"] = QString::number(CupArea());
+	out["Belt_No"] = Belt_No;
+	out["Sludge_Flow"] = QString::number(Sludge_Flow);
+	out["Poly_Ratio"] = QString::number(Poly_Ratio);
+	out["BFPTS_percent"] = QString::number(BFPTS_percent);
+	out["SBT3_TS_percent_LAB_TSPCT_J04"] = QString::number(SBT3_TS_percent_LAB_TSPCT_J04);
+	out["DIG_SLDG_FLOW_FROM_SBT"] = QString::number(DIG_SLDG_FLOW_FROM_SBT);
+	out["DIL_WTR_FLOW_TO_BFP"] = QString::number(DIL_WTR_FLOW_TO_BFP);
+	out["grtoton"] = QString::number(grtoton);
+	out["grtolb"] = QString::number(grtolb);
+	out["Sampling_time"] = Sampling_time.toString("hh:mm:ss");
+	out["Sampling_date"] = Sampling_date.toString(Qt::ISODate);
+    return out; 
 }
 
 QPair<double, double> DataSet::ED() const

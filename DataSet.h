@@ -13,7 +13,7 @@ enum RowNumbers
     CalculationStart = 33,
     CSTStart = 42,
     TSSVSSStart = 51,
-    TSVSStart = 42,
+    TSVSStart = 62,
     FinalCalculationStart = 72
 
 };
@@ -34,7 +34,7 @@ public:
     double DIG_SLDG_FLOW_FROM_SBT;
     double DIL_WTR_FLOW_TO_BFP;
     double grtoton; 
-    double grtolb; 
+    double grtolb = 0.002204623;
     double PolymerSolution; 
     double CupLoading() const {
         return CupArea() * 800;
@@ -44,12 +44,14 @@ public:
     QPair<double,double> OPD() const;
     QPair<double, double> OPD_Haydees_formula() const;
 
+    QMap<QString, QString> VariablesToMap() const;
+
     QPair<double,double>  ED() const; 
     // Default Constructor
     DataSet(DataSetCollection *_parent = nullptr) : QVector<SampleData>(),
         Poly_Ratio(0.0), Sludge_Flow(0.0), 
         SBT3_TS_percent_LAB_TSPCT_J04(0.0), DIG_SLDG_FLOW_FROM_SBT(0.0),
-        DIL_WTR_FLOW_TO_BFP(0.0), BFPTS_percent(0.0), grtoton(0.0), grtolb(0.0), PolymerSolution(0.0), CupDiameter(0.0) {
+        DIL_WTR_FLOW_TO_BFP(0.0), BFPTS_percent(0.0), grtoton(0.0), grtolb(0.00220462262184878), PolymerSolution(0.0), CupDiameter(0.0) {
 		parent = _parent; // Initialize the parent pointer
     }
 
