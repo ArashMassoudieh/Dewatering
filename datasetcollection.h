@@ -41,7 +41,7 @@ public:
     bool ExportToExcel(const QString& filePath) const;
 	double GetCSTThreshold() const { return CalculationParameters.CST_threshold; }
 	double GetTSSGradientThreshold() const { return CalculationParameters.TSS_gradient_threshold; }
-    CTimeSeries<double> GetOPDTimeSeries() const;
+    CTimeSeries<double> GetOPDTimeSeries(CalculationMethod calculationMethod) const;
     void SetErrorList(ErrorList* errorList) { errors = errorList; }
     ErrorList* GetErrorList() const { return errors; }
 	CalculationMethod GetCalculationMethod() const { return calculationMethod; }

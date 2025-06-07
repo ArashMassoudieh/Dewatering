@@ -20,6 +20,69 @@ bool DataSet::ReadSheet(QXlsx::Document *xlsdoc, const QString &sheetname)
         BFPTS_percent = xlsdoc->read("B13").toDouble();
     
 	
+    SampleData plant_cake; 
+    for (int i = 0; i < 100; i++)
+    {
+        if (xlsdoc->read(i, 1).isValid())
+        {
+            if (xlsdoc->read(i, 1).toString().contains("Plant Cake"))
+            {
+                plant_cake.Sample_Number = xlsdoc->read(i, 1).toString();
+                if (xlsdoc->read(i, 2).toDouble() != 0) plant_cake.Foil_Tray.append(xlsdoc->read(i, 2).toDouble());
+                if (xlsdoc->read(i, 3).toDouble() != 0) plant_cake.Foil_Tray.append(xlsdoc->read(i, 3).toDouble());
+                if (xlsdoc->read(i, 4).toDouble() != 0) plant_cake.Tray_plus_Sample.append(xlsdoc->read(i, 4).toDouble());
+                if (xlsdoc->read(i, 5).toDouble() != 0) plant_cake.Tray_plus_Sample.append(xlsdoc->read(i, 5).toDouble());
+                if (xlsdoc->read(i, 6).toDouble() != 0) plant_cake.After_103_cake.append(xlsdoc->read(i, 6).toDouble());
+                if (xlsdoc->read(i, 7).toDouble() != 0) plant_cake.After_103_cake.append(xlsdoc->read(i, 7).toDouble());
+                Append(plant_cake); // Append the plant cake data to the dataset
+                break;
+            }
+            
+        }
+    }
+
+
+    SampleData sludge;
+    for (int i = 0; i < 100; i++)
+    {
+        if (xlsdoc->read(i, 1).isValid())
+        {
+			qDebug() << xlsdoc->read(i, 1).toString();
+            if (xlsdoc->read(i, 1).toString()== "Sludge")
+            {
+                sludge.Sample_Number = xlsdoc->read(i, 1).toString();
+                if (xlsdoc->read(i, 2).toDouble() != 0) sludge.Foil_Tray.append(xlsdoc->read(i, 2).toDouble());
+                if (xlsdoc->read(i, 3).toDouble() != 0) sludge.Foil_Tray.append(xlsdoc->read(i, 3).toDouble());
+                if (xlsdoc->read(i, 4).toDouble() != 0) sludge.Tray_plus_Sample.append(xlsdoc->read(i, 4).toDouble());
+                if (xlsdoc->read(i, 5).toDouble() != 0) sludge.Tray_plus_Sample.append(xlsdoc->read(i, 5).toDouble());
+                if (xlsdoc->read(i, 6).toDouble() != 0) sludge.After_103_cake.append(xlsdoc->read(i, 6).toDouble());
+                if (xlsdoc->read(i, 7).toDouble() != 0) sludge.After_103_cake.append(xlsdoc->read(i, 7).toDouble());
+                Append(sludge); // Append the plant cake data to the dataset
+                break;
+            }
+           
+        }
+    }
+
+    SampleData plant_filtrate;
+    for (int i = 0; i < 100; i++)
+    {
+        if (xlsdoc->read(i, 1).isValid())
+        {
+            if (xlsdoc->read(i, 1).toString().contains("Plant Filterate"))
+            {
+                plant_filtrate.Sample_Number = xlsdoc->read(i, 1).toString();
+                if (xlsdoc->read(i, 2).toDouble() != 0) plant_filtrate.FoilTray_plus_Filter_Weight.append(xlsdoc->read(i, 2).toDouble());
+                if (xlsdoc->read(i, 3).toDouble() != 0) plant_filtrate.FoilTray_plus_Filter_Weight.append(xlsdoc->read(i, 3).toDouble());
+                if (xlsdoc->read(i, 4).toDouble() != 0) plant_filtrate.After_103_filtrate.append(xlsdoc->read(i, 6).toDouble());
+                if (xlsdoc->read(i, 5).toDouble() != 0) plant_filtrate.After_103_filtrate.append(xlsdoc->read(i, 7).toDouble());
+                Append(plant_filtrate); // Append the plant cake data to the dataset
+                break;
+            }
+            
+        }
+    }
+
     double gr_to_lb = xlsdoc->read("B19").toDouble();
     if (gr_to_lb!=0.0)
         grtolb = gr_to_lb;
@@ -27,7 +90,7 @@ bool DataSet::ReadSheet(QXlsx::Document *xlsdoc, const QString &sheetname)
 	PolymerSolution = xlsdoc->read("B27").toDouble();
 	CupDiameter = xlsdoc->read("B21").toDouble();
     //Reading data related to samples
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 7; i++)
     {
         SampleData datapoint;
         datapoint.setParent(this); 
@@ -36,7 +99,6 @@ bool DataSet::ReadSheet(QXlsx::Document *xlsdoc, const QString &sheetname)
 			datapoint.SetErrorList(errors); // Set the error list for each SampleData
 		}
                 
-        int j = xlsdoc->read(RowNumbers::CalculationStart+i, 1).toInt();
         datapoint.Sample_Number = xlsdoc->read(RowNumbers::TSVSStart+i,1).toString();
         datapoint.Polymer_Dose = xlsdoc->read(RowNumbers::CalculationStart + i, 2).toDouble();
         datapoint.Sludge_Weight = xlsdoc->read(RowNumbers::CalculationStart + i, 4).toDouble();
@@ -488,6 +550,8 @@ QVector<double> DataSet::ExtractVariable(const QString& name) const {
     result.reserve(this->size());
 
     for (const SampleData& sample : *this) {
+		if (sample.Sample_Number.toInt()==0)
+			continue;  // Skip empty sample numbers
         if (name == "Sludge_Weight") result.append(sample.Sludge_Weight);
         else if (name == "Polymer_Dose") result.append(sample.Polymer_Dose);
         else if (name == "Polymer_Before") result.append(sample.Polymer_Before);

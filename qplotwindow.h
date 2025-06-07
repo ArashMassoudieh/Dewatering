@@ -25,6 +25,7 @@ public:
     ~QPlotWindow();
     bool PlotData(const CTimeSeries<outputtimeseriesprecision>& BTC, bool allowtime=true, string style="line");
     bool PlotData(const CTimeSeriesSet<outputtimeseriesprecision>& BTC, bool allowtime=true, string style="line");
+    bool PlotData(const CTimeSeriesSet<outputtimeseriesprecision>& timeseriesset, bool allowtime, QStringList style);
     bool AddData(const CTimeSeries<outputtimeseriesprecision>& BTC,bool allowtime=true, string style="line");
     void SetYAxisTitle(const QString& s)
     {

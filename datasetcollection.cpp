@@ -82,7 +82,7 @@ bool  DataSetCollection::ExportToExcel(const QString& filePath) const
     
 }
 
-CTimeSeries<double> DataSetCollection::GetOPDTimeSeries() const {
+CTimeSeries<double> DataSetCollection::GetOPDTimeSeries(CalculationMethod calculationMethod) const {
     CTimeSeries<double> ts;
     for (auto it = this->constBegin(); it != this->constEnd(); ++it) {
         QDate date = it.key();

@@ -129,9 +129,12 @@ void SludgeAnalyzer::onPlotOPD()
 {
 	QPlotWindow* plotter = new QPlotWindow(this);
     CTimeSeriesSet<double> plotitemset; 
-    CTimeSeries<double> timeseries = data->GetOPDTimeSeries();
-	plotitemset.append(timeseries, "OPD");
-	plotter->PlotData(plotitemset, true);
+    CTimeSeries<double> timeseries_H = data->GetOPDTimeSeries(CalculationMethod::OPD_Lookup);
+	plotitemset.append(timeseries_H, "OPD_H");
+	CTimeSeries<double> timeseries_I = data->GetOPDTimeSeries(CalculationMethod::OPD_Interpolation);
+	plotitemset.append(timeseries_I, "OPD_I");
+    /// Comment
+	plotter->PlotData(plotitemset, true, QStringList()<<"dot"<<"dot");
 	plotter->show();
 	
 }
@@ -248,25 +251,32 @@ void SludgeAnalyzer::onTreeContextMenuRequested(const QPoint& pos)
             plotitemset.append(Result.derivative, "Fit: CST Sludge (derivative)");
 
 			
-            QPair<double, double> OPD_point;
-            if (data->GetCalculationMethod() == CalculationMethod::OPD_Interpolation)
-                OPD_point = data->value(date).OPD();
-            if (data->GetCalculationMethod() == CalculationMethod::OPD_Lookup)
-                OPD_point = data->value(date).OPD_Haydees_formula();
-            CTimeSeries<double> plotitemOPD;
-            
-            plotitemOPD.append(plotitem.mint(), OPD_point.second);
-            plotitemOPD.append(plotitem.maxt(), OPD_point.second);
-            plotitemset.append(plotitemOPD, "OPD threshold");
+            QPair<double, double> OPD_point_H;
+            QPair<double, double> OPD_point_I;
+            OPD_point_I = data->value(date).OPD();
+            OPD_point_H = data->value(date).OPD_Haydees_formula();
 
-            
-            CTimeSeries<double> plotitemOPDvertical;
-            plotitemOPDvertical.append(OPD_point.first, plotitem.minC());
-            plotitemOPDvertical.append(OPD_point.first, plotitem.maxC());
-            
-            plotitemset.append(plotitemOPDvertical, "OPD");
+            CTimeSeries<double> plotitemOPD_H;
+            plotitemOPD_H.append(plotitem.mint(), OPD_point_H.second);
+            plotitemOPD_H.append(plotitem.maxt(), OPD_point_H.second);
+            plotitemset.append(plotitemOPD_H, "CST Sludge @ OPH (H)");
+            CTimeSeries<double> plotitemOPDvertical_H;
+            plotitemOPDvertical_H.append(OPD_point_H.first, plotitem.minC());
+            plotitemOPDvertical_H.append(OPD_point_H.first, plotitem.maxC());
+            plotitemset.append(plotitemOPDvertical_H, "OPD (H)");
 
-            plotter->PlotData(plotitemset, false);
+            CTimeSeries<double> plotitemOPD_I;
+            plotitemOPD_I.append(plotitem.mint(), OPD_point_I.second);
+            plotitemOPD_I.append(plotitem.maxt(), OPD_point_I.second);
+            plotitemset.append(plotitemOPD_I, "CST Sludge @ OPH (I)");
+            CTimeSeries<double> plotitemOPDvertical_I;
+            plotitemOPDvertical_I.append(OPD_point_I.first, plotitem.minC());
+            plotitemOPDvertical_I.append(OPD_point_I.first, plotitem.maxC());
+            plotitemset.append(plotitemOPDvertical_I, "OPD (I)");
+
+
+			QStringList styles = QStringList() << "dot" << "line" << "line" << "line" << "line";
+            plotter->PlotData(plotitemset, false, styles);
             plotter->show();
 
         }

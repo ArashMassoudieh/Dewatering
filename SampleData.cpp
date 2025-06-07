@@ -85,7 +85,7 @@ double SampleData::Calculated_Polymer_Added() const
     {
 		if (Sludge_Weight <= 0 || Polymer_Dose <= 0 || Actual_Belt_Filter_Press_before_PD_TS() <= 0)
 	    {
-		    errors->addError("Calculated_Polymer_Added @ " + parent->Sampling_date.toString(Qt::ISODate) + ", Sample:" + this->Sample_Number, "Invalid values for Sludge Weight, Polymer Dose, or Belt Filter Press.");
+		    errors->addError(parent->Sampling_date.toString(Qt::ISODate) + ", Sample:" + this->Sample_Number +  ": Calculated_Polymer_Added ", "Invalid values for Sludge Weight, Polymer Dose, or Belt Filter Press.");
 	    }
 
     }
@@ -93,15 +93,22 @@ double SampleData::Calculated_Polymer_Added() const
 
 double SampleData::Actual_Belt_Filter_Press_before_PD_TS() const 
 {
-    return parent->BFPTS_percent;
+    if (parent->BFPTS_percent != 0)
+        return parent->BFPTS_percent;
+	else if (parent->LookupSampleNumber("Sludge")!=-1)
+        if (parent->at(parent->LookupSampleNumber("Sludge")).TSS_Avg() != 0)
+            return parent->at(parent->LookupSampleNumber("Sludge")).TSS_Avg();
+    
     if (parent && errors)
     {
-        if (parent->BFPTS_percent<=0)
+        if (parent->BFPTS_percent <= 0)
         {
-            errors->addError("Actual_Belt_Filter_Press_before_PD_TS @ " + parent->Sampling_date.toString(Qt::ISODate) + ", Sample:" + this->Sample_Number, "Invalid values for Sludge Weight, Polymer Dose, or Belt Filter Press.");
+            errors->addError(parent->Sampling_date.toString(Qt::ISODate) + ", Sample:" + this->Sample_Number + ": Actual_Belt_Filter_Press_before_PD_TS", "Invalid values for Sludge Weight, Polymer Dose, or Belt Filter Press.");
         }
 
     }
+    
+    
 }
 
 QVector<double> SampleData::TS_percent() const
@@ -116,7 +123,7 @@ QVector<double> SampleData::TS_percent() const
     {
         if (After_103_cake.size()!=FoilTray_plus_Filter_Weight.size() || After_103_cake.size() != Foil_Tray.size())
         {
-            errors->addError("TS_percent @ " + parent->Sampling_date.toString(Qt::ISODate) + ", Sample:" + this->Sample_Number, "Size difference in Foil Tray plus filter weight, After 103 cake or Foil Tray");
+            errors->addError(parent->Sampling_date.toString(Qt::ISODate) + ", Sample:" + this->Sample_Number + ": TS_percent" , "Size difference in Foil Tray plus filter weight, After 103 cake or Foil Tray");
         }
 
     }
@@ -138,7 +145,7 @@ QVector<double> SampleData::TSS() const
     {
         if (After_103_filtrate.size() != FoilTray_plus_Filter_Weight.size() || After_103_filtrate.size() != SampleVolume.size())
         {
-            errors->addError("TSS @ " + parent->Sampling_date.toString(Qt::ISODate) + ", Sample:" + this->Sample_Number, "Size difference in Foil Tray plus filter weight, After 103 filtrate or Sample Volume");
+            errors->addError(parent->Sampling_date.toString(Qt::ISODate) + ", Sample:" + this->Sample_Number + ": TSS"  , "Size difference in Foil Tray plus filter weight, After 103 filtrate or Sample Volume");
         }
 
     }
@@ -156,7 +163,7 @@ QVector<double> SampleData::VSS() const
     {
         if (After_103_filtrate.size() != After_550_filtrate.size() || After_103_filtrate.size() != SampleVolume.size())
         {
-            errors->addError("VSS @ " + parent->Sampling_date.toString(Qt::ISODate) + ", Sample:" + this->Sample_Number, "Size difference between After 550 filtrate, After 103 filtrate or Sample Volume");
+            errors->addError( parent->Sampling_date.toString(Qt::ISODate) + ", Sample:" + this->Sample_Number + ": VSS" , "Size difference between After 550 filtrate, After 103 filtrate or Sample Volume");
         }
 
     }
@@ -175,7 +182,7 @@ QVector<double> SampleData::TS() const
     {
         if (After_103_cake.size() != Foil_Tray.size() || After_103_cake.size() != Tray_plus_Sample.size())
         {
-            errors->addError("TS @ " + parent->Sampling_date.toString(Qt::ISODate) + ", Sample:" + this->Sample_Number, "Size difference between After 103 Cake, Foil Tray or Tray plus Sample");
+            errors->addError(parent->Sampling_date.toString(Qt::ISODate) + ", Sample:" + this->Sample_Number + ": TS", "Size difference between After 103 Cake, Foil Tray or Tray plus Sample");
         }
 
     }
@@ -194,7 +201,7 @@ QVector<double> SampleData::VS() const
     {
         if (After_103_cake.size() != After_550_cake.size() || After_103_cake.size() != Tray_plus_Sample.size())
         {
-            errors->addError("VS @ " + parent->Sampling_date.toString(Qt::ISODate) + ", Sample:" + this->Sample_Number, "Size difference between After 103 Cake, After 550 cake or Tray plus Sample");
+            errors->addError( parent->Sampling_date.toString(Qt::ISODate) + ", Sample:" + this->Sample_Number + ": VS", "Size difference between After 103 Cake, After 550 cake or Tray plus Sample");
         }
 
     }
@@ -209,7 +216,7 @@ double SampleData::TS_Avg() const
     {
         if (TS().size() == 0)
         {
-            errors->addError("TS (Avg.) @ " + parent->Sampling_date.toString(Qt::ISODate) + ", Sample:" + this->Sample_Number, "No TS values calculated");
+            errors->addError(parent->Sampling_date.toString(Qt::ISODate) + ", Sample:" + this->Sample_Number + ": TS (Avg.)" , "No TS values calculated");
         }
 
     }
@@ -223,7 +230,7 @@ double SampleData::VS_Avg() const
     {
         if (VS().size() == 0)
         {
-            errors->addError("VS (Avg.) @ " + parent->Sampling_date.toString(Qt::ISODate) + ", Sample:" + this->Sample_Number, "No VS values calculated");
+            errors->addError(parent->Sampling_date.toString(Qt::ISODate) + ", Sample:" + this->Sample_Number + ": VS (Avg.)"  , "No VS values calculated");
         }
     }
     return Average(VS());
@@ -236,12 +243,12 @@ double SampleData::Actual_Polymer_Added() const
     {
         if (Polymer_Before == 0)
         {
-            errors->addError("Actual Polymer Added @ " + parent->Sampling_date.toString(Qt::ISODate) + ", Sample:" + this->Sample_Number, "Polymer before is zero");
+            errors->addError(parent->Sampling_date.toString(Qt::ISODate) + ", Sample:" + this->Sample_Number + ": Actual Polymer Added" , "Polymer before is zero");
         }
 
         if (Polymer_After == 0)
         {
-            errors->addError("Actual Polymer Added @ " + parent->Sampling_date.toString(Qt::ISODate) + ", Sample:" + this->Sample_Number, "Polymer after is zero");
+            errors->addError(parent->Sampling_date.toString(Qt::ISODate) + ", Sample:" + this->Sample_Number + ": Actual Polymer Added"  , "Polymer after is zero");
         }
     }
     
@@ -381,7 +388,7 @@ double SampleData::TSS_Avg() const
     {
         if (TSS().size() == 0)
         {
-            errors->addError("TSS (Avg.) @ " + parent->Sampling_date.toString(Qt::ISODate) + ", Sample:" + this->Sample_Number, "No TSS values calculated");
+            errors->addError(parent->Sampling_date.toString(Qt::ISODate) + ", Sample:" + this->Sample_Number + ": TSS (Avg.)"  , "No TSS values calculated");
         }
     }
     return Average(TSS());
@@ -392,7 +399,7 @@ double SampleData::VSS_Avg() const
     {
         if (VSS().size() == 0)
         {
-            errors->addError("VSS (Avg.) @ " + parent->Sampling_date.toString(Qt::ISODate) + ", Sample:" + this->Sample_Number, "No VSS values calculated");
+            errors->addError(parent->Sampling_date.toString(Qt::ISODate) + ", Sample:" + this->Sample_Number + ": VSS (Avg.)" ,   "No VSS values calculated");
         }
     }
     return Average(VSS());

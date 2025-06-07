@@ -241,8 +241,6 @@ bool QPlotWindow::PlotData(const CTimeSeriesSet<outputtimeseriesprecision>& time
 
     }
 
-
-
     if (allowtime)
     {   if (start.secsTo(end) < 600) {axisX_date->setFormat("mm:ss:zzz"); axisX_date->setTitleText("Time");}
         if (start.secsTo(end) > 3600) {axisX_date->setFormat("hh:mm:ss"); axisX_date->setTitleText("Time");}
@@ -256,6 +254,155 @@ bool QPlotWindow::PlotData(const CTimeSeriesSet<outputtimeseriesprecision>& time
         axisX_normal->setLabelsAngle(-90);
     return true;
 }
+
+bool QPlotWindow::PlotData(const CTimeSeriesSet<outputtimeseriesprecision>& timeseriesset, bool allowtime, QStringList style)
+{
+    x_min_val = timeseriesset.mintime();
+    x_max_val = timeseriesset.maxtime();
+    y_min_val = timeseriesset.minval();
+    y_max_val = timeseriesset.maxval();
+
+    if (y_min_val == y_max_val)
+    {
+        y_min_val *= 0.8;
+        y_max_val *= 1.2;
+        if (y_max_val == 0)
+            y_max_val = 1.0;
+    }
+
+    if (x_max_val < 20000)
+        allowtime = false;
+
+    start = xToDateTime(x_min_val);
+    end = xToDateTime(x_max_val);
+
+    QString xAxisTitle = x_Axis_Title;
+    QString yAxisTitle = y_Axis_Title;
+    axisX_normal = new QValueAxis();
+    axisX_date = new QDateTimeAxis;
+
+    axisX_normal->setTickCount(10);
+    axisX_date->setTickCount(10);
+
+    if (!allowtime)
+    {
+        axisX_normal->setTitleText(xAxisTitle);
+        chart->addAxis(axisX_normal, Qt::AlignBottom);
+        axisX_normal->setObjectName("axisX");
+        axisX_normal->setRange(x_min_val, x_max_val);
+    }
+    else
+    {
+        axisX_date->setTitleText(xAxisTitle);
+        chart->addAxis(axisX_date, Qt::AlignBottom);
+        axisX_date->setObjectName("axisX");
+        axisX_date->setRange(start, end);
+    }
+
+    if (!chartview->Ylog())
+    {
+        axisY = new QValueAxis();
+        axisY->setObjectName("axisY");
+        axisY->setTitleText(yAxisTitle);
+        axisY->setRange(y_min_val, y_max_val);
+        chart->addAxis(axisY, Qt::AlignLeft);
+    }
+    else
+    {
+        axisY_log = new QLogValueAxis();
+        axisY_log->setObjectName("axisY");
+        axisY_log->setTitleText(yAxisTitle);
+        axisY_log->setRange(y_min_val, y_max_val);
+        axisY_log->setMinorTickCount(8);
+        chart->addAxis(axisY_log, Qt::AlignLeft);
+    }
+
+    for (int i = 0; i < timeseriesset.nvars; ++i)
+    {
+        QAbstractSeries* series = nullptr;
+        QString type = (i < style.size()) ? style[i].toLower() : "line";
+
+        if (type == "dot")
+        {
+            QScatterSeries* scatterSeries = new QScatterSeries();
+            scatterSeries->setMarkerShape(QScatterSeries::MarkerShapeCircle);
+            scatterSeries->setMarkerSize(8.0);
+            series = scatterSeries;
+        }
+        else
+        {
+            QLineSeries* lineSeries = new QLineSeries();
+            series = lineSeries;
+        }
+
+        chart->addSeries(series);
+
+        if (allowtime)
+            series->attachAxis(axisX_date);
+        else
+            series->attachAxis(axisX_normal);
+
+        if (!chartview->Ylog())
+            series->attachAxis(axisY);
+        else
+            series->attachAxis(axisY_log);
+
+        for (int j = 0; j < timeseriesset.BTC[i].n; ++j)
+        {
+            qreal x = allowtime ? xToDateTime(timeseriesset.BTC[i].GetT(j)).toMSecsSinceEpoch() : timeseriesset.BTC[i].GetT(j);
+            qreal y = timeseriesset.BTC[i].GetC(j);
+
+            if (QLineSeries* ls = qobject_cast<QLineSeries*>(series))
+                ls->append(x, y);
+            else if (QScatterSeries* ss = qobject_cast<QScatterSeries*>(series))
+                ss->append(x, y);
+        }
+
+        QColor color(QRandomGenerator::global()->bounded(256),
+            QRandomGenerator::global()->bounded(256),
+            QRandomGenerator::global()->bounded(256));
+
+        if (QLineSeries* ls = qobject_cast<QLineSeries*>(series))
+        {
+            QPen pen = ls->pen();
+            pen.setWidth(2);
+            pen.setColor(color);
+            ls->setPen(pen);
+        }
+        else if (QScatterSeries* ss = qobject_cast<QScatterSeries*>(series))
+        {
+            QPen pen = ss->pen();
+            pen.setWidth(2);
+            pen.setColor(color);
+            ss->setPen(pen);
+        }
+       
+        series->setName(QString::fromStdString(timeseriesset.names[i]));
+        TimeSeries.insert(series->name(), timeseriesset.BTC[i]);
+    }
+
+    if (allowtime)
+    {
+        int secs = start.secsTo(end);
+        int days = start.daysTo(end);
+        if (secs < 600) axisX_date->setFormat("mm:ss:zzz"), axisX_date->setTitleText("Time");
+        else if (secs > 3600 && days <= 1) axisX_date->setFormat("hh:mm:ss"), axisX_date->setTitleText("Time");
+        else if (days > 1 && days <= 5) axisX_date->setFormat("MMM dd\nhh:mm:ss"), axisX_date->setTitleText("Date");
+        else if (days > 5 && days <= 180) axisX_date->setFormat("MM.dd.yyyy\nhh:mm"), axisX_date->setTitleText("Date");
+        else if (days > 180) axisX_date->setFormat("MM.dd.yyyy\nhAP"), axisX_date->setTitleText("Date");
+        if (days > 730) axisX_date->setFormat("MMMM\nyyyy"), axisX_date->setTitleText("Date");
+
+        axisX_date->setLabelsAngle(-90);
+    }
+    else
+    {
+        axisX_normal->setLabelsAngle(-90);
+    }
+
+    return true;
+}
+
+
 bool QPlotWindow::AddData(const CTimeSeries<outputtimeseriesprecision>& timeseries,bool allowtime, string style)
 {
     x_min_val = min(timeseries.mint(),x_min_val);
